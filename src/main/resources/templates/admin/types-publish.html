@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
+
 <!---传入th:replace，取代原有head元素，即添加了th:href="@{/css/me.css}"等相关引用--->
 <head th:replace="admin/_fragments :: head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>登录成功</title>
+    <title>分类新增</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <!-------(若使用th:replace则不再需要添加)--格式混乱，css未找到路径，原因是需thymeleaf引入--th:href="@{/css/me.css}"--------->
     <!-------(若使用th:replace则不再需要添加)--只对静态页面产生影响----------------------------------------------------------->
@@ -14,9 +15,10 @@
 
 <body>
 
+
 <!--导航-->
 <!---将导航做统一模板，引入th:replace通过参数n区分不同active，此处传入0--->
-<nav th:replace="admin/_fragments :: menu(0)"class="ui inverted attached segment m-padded-tb-mini m-shadow-bottom-small">
+<nav th:replace="admin/_fragments :: menu(2)"class="ui inverted attached segment m-padded-tb-mini m-shadow-bottom-small">
     <div class="ui container">
         <!--导航主菜单-->
         <div class="ui inverted secondary stackable menu ">
@@ -44,15 +46,35 @@
         <i class="sidebar icon"></i>
     </a>
 </nav>
+<!--二级导航-->
+<div class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" class="teal active item">新增</a>
+            <a href="#" class="item">列表</a>
+        </div>
+    </div>
+</div>
 
 <!--中间-->
 <div class="m-container m-padded-tb-large">
-    <div class="ui m-container-message">
-       <div class="ui success large message">
-           <h2>Hi!</h2>
-           <h3>Dear why，欢迎登录!</h3>
-       </div>
-        <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" class="ui rounded fluid image">
+    <div class="ui container">
+        <form action="#" method="post" class="ui form">
+            <!--分类名称-->
+            <div class="field">
+                <div class="ui labeled input">
+                    <label class="ui basic label">分类</label>
+                    <input type="text" name="typename" placeholder="分类名称">
+                </div>
+            </div>
+            <!---若为空 后台按照script会做出相应提示--->
+            <div class="ui error message"></div>
+            <!--博分类管理返回/发布-->
+            <div class="ui right aligned container">
+                <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
+                <button class="ui teal button">提交</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -105,22 +127,31 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 <!--/*/</th:block>/*/-->
+
     <script>
         //手机端导航菜单按钮
         $('.menu.toggle').click(function (){
             $('.m-item').toggleClass('m-mobile-hide');
         });
         //下拉选择框脚本
-        $('.ui.dropdown')
-            .dropdown({
+        $('.ui.dropdown').dropdown({
                 // you can use any ui transition
                 on:'hover',
                 transition: 'drop'
-            });
+        });
+        //表格输入限制脚本 非空验证
+        $('.ui.form').form({
+            fields:{
+                typename:{
+                    identifier:'typename',
+                    rules:[{
+                        type:'empty',
+                        prompt:'请输入分类名称!!!'
+                    }]
+                },
+            }
+        });
     </script>
-
-
-
 </body>
 
 

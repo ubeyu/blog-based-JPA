@@ -4,14 +4,14 @@ import com.why.home.back_end.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-/*---------------------------------------------------------------
-              UseRepository Release 1.0
-;  Copyright (c) 2020-2020 by why Co.
-;  Written by why on 2020/8/22.
+/*---------------------------------------------------------------------
+         UseRepository <继承JpaRepository<User,Long>> Release 1.0
+;    Copyright (c) 2020-2020 by why Co.
+;    Written by why on 2020/8/22.
 ;             DAO 数据库操作层（使用SpringBoot中JPA）
 ;  Function:
 ;                      查用户数据库
-----------------------------------------------------------------*/
+---------------------------------------------------------------------*/
 
 
 /*------@Repository表示该类是Dao层-----*/

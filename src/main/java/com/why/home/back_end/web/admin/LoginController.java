@@ -44,7 +44,7 @@ public class LoginController {
     }
 
     /* 通过Post请求路径 提交输入的用户名和密码 用于登录逻辑 */
-    /* ?????  加参数 同样在全局/admin下访问 即/admin/login  ???????*/
+    /* 加参数 同样在全局/admin下访问 即/admin/login */
     @PostMapping("/login")
     /* Post提交 输入参数需要加@RequestParam注解  若用户名密码正确放入httpSession*/
     public String login(@RequestParam String username,
@@ -71,7 +71,7 @@ public class LoginController {
     }
 
     /* 通过Get请求路径 用于注销逻辑 */
-    /* 不加参数 默认使用@RequestMapping("/admin")全局的/admin访问 */
+    /* 加参数 同样在全局/admin下访问 即/admin/logout */
     @GetMapping("/logout")
     public String loginOut(HttpSession session){
         /* 拿到session 清空内部user */

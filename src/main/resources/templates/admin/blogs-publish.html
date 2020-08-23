@@ -6,7 +6,7 @@
 <head th:replace="admin/_fragments :: head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>博客发布</title>
+    <title>博客新增</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <!-------(若使用th:replace则不再需要添加)--格式混乱，css未找到路径，原因是需thymeleaf引入--th:href="@{/css/me.css}"--------->
     <!-------(若使用th:replace则不再需要添加)--只对静态页面产生影响----------------------------------------------------------->
@@ -19,12 +19,12 @@
 
 <!--导航-->
 <!---将导航做统一模板，引入th:replace通过参数n区分不同active，此处传入0--->
-<nav th:replace="admin/_fragments :: menu(0)"class="ui inverted attached segment m-padded-tb-mini m-shadow-bottom-small">
+<nav th:replace="admin/_fragments :: menu(1)"class="ui inverted attached segment m-padded-tb-mini m-shadow-bottom-small">
     <div class="ui container">
         <!--导航主菜单-->
         <div class="ui inverted secondary stackable menu ">
             <h2 class="ui teal header item">后台管理</h2>
-            <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>首页</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>博客</a>
             <a href="#" class="m-item item m-mobile-hide"><i class="tasks icon"></i>分类</a>
             <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>标签</a>
             <div class="m-item right item m-mobile-hide">
@@ -51,7 +51,7 @@
 <div class="ui attached pointing menu">
     <div class="ui container">
         <div class="right menu">
-            <a href="#" class="teal active item">发布</a>
+            <a href="#" class="teal active item">新增</a>
             <a href="#" class="item">列表</a>
         </div>
     </div>

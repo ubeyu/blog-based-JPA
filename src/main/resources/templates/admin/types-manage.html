@@ -5,7 +5,7 @@
 <head th:replace="admin/_fragments :: head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>登录成功</title>
+    <title>分类管理</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <!-------(若使用th:replace则不再需要添加)--格式混乱，css未找到路径，原因是需thymeleaf引入--th:href="@{/css/me.css}"--------->
     <!-------(若使用th:replace则不再需要添加)--只对静态页面产生影响----------------------------------------------------------->
@@ -16,7 +16,7 @@
 
 <!--导航-->
 <!---将导航做统一模板，引入th:replace通过参数n区分不同active，此处传入0--->
-<nav th:replace="admin/_fragments :: menu(0)"class="ui inverted attached segment m-padded-tb-mini m-shadow-bottom-small">
+<nav th:replace="admin/_fragments :: menu(2)"class="ui inverted attached segment m-padded-tb-mini m-shadow-bottom-small">
     <div class="ui container">
         <!--导航主菜单-->
         <div class="ui inverted secondary stackable menu ">
@@ -44,16 +44,48 @@
         <i class="sidebar icon"></i>
     </a>
 </nav>
+<!--二级导航-->
+<div class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" class="item">新增</a>
+            <a href="#" class="teal active item">列表</a>
+        </div>
+    </div>
+</div>
 
 <!--中间-->
 <div class="m-container m-padded-tb-large">
-    <div class="ui m-container-message">
-       <div class="ui success large message">
-           <h2>Hi!</h2>
-           <h3>Dear why，欢迎登录!</h3>
-       </div>
-        <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" class="ui rounded fluid image">
+    <div class="ui container">
+
+        <!--管理表-->
+        <table class="ui celled table">
+            <thead>
+            <tr><th></th>
+                <th>名称</th>
+                <th>操作</th>
+            </tr></thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td data-label="标题">学习日志</td>
+                <td data-label="操作">
+                    <a href="#" class="ui mini teal button">编辑</a>
+                    <a href="#" class="ui mini red button">删除</a>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td data-label="标题">思考与感悟</td>
+                <td data-label="操作">
+                    <a href="#" class="ui mini teal button">编辑</a>
+                    <a href="#" class="ui mini red button">删除</a>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
     </div>
+</div>
 </div>
 
 <!--底部-->

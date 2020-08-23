@@ -103,33 +103,4 @@ public class HomepageController {
         return "aboutme";
     }
 
-    /*通过Get请求路径 返回管理页*/
-    @GetMapping("/manage")
-    public String manage() {
-        //  int i = 1 / 0;
-
-        /*博客首页为空时进行异常处理，返回404
-        String Blog = null;
-        if(Blog == null){
-            throw new NotFoundException("博客不存在");
-        }*/
-        //System.out.println("---------homepage---id:{" + id + "}--name:{" + name + "}---------");
-        return "admin/blogs-manage";
-    }
-
-    /*通过Get请求路径 返回发布页*/
-    @GetMapping("/publish")
-    public String publish() {
-        //  int i = 1 / 0;
-
-        /*博客首页为空时进行异常处理，返回404
-        String Blog = null;
-        if(Blog == null){
-            throw new NotFoundException("博客不存在");
-        }*/
-        //System.out.println("---------homepage---id:{" + id + "}--name:{" + name + "}---------");
-        return "admin/blogs-publish";
-    }
-
-
 }
