@@ -14,21 +14,23 @@ import static com.why.home.back_end.util.MD5Utils.code;
 ;  Written by why on 2020/8/22.
 ;
 ;  Function:
-;                  UserService接口实现
+;          第二步--- UserService接口实现
 ----------------------------------------------------------------*/
 
 /*------@Service表示该类是业务层-----*/
 @Service
 public class UserServiceImpl implements UserService{
 
-    /*----注解 可以对类成员变量、方法及构造函数进行标注 让Spring完成bean自动装配工作---*/
-    private final UserRepository userRepository;
+    /*---------第三步UserRepository接口构建完成后注入-------*/
+    /*---- 可以对类成员变量、方法及构造函数进行标注 让Spring完成bean自动装配工作 ---*/
+    @Autowired
+    private UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    /*------覆写定义好的接口方法-----*/
+    /*------（生成器生成）覆写定义好的接口方法-----*/
     /*------!!!!在业务逻辑层利用code静态方法对密码进行加密 以适配数据库中已经加密的密码!!!-----*/
 
     @Override

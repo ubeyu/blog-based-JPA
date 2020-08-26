@@ -24,9 +24,9 @@
         <!--导航主菜单-->
         <div class="ui inverted secondary stackable menu ">
             <h2 class="ui teal header item">后台管理</h2>
-            <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>博客</a>
-            <a href="#" class="m-item item m-mobile-hide"><i class="tasks icon"></i>分类</a>
-            <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>标签</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>博客管理</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="tasks icon"></i>分类管理</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>标签管理</a>
             <div class="m-item right item m-mobile-hide">
                 <div class="ui dropdown item">
                     <div class="text">
@@ -51,8 +51,8 @@
 <div class="ui attached pointing menu">
     <div class="ui container">
         <div class="right menu">
-            <a href="#" class="teal active item">新增</a>
-            <a href="#" class="item">列表</a>
+            <a href="#" th:href="@{/admin/blogManage}" class="item">列表</a>
+            <a href="#" th:href="@{/admin/blogManage/add}" class="teal active item">新增</a>
         </div>
     </div>
 </div>

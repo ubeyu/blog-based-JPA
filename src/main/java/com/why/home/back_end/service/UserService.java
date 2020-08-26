@@ -8,7 +8,7 @@ import com.why.home.back_end.entity.User;
 ;  Written by why on 2020/8/21.
 ;
 ;  Function:
-;                  业务逻辑处理层
+;          第一步---用户/管理员业务逻辑处理层接口创建
 ----------------------------------------------------------------*/
 
 public interface UserService {

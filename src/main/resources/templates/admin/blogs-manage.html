@@ -21,9 +21,9 @@
         <!--导航主菜单-->
         <div class="ui inverted secondary stackable menu ">
             <h2 class="ui teal header item">后台管理</h2>
-            <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>博客</a>
-            <a href="#" class="m-item item m-mobile-hide"><i class="tasks icon"></i>分类</a>
-            <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>标签</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>博客管理</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="tasks icon"></i>分类管理</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>标签管理</a>
             <div class="m-item right item m-mobile-hide">
                 <div class="ui dropdown item">
                     <div class="text">
@@ -48,8 +48,8 @@
 <div class="ui attached pointing menu">
     <div class="ui container">
         <div class="right menu">
-            <a href="#" class="item">新增</a>
-            <a href="#" class="teal active item">列表</a>
+            <a href="#" th:href="@{/admin/blogManage}" class="teal active item">列表</a>
+            <a href="#" th:href="@{/admin/blogManage/add}" class="item">新增</a>
         </div>
     </div>
 </div>
@@ -97,78 +97,81 @@
         <!--下框表-->
         <table class="ui celled table">
             <thead>
-            <tr><th></th>
-                <th>标题</th>
-                <th>类型</th>
-                <th>推荐</th>
-                <th>更新时间</th>
-                <th>操作</th>
-            </tr></thead>
+                <tr>
+                    <th></th>
+                    <th>标题</th>
+                    <th>类型</th>
+                    <th>推荐</th>
+                    <th>更新时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td data-label="标题">James</td>
-                <td data-label="类型">24</td>
-                <td data-label="推荐">Engineer</td>
-                <td data-label="更新时间">James</td>
-                <td data-label="操作">
-                    <a href="#" class="ui mini teal button">编辑</a>
-                    <a href="#" class="ui mini red button">删除</a>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td data-label="标题">James</td>
-                <td data-label="类型">24</td>
-                <td data-label="推荐">Engineer</td>
-                <td data-label="更新时间">James</td>
-                <td data-label="操作">
-                    <a href="#" class="ui mini teal button">编辑</a>
-                    <a href="#" class="ui mini red button">删除</a>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td data-label="标题">James</td>
-                <td data-label="类型">24</td>
-                <td data-label="推荐">Engineer</td>
-                <td data-label="更新时间">James</td>
-                <td data-label="操作">
-                    <a href="#" class="ui mini teal button">编辑</a>
-                    <a href="#" class="ui mini red button">删除</a>
-                </td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td data-label="标题">James</td>
-                <td data-label="类型">24</td>
-                <td data-label="推荐">Engineer</td>
-                <td data-label="更新时间">James</td>
-                <td data-label="操作">
-                    <a href="#" class="ui mini teal button">编辑</a>
-                    <a href="#" class="ui mini red button">删除</a>
-                </td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td data-label="标题">James</td>
-                <td data-label="类型">24</td>
-                <td data-label="推荐">Engineer</td>
-                <td data-label="更新时间">James</td>
-                <td data-label="操作">
-                    <a href="#" class="ui mini teal button">编辑</a>
-                    <a href="#" class="ui mini red button">删除</a>
-                </td>
-            </tr>
+                <tr>
+                    <td>1</td>
+                    <td data-label="标题">James</td>
+                    <td data-label="类型">24</td>
+                    <td data-label="推荐">Engineer</td>
+                    <td data-label="更新时间">James</td>
+                    <td data-label="操作">
+                        <a href="#" class="ui mini teal button">编辑</a>
+                        <a href="#" class="ui mini red button">删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td data-label="标题">James</td>
+                    <td data-label="类型">24</td>
+                    <td data-label="推荐">Engineer</td>
+                    <td data-label="更新时间">James</td>
+                    <td data-label="操作">
+                        <a href="#" class="ui mini teal button">编辑</a>
+                        <a href="#" class="ui mini red button">删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td data-label="标题">James</td>
+                    <td data-label="类型">24</td>
+                    <td data-label="推荐">Engineer</td>
+                    <td data-label="更新时间">James</td>
+                    <td data-label="操作">
+                        <a href="#" class="ui mini teal button">编辑</a>
+                        <a href="#" class="ui mini red button">删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td data-label="标题">James</td>
+                    <td data-label="类型">24</td>
+                    <td data-label="推荐">Engineer</td>
+                    <td data-label="更新时间">James</td>
+                    <td data-label="操作">
+                        <a href="#" class="ui mini teal button">编辑</a>
+                        <a href="#" class="ui mini red button">删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td data-label="标题">James</td>
+                    <td data-label="类型">24</td>
+                    <td data-label="推荐">Engineer</td>
+                    <td data-label="更新时间">James</td>
+                    <td data-label="操作">
+                        <a href="#" class="ui mini teal button">编辑</a>
+                        <a href="#" class="ui mini red button">删除</a>
+                    </td>
+                </tr>
             </tbody>
             <tfoot>
-                <tr><th colspan="6">
-                    <div class="ui pagination menu">
-                        <a class="icon item">上一页</a>
-                        <a class="icon item">下一页</a>
-                    </div>
-                    <a href="#" class="ui right floated blue button">新增</a>
-                </th>
+                <tr>
+                    <th colspan="6">
+                        <div class="ui pagination menu">
+                            <a class="icon item">上一页</a>
+                            <a class="icon item">下一页</a>
+                        </div>
+                        <a href="#" class="ui right floated blue button">新增</a>
+                    </th>
                 </tr>
             </tfoot>
         </table>

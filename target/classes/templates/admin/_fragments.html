@@ -37,9 +37,9 @@
         <div class="ui inverted secondary stackable menu ">
             <h2 class="ui teal header item">后台管理</h2>
             <!---将导航做统一模板，引入th:classappend=" ${n==1} ? 'active' "判断是否需要添加active--->
-            <a href="#" class="m-item item m-mobile-hide" th:classappend=" ${n==1} ? 'active' "><i class="home icon"></i>博客</a>
-            <a href="#" class="m-item item m-mobile-hide" th:classappend=" ${n==2} ? 'active' "><i class="tasks icon"></i>分类</a>
-            <a href="#" class="m-item item m-mobile-hide" th:classappend=" ${n==3} ? 'active' "><i class="tags icon"></i>标签</a>
+            <a href="#" th:href="@{/admin/blogManage}" class="m-item item m-mobile-hide" th:classappend=" ${n==1} ? 'active' "><i class="home icon"></i>博客管理</a>
+            <a href="#" th:href="@{/admin/typeManage}" class="m-item item m-mobile-hide" th:classappend=" ${n==2} ? 'active' "><i class="tasks icon"></i>分类管理</a>
+            <a href="#" th:href="@{/admin/tagManage}" class="m-item item m-mobile-hide" th:classappend=" ${n==3} ? 'active' "><i class="tags icon"></i>标签管理</a>
             <div class="m-item right item m-mobile-hide">
                 <div class="ui dropdown item">
                     <div class="text">
