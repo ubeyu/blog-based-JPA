@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
-
 <!---传入th:replace，取代原有head元素，即添加了th:href="@{/css/me.css}"等相关引用--->
 <head th:replace="admin/_fragments :: head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>分类新增</title>
+    <title>标签管理</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <!-------(若使用th:replace则不再需要添加)--格式混乱，css未找到路径，原因是需thymeleaf引入--th:href="@{/css/me.css}"--------->
     <!-------(若使用th:replace则不再需要添加)--只对静态页面产生影响----------------------------------------------------------->
@@ -15,10 +14,9 @@
 
 <body>
 
-
 <!--导航-->
 <!---将导航做统一模板，引入th:replace通过参数n区分不同active，此处传入0--->
-<nav th:replace="admin/_fragments :: menu(2)"class="ui inverted attached segment m-padded-tb-mini m-shadow-bottom-small">
+<nav th:replace="admin/_fragments :: menu(3)"class="ui inverted attached segment m-padded-tb-mini m-shadow-bottom-small">
     <div class="ui container">
         <!--导航主菜单-->
         <div class="ui inverted secondary stackable menu ">
@@ -50,8 +48,8 @@
 <div class="ui attached pointing menu">
     <div class="ui container">
         <div class="right menu">
-            <a href="#" th:href="@{/admin/typeManage}" class="item">列表</a>
-            <a href="#" th:href="@{/admin/typeManage/add}" class="teal active item">新增</a>
+            <a href="#" th:href="@{/admin/tagManage}" class="teal active item">列表</a>
+            <a href="#" th:href="@{/admin/tagManage/add}" class="item">新增</a>
         </div>
     </div>
 </div>
@@ -59,47 +57,72 @@
 <!--中间-->
 <div class="m-container m-padded-tb-large">
     <div class="ui container">
-        <!--------method="post"表单以post方式提交 对应Controller中Post----------->
-        <!--------通过Thymeleaf中th:action与后台管理连接------将表单输入的分类名称提交给Controller---/admin/typeManage----->
-        <!---后端校验提示内容：th:object="${type}"用来从后端控制器获取type对象--->
-        <!---（需要放在th:object后才能获取id）th:action="*{id} == null? @{/admin/typeManage}:@{/admin/typeManage/{id}}"用来判断是[新增]还是[修改]--->
-        <form action="#" method="post" th:object="${type}" th:action="*{id} == null? @{/admin/typeManage/add}:@{/admin/typeManage/update/{id}(id=*{id})}" class="ui form">
-            <!---传递id值--->
-            <input type="hidden" name="id" th:value="*{id}">
-            <!--分类名称-->
-            <div class="field">
-                <div class="ui labeled input">
-                    <label class="ui basic label">分类</label>
-                    <!--------!!!表格输入限制脚本 前端校验 防止输入分类为空!!!----------->
-                    <!--------!!!!!!!!必须用name 否则数据库提交内容为空!!!!!!!!----------->
-                    <!---后端校验提示内容： th:value="*{name}"用来从object中获取name值--->
-                    <input type="text" name="name" placeholder="分类名称" th:value="*{name}">
-                </div>
-            </div>
-            <!---若为空 后台按照script会做出相应提示--->
-            <div class="ui error message"></div>
 
-            <!------后端校验提示内容：Thymeleaf模板下根据后端校验提示内容
-                    th:if="${#fields.hasErrors('name')} 判断要校验的name是否有错
-                    th:errors="*{name}" 当有错时用message替换掉<p>内容 -------------->
+        <!-------由RedirectAttributes输入 增加上方自定义提示消息 使用Thymeleaf进行判断 标签名称输入不为空时提示消息------->
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i><div class="header">提示：</div>
+            <p th:text="${message}">操作成功！</p>
+        </div>
 
-            <!--/*/
-                <div class="ui negative message" th:if="${#fields.hasErrors('name')}">
-                     <i class="close icon"></i>
-                     <div class="header">验证失败</div>
-                     <p th:errors="*{name}">提交信息不符合规则</p>
-                </div>
-            /*/-->
-
-            <!--博客分类管理返回/发布-->
-            <div class="ui right aligned container">
-                <!--<button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>-->
-               <a href="#" th:href="@{/admin/typeManage}" class="ui right floated button">返回</a>
-               <!--使用submit自动提交新增分类 和 Post中action对应-->
-                <button class="ui teal submit button">提交</button>
-            </div>
-        </form>
+        <!--管理表-->
+        <table class="ui celled table">
+            <!--表头-->
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>标签名称</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <!--内容-->
+            <tbody>
+                <!--与后端结合 使用th:each以循环的方式从page获取分页tag对象 iterStat代表可以获取循环索引值-->
+                <tr th:each="tag,iterStat:${page.content}">
+                    <!--使用th:text从iterStat中获取循环索引值-->
+                    <td th:text="${iterStat.count}">1</td>
+                    <!--使用th:text从每个type对象获取name-->
+                    <td th:text="${tag.name}">前端</td>
+                    <td data-label="操作">
+                        <!--返回编辑页面-->
+                        <!--------通过Thymeleaf中th:href---Controller---/admin/tagManage----->
+                        <!--使用${tag.id}从每个tag对象获取id 调用update 然后替换路径中（id）-->
+                        <a href="#" th:href="@{/admin/tagManage/update/{id}(id=${tag.id})}" class="ui mini teal button">编辑</a>
+                        <!--返回删除页面-->
+                        <!--------通过Thymeleaf中th:href---Controller---/admin/tagManage----->
+                        <!--使用${tag.id}从每个tag对象获取id 调用delete 然后删除路径中（id）-->
+                        <a href="#" th:href="@{/admin/tagManage/delete/{id}(id=${tag.id})}" class="ui mini red button">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+            <!--底部-->
+            <tfoot>
+                <tr>
+                    <th colspan="6">
+                        <!--th:if="${page.totalPages>1}"代表如果总页数大于1才显示 上下一页的框-->
+                        <div class="ui pagination menu" th:if="${page.totalPages>1}">
+                            <!--返回上一页-->
+                            <!--------通过Thymeleaf中th:href---Controller---/admin/tagManage----->
+                            <!--使用${page.number}从page对象获取number页数 -1则为上一页-->
+                            <!--反馈到url上 http://localhost:8080/admin/typeManage?page=1 (page>=-1) -->
+                            <!--th:unless="${page.first}"代表如果不是第一页 就显示第上一页按钮-->
+                            <a th:href="@{/admin/tagManage(page=${page.number}-1)}" class="icon item" th:unless="${page.first}">上一页</a>
+                            <!--返回下一页-->
+                            <!--------通过Thymeleaf中th:href---Controller---/admin/typeManage----->
+                            <!--使用${page.number}从page对象获取number页数 +1则为下一页-->
+                            <!--反馈到url上 http://localhost:8080/admin/typeManage?page=1 (page>=-1) -->
+                            <!--th:unless="${page.first}"代表如果不是最后一页 就显示第下一页按钮-->
+                            <a th:href="@{/admin/tagManage(page=${page.number}+1)}" class="icon item" th:unless="${page.last}">下一页</a>
+                        </div>
+                            <!--新增-->
+                            <!--------通过Thymeleaf中th:href---Controller---/admin/tagManage/add----->
+                            <!--使用/admin/tagManage/add进入新增页-->
+                        <a href="#" th:href="@{/admin/tagManage/add}" class="ui right floated blue button">新增</a>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
     </div>
+</div>
 </div>
 
 <!--底部-->
@@ -151,31 +174,18 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 <!--/*/</th:block>/*/-->
-
     <script>
         //手机端导航菜单按钮
         $('.menu.toggle').click(function (){
             $('.m-item').toggleClass('m-mobile-hide');
         });
         //下拉选择框脚本
-        $('.ui.dropdown').dropdown({
+        $('.ui.dropdown')
+            .dropdown({
                 // you can use any ui transition
                 on:'hover',
                 transition: 'drop'
-        });
-        //表格输入限制脚本 前端校验 防止输入分类为空
-        $('.ui.form').form({
-            fields:{
-                name:{
-                    //暂时不用前端页面判断空值
-                    identifier:'name111',
-                    rules:[{
-                        type:'empty',
-                        prompt:'请输入分类名称!!!'
-                    }]
-                },
-            }
-        });
+            });
         //消息提示关闭脚本
         $('.message .close')
             .on('click',function () {

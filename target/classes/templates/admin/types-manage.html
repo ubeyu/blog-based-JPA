@@ -70,7 +70,7 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>名称</th>
+                    <th>分类名称</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -85,11 +85,11 @@
                     <td data-label="操作">
                         <!--返回编辑页面-->
                         <!--------通过Thymeleaf中th:href---Controller---/admin/typeManage----->
-                        <!--使用${type.id}从每个type对象获取id 调用input 然后替换路径中（id）-->
+                        <!--使用${type.id}从每个type对象获取id 调用update 然后替换路径中（id）-->
                         <a href="#" th:href="@{/admin/typeManage/update/{id}(id=${type.id})}" class="ui mini teal button">编辑</a>
                         <!--返回删除页面-->
                         <!--------通过Thymeleaf中th:href---Controller---/admin/typeManage----->
-                        <!--使用${type.id}从每个type对象获取id 调用delete 然后替换路径中（id）-->
+                        <!--使用${type.id}从每个type对象获取id 调用delete 然后删除路径中（id）-->
                         <a href="#" th:href="@{/admin/typeManage/delete/{id}(id=${type.id})}" class="ui mini red button">删除</a>
                     </td>
                 </tr>

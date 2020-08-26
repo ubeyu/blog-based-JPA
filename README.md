@@ -8,3 +8,5 @@
 2020/08/23 AdminInterceptor is added.
 
 2020/08/25 Management of types is added.
+
+2020/08/26 Management of tags is added.Details are optimized.

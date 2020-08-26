@@ -6,7 +6,7 @@
 <head th:replace="admin/_fragments :: head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>分类新增</title>
+    <title>标签新增</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <!-------(若使用th:replace则不再需要添加)--格式混乱，css未找到路径，原因是需thymeleaf引入--th:href="@{/css/me.css}"--------->
     <!-------(若使用th:replace则不再需要添加)--只对静态页面产生影响----------------------------------------------------------->
@@ -18,7 +18,7 @@
 
 <!--导航-->
 <!---将导航做统一模板，引入th:replace通过参数n区分不同active，此处传入0--->
-<nav th:replace="admin/_fragments :: menu(2)"class="ui inverted attached segment m-padded-tb-mini m-shadow-bottom-small">
+<nav th:replace="admin/_fragments :: menu(3)"class="ui inverted attached segment m-padded-tb-mini m-shadow-bottom-small">
     <div class="ui container">
         <!--导航主菜单-->
         <div class="ui inverted secondary stackable menu ">
@@ -50,8 +50,8 @@
 <div class="ui attached pointing menu">
     <div class="ui container">
         <div class="right menu">
-            <a href="#" th:href="@{/admin/typeManage}" class="item">列表</a>
-            <a href="#" th:href="@{/admin/typeManage/add}" class="teal active item">新增</a>
+            <a href="#" th:href="@{/admin/tagManage}" class="item">列表</a>
+            <a href="#" th:href="@{/admin/tagManage/add}" class="teal active item">新增</a>
         </div>
     </div>
 </div>
@@ -60,20 +60,20 @@
 <div class="m-container m-padded-tb-large">
     <div class="ui container">
         <!--------method="post"表单以post方式提交 对应Controller中Post----------->
-        <!--------通过Thymeleaf中th:action与后台管理连接------将表单输入的分类名称提交给Controller---/admin/typeManage----->
-        <!---后端校验提示内容：th:object="${type}"用来从后端控制器获取type对象--->
-        <!---（需要放在th:object后才能获取id）th:action="*{id} == null? @{/admin/typeManage}:@{/admin/typeManage/{id}}"用来判断是[新增]还是[修改]--->
-        <form action="#" method="post" th:object="${type}" th:action="*{id} == null? @{/admin/typeManage/add}:@{/admin/typeManage/update/{id}(id=*{id})}" class="ui form">
+        <!--------通过Thymeleaf中th:action与后台管理连接------将表单输入的分类名称提交给Controller---/admin/tagManage----->
+        <!---后端校验提示内容：th:object="${tag}"用来从后端控制器获取tag对象--->
+        <!---（需要放在th:object后才能获取id）th:action="*{id} == null? @{/admin/tagManage}:@{/admin/tagManage/{id}}"用来判断是[新增]还是[修改]--->
+        <form action="#" method="post" th:object="${tag}" th:action="*{id} == null? @{/admin/tagManage/add}:@{/admin/tagManage/update/{id}(id=*{id})}" class="ui form">
             <!---传递id值--->
             <input type="hidden" name="id" th:value="*{id}">
-            <!--分类名称-->
+            <!--标签名称-->
             <div class="field">
                 <div class="ui labeled input">
-                    <label class="ui basic label">分类</label>
-                    <!--------!!!表格输入限制脚本 前端校验 防止输入分类为空!!!----------->
+                    <label class="ui basic label">标签</label>
+                    <!--------!!!表格输入限制脚本 前端校验 防止输入标签为空!!!----------->
                     <!--------!!!!!!!!必须用name 否则数据库提交内容为空!!!!!!!!----------->
                     <!---后端校验提示内容： th:value="*{name}"用来从object中获取name值--->
-                    <input type="text" name="name" placeholder="分类名称" th:value="*{name}">
+                    <input type="text" name="name" placeholder="标签名称" th:value="*{name}">
                 </div>
             </div>
             <!---若为空 后台按照script会做出相应提示--->
@@ -90,12 +90,11 @@
                      <p th:errors="*{name}">提交信息不符合规则</p>
                 </div>
             /*/-->
-
-            <!--博客分类管理返回/发布-->
+            <!--博客标签管理返回/发布-->
             <div class="ui right aligned container">
                 <!--<button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>-->
-               <a href="#" th:href="@{/admin/typeManage}" class="ui right floated button">返回</a>
-               <!--使用submit自动提交新增分类 和 Post中action对应-->
+                <a href="#" th:href="@{/admin/tagManage}" class="ui right floated button">返回</a>
+                <!--使用submit自动提交新增标签 和 Post中action对应-->
                 <button class="ui teal submit button">提交</button>
             </div>
         </form>

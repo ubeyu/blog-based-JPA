@@ -71,35 +71,35 @@ public class TypeController {
         }
         /*-----------------管理列表业务校验是否已存在逻辑（结束）--------------------*/
 
-        /*-----------------后端校验信息输入是否为空逻辑（开始）--------------------*/
+        /*-----------------后端校验信息输入是否为空/已存在逻辑（开始）--------------------*/
         /* 后端校验提示内容：此处的result和Type实体类中NotBlank绑定 */
         if(result.hasErrors()){
             /* 后端校验提示内容： 返回文件夹内html */
             return "admin/types-publish";
         }
-        /*-----------------后端校验信息输入是否为空逻辑（结束）--------------------*/
+        /*-----------------后端校验信息输入是否为空/已存在逻辑（结束）--------------------*/
 
         /*-----------------type_added校验信息输出逻辑（开始）--------------------*/
         /* 定义新增后的Type对象 */
         Type type_added = typeService.saveType(type);
-        /* 如果对象为空 */
-        if(type_added == null){
-            /* 由于使用重定向 给前端页面提示需要用attributes.addFlashAttribute */
-            /* 不能用 post参数加Model model 然后用model.addAttribute的方式 会造成重定向后 返回页面无法拿到数据 */
-            attributes.addFlashAttribute("message","新增失败！");
-        }else{
-            attributes.addFlashAttribute("message","新增成功！");
-        }
-        /* 需要用重定向 否则返回不了新输入的数据 */
-        return "redirect:/admin/typeManage";
+            /* 如果对象为空 */
+            if(type_added == null){
+                /* 由于使用重定向 后端→前端 给前端页面提示需要用attributes.addFlashAttribute */
+                /* 切换页面 不能用post加Model model参数 会造成重定向后 返回页面无法拿到数据 需要用model.addAttribute的方式 */
+                attributes.addFlashAttribute("message","新增失败！");
+            }else{
+                attributes.addFlashAttribute("message","新增成功！");
+            }
+            /* 需要用重定向 否则返回不了新输入的数据 */
+            return "redirect:/admin/typeManage";
         /*-----------------type_added校验信息输出逻辑（结束）--------------------*/
     }
     /*-------------------------------------------------分类增加页面提交逻辑（结束）------------------------------------------------------------*/
     /*-------------------------------------------------分类增加页面显示逻辑（开始）------------------------------------------------------------*/
     /* 通过Get请求路径 返回新增页 */
-    /* 加参数 同样在全局/admin下访问 即/admin/typePublish */
+    /* 加参数 同样在全局/admin下访问 即/admin/typeManage/add */
     @GetMapping("/typeManage/add")
-    /* 后端校验提示内容： 使用model 增加一个新的type对象 */
+    /* 后端校验提示内容： 使用model 用于前端→后端 增加一个新的type对象 */
     public String addTypePage(Model model) {
         /* 后端校验提示内容： 使用model 增加一个新的type对象 */
         model.addAttribute("type", new Type());
@@ -110,7 +110,7 @@ public class TypeController {
 
     /*-------------------------------------------------分类修改页面提交逻辑（开始）------------------------------------------------------------*/
     /* 通过Post请求路径 提交修改的分类名称 用于修改分类 */
-    /* Post和Get类型不一样 所以参数一样也不冲突 Post需要传入id--/typeManage/{id} */
+    /* Post和Get类型不一样 所以参数一样也不冲突 Post需要传入id--/typeManage/update/{id} */
     @PostMapping("/typeManage/update/{id}")
     /*  Post提交 将页面输入的分类名称引入 */
     /*  @Valid注解代表要校验Type实体类 与@NotBlank(message = "后端校验：分类名称为空！")相对应 */
@@ -128,25 +128,23 @@ public class TypeController {
         }
         /*-----------------管理列表业务校验是否已存在逻辑（结束）--------------------*/
 
-        /*-----------------后端校验信息输入是否为空逻辑（开始）--------------------*/
+        /*-----------------后端校验信息输入是否为空/已存在逻辑（开始）--------------------*/
         /* 后端校验提示内容：此处的result和Type实体类中NotBlank绑定 */
         if(result.hasErrors()){
             /* 后端校验提示内容： 返回文件夹内html */
             return "admin/types-publish";
         }
-        /*-----------------后端校验信息输入是否为空逻辑（结束）--------------------*/
+        /*-----------------后端校验信息输入是否为空/已存在逻辑（结束）--------------------*/
 
         /*-----------------type_added校验信息输出逻辑（开始）--------------------*/
         /* 定义修改后的Type对象 */
         Type type_added = typeService.updateType(id,type);
         /* 如果对象为空 */
         if(type_added == null){
-            /* 由于使用重定向 给前端页面提示需要用attributes.addFlashAttribute */
-            /* 不能用 post参数加Model model 然后用model.addAttribute的方式 会造成重定向后 返回页面无法拿到数据 */
+            /* 由于使用重定向 后端→前端 给前端页面提示需要用attributes.addFlashAttribute */
+            /* 切换页面 不能用post加Model model参数 会造成重定向后 返回页面无法拿到数据 需要用model.addAttribute的方式 */
             attributes.addFlashAttribute("message","修改失败！");
         }else{
-            /* 由于使用重定向 给前端页面提示需要用attributes.addFlashAttribute */
-            /* 不能用 post参数加Model model 然后用model.addAttribute的方式 会造成重定向后 返回页面无法拿到数据 */
             attributes.addFlashAttribute("message","修改成功！");
         }
         /* 需要用重定向 否则返回不了新输入的数据 */
@@ -160,14 +158,14 @@ public class TypeController {
     @GetMapping("/typeManage/update/{id}")
     /* 使用model 利用id查询对应type对象 */
     public String updateTypePage(@PathVariable Long id, Model model) {
-        /* 使用model 利用id查询对应type对象 */
+        /* 后端校验提示内容： 使用model 用于前端→后端 利用id查询对应type对象 */
         model.addAttribute("type", typeService.getType(id));
         return "admin/types-publish";
     }
     /*-------------------------------------------------分类修改页面显示逻辑（结束）------------------------------------------------------------*/
 
     /*-------------------------------------------------分类删除页面提交逻辑（开始）------------------------------------------------------------*/
-    /* 通过Get请求路径 返回修改页 */
+    /* 通过Get请求路径 返回删除页 */
     /* 加参数 同样在全局/admin下访问 即/admin/typeManage/delete/{id} @PathVariable与{id}对应 保证url中的id能作为参数输入Post*/
     @GetMapping("/typeManage/delete/{id}")
     public String deleteTypePage(@PathVariable Long id,RedirectAttributes attributes) {

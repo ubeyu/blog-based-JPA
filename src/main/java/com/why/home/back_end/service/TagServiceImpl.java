@@ -1,8 +1,10 @@
 package com.why.home.back_end.service;
 
+
+
 import com.why.home.back_end.NotFoundException;
-import com.why.home.back_end.dao.TypeRepository;
-import com.why.home.back_end.entity.Type;
+import com.why.home.back_end.dao.TagRepository;
+import com.why.home.back_end.entity.Tag;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,81 +14,84 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 /*---------------------------------------------------------------
-              TypeServiceImpl Release 1.0
+              TagServiceImpl Release 1.0
 ;  Copyright (c) 2020-2020 by why Co.
-;  Written by why on 2020/8/24.
+;  Written by why on 2020/8/26.
 ;
 ;  Function:
-;            第二步---TypeService接口实现
+;            第二步---TagService接口实现
 ----------------------------------------------------------------*/
 
 /*------@Service表示该类是业务层-----*/
 @Service
-public class TypeServiceImpl implements TypeService {
+public class TagServiceImpl implements TagService {
 
 
-    /*---------第三步TypeRepository接口构建完成后注入-------*/
+    /*---------第三步TagRepository接口构建完成后注入-------*/
     /*---- 可以对类成员变量、方法及构造函数进行标注 让Spring完成bean自动装配工作 ---*/
     @Autowired
-    private TypeRepository typeRepository;
+    private TagRepository tagRepository;
 
-    public TypeServiceImpl(TypeRepository typeRepository) {
-        this.typeRepository = typeRepository;
+    public TagServiceImpl(TagRepository tagRepository) {
+        this.tagRepository = tagRepository;
     }
+
+
 
     /*--------新增---@Transactional将操作放入事务中-----*/
     @Transactional
     @Override
-    public Type saveType(Type type) {
+    public Tag saveTag(Tag type) {
         /*------ !!! save这个方法，没有主键默认是新增，有主键的话则是修改 !!!----*/
-        return typeRepository.save(type);
+        return tagRepository.save(type);
     }
 
     /*--------通过ID查询---@Transactional将操作放入事务中-----*/
     @Transactional
     @Override
-    public Type getType(Long id) {
+    public Tag getTag(Long id) {
         /*-------此版本SpringBoot需将findOne(id)改为findById(id).get()-----*/
-        return typeRepository.findById(id).get();
+        return tagRepository.findById(id).get();
     }
 
     /*--------通过Name查询---@Transactional将操作放入事务中-----*/
     @Transactional
     @Override
-    public Type getTypeByName(String name) {
-        return typeRepository.findByName(name);
+    public Tag getTagByName(String name) {
+        return tagRepository.findByName(name);
     }
 
     /*--------分页查询---@Transactional将操作放入事务中-----*/
     @Transactional
     @Override
-    public Page<Type> listType(Pageable pageable) {
+    public Page<Tag> listTag(Pageable pageable) {
         /*-------分页查询Page<Type>对象-----*/
-        return typeRepository.findAll(pageable);
+        return tagRepository.findAll(pageable);
     }
 
     /*--------更新---@Transactional将操作放入事务中-----*/
     @Transactional
     @Override
-    public Type updateType(Long id, Type type) {
-        /*--------首先根据id查type-----*/
-        Type type_cur=typeRepository.findById(id).get();
-        /*--------未查到则抛出异常-----*/
-        if (type_cur == null){
-            throw new NotFoundException("该分类不存在");
+    public Tag updateTag(Long id, Tag tag) {
+        /*--------首先根据id查tag-----*/
+        Tag tag_cur=tagRepository.findById(id).get();
+        if( tag_cur == null){
+            /*--------未查到则抛出异常-----*/
+            throw new NotFoundException("该标签不存在");
         }
         /*--------将type属性复制到type_cur-----*/
-        BeanUtils.copyProperties(type,type_cur);
+        BeanUtils.copyProperties(tag,tag_cur);
         /*--------保存-----*/
-        return typeRepository.save(type_cur);
+        return tagRepository.save(tag_cur);
     }
 
-    /*--------删除---@Transactional将操作放入事务中-----*/
+
+    /*--------删除---@Transactional将操作放入事务中----*/
     @Transactional
     @Override
-    public void deleteType(Long id) {
-        /*-------此版本SpringBoot需将delete改为deleteById-----*/
-        typeRepository.deleteById(id);
+    public void deleteTag(Long id) {
+        /*-------此版本SpringBoot需将delete改为deleteById-----**/
+        tagRepository.deleteById(id);
     }
 
 }

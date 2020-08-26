@@ -91,10 +91,11 @@
                 </div>
             /*/-->
 
-                        <!--博分类管理返回/发布-->
+            <!--博客分类管理返回/发布-->
             <div class="ui right aligned container">
-                <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
-                <!--使用submit自动提交新增分类 和 Post中action对应-->
+                <!--<button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>-->
+               <a href="#" th:href="@{/admin/typeManage}" class="ui right floated button">返回</a>
+               <!--使用submit自动提交新增分类 和 Post中action对应-->
                 <button class="ui teal submit button">提交</button>
             </div>
         </form>
@@ -166,6 +167,7 @@
         $('.ui.form').form({
             fields:{
                 name:{
+                    //暂时不用前端页面判断空值
                     identifier:'name111',
                     rules:[{
                         type:'empty',

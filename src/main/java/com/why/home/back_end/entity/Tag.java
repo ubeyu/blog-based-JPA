@@ -1,6 +1,7 @@
 package com.why.home.back_end.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,8 @@ public class Tag {
     /*id表示对应数据表主键*/
     private Long id;
     /*表示类别名称*/
+    /*后端校验 标签名称不能为空 否则提示message*/
+    @NotBlank(message = "后端校验：标签名称为空！")
     private String name;
 
 
