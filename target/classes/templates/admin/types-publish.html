@@ -64,7 +64,7 @@
         <!---后端校验提示内容：th:object="${type}"用来从后端控制器获取type对象--->
         <!---（需要放在th:object后才能获取id）th:action="*{id} == null? @{/admin/typeManage}:@{/admin/typeManage/{id}}"用来判断是[新增]还是[修改]--->
         <form action="#" method="post" th:object="${type}" th:action="*{id} == null? @{/admin/typeManage/add}:@{/admin/typeManage/update/{id}(id=*{id})}" class="ui form">
-            <!---传递id值--->
+            <!---定义隐含域----后台传递id值--->
             <input type="hidden" name="id" th:value="*{id}">
             <!--分类名称-->
             <div class="field">

@@ -1,7 +1,7 @@
 package com.why.home.back_end.dao;
 
 
-import com.why.home.back_end.entity.Type;
+import com.why.home.back_end.po.Type;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /*---------------------------------------------------------------------
@@ -14,8 +14,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 ---------------------------------------------------------------------*/
 
 /*------@Repository表示该类是Dao层-----*/
-/*------ 继承JpaRepository<Type,Long>后可直接对数据库进行增删改查-----*/
-/*----------Type为实现类 Long为主键类型-----*/
+/*------ 继承JpaRepository<Type,Long>后可直接对数据库进行增删改查 Type为实现类 Long为主键类型----*/
 public interface TypeRepository extends JpaRepository<Type,Long> {
     /*------@Repository表示该类是Dao层-----*/
     /*-----------如save/delete等已有的方法不必再写---------*/

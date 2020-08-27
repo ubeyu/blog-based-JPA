@@ -1,7 +1,7 @@
 package com.why.home.back_end.dao;
 
 
-import com.why.home.back_end.entity.Tag;
+import com.why.home.back_end.po.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /*---------------------------------------------------------------------
@@ -10,12 +10,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 ;    Written by why on 2020/8/26.
 ;             DAO 数据库操作层（使用SpringBoot中JPA）
 ;  Function:
-;               第三步---数据库操作----分类数据库操作
+;               第三步---数据库操作----标签数据库操作
 ---------------------------------------------------------------------*/
 
 /*------@Repository表示该类是Dao层-----*/
-/*------ 继承JpaRepository<Type,Long>后可直接对数据库进行增删改查-----*/
-/*----------Tag为实现类 Long为主键类型-----*/
+/*------ 继承JpaRepository<Tag,Long>后可直接对数据库进行增删改查 Tag为实现类 Long为主键类型----*/
 public interface TagRepository extends JpaRepository<Tag,Long> {
     /*------@Repository表示该类是Dao层-----*/
     /*-----------如save/delete等已有的方法不必再写---------*/

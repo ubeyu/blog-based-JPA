@@ -1,6 +1,6 @@
 package com.why.home.back_end.service;
 
-import com.why.home.back_end.entity.Tag;
+import com.why.home.back_end.po.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

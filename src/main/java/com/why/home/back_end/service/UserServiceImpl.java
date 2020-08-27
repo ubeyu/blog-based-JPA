@@ -1,8 +1,7 @@
 package com.why.home.back_end.service;
 
 import com.why.home.back_end.dao.UserRepository;
-import com.why.home.back_end.entity.User;
-import com.why.home.back_end.util.MD5Utils;
+import com.why.home.back_end.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

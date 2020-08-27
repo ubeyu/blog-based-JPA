@@ -1,4 +1,4 @@
-## My blog source code(Optimizing)
+My blog source code(Optimizing)
 
 
 2020/08/22 first commit.
@@ -9,4 +9,5 @@
 
 2020/08/25 Management of types is added.
 
-2020/08/26 Management of tags is added.Details are optimized.
+2020/08/27 Types list and query function is added in blogManage page.
+

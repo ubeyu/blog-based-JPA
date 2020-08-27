@@ -1,6 +1,6 @@
 package com.why.home.back_end.service;
 
-import com.why.home.back_end.entity.User;
+import com.why.home.back_end.po.User;
 
 /*---------------------------------------------------------------
               UserService Release 1.0

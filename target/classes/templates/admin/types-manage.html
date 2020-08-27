@@ -65,7 +65,7 @@
         </div>
 
         <!--管理表-->
-        <table class="ui celled table">
+        <table class="ui teal celled table">
             <!--表头-->
             <thead>
                 <tr>
@@ -76,7 +76,7 @@
             </thead>
             <!--内容-->
             <tbody>
-                <!--与后端结合 使用th:each以循环的方式从page获取分页type对象 iterStat代表可以获取循环索引值-->
+                <!--与后端结合 使用th:each以循环的方式从page对象中的content可以获取所有type对象 iterStat表示进行循环 -->
                 <tr th:each="type,iterStat:${page.content}">
                     <!--使用th:text从iterStat中获取循环索引值-->
                     <td th:text="${iterStat.count}">1</td>

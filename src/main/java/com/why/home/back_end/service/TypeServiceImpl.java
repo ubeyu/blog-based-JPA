@@ -2,7 +2,7 @@ package com.why.home.back_end.service;
 
 import com.why.home.back_end.NotFoundException;
 import com.why.home.back_end.dao.TypeRepository;
-import com.why.home.back_end.entity.Type;
+import com.why.home.back_end.po.Type;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /*---------------------------------------------------------------
               TypeServiceImpl Release 1.0
@@ -63,6 +64,13 @@ public class TypeServiceImpl implements TypeService {
     public Page<Type> listType(Pageable pageable) {
         /*-------分页查询Page<Type>对象-----*/
         return typeRepository.findAll(pageable);
+    }
+
+    /*------获取全部分类-----用于博客管理页面分类下拉框的展示和选择---*/
+    @Transactional
+    @Override
+    public List<Type> listType() {
+        return typeRepository.findAll();
     }
 
     /*--------更新---@Transactional将操作放入事务中-----*/

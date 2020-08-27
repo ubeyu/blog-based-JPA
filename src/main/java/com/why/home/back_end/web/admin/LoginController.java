@@ -1,8 +1,7 @@
 package com.why.home.back_end.web.admin;
 
-import com.why.home.back_end.entity.User;
+import com.why.home.back_end.po.User;
 import com.why.home.back_end.service.UserService;
-import com.why.home.back_end.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

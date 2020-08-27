@@ -1,8 +1,10 @@
 package com.why.home.back_end.service;
 
-import com.why.home.back_end.entity.Type;
+import com.why.home.back_end.po.Type;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /*---------------------------------------------------------------
               TypeService Release 1.0
@@ -25,6 +27,9 @@ public interface TypeService {
 
     /*------定义分页查询的接口---根据Pageable类型查询--返回一个Page<Type>-----*/
     Page<Type> listType(Pageable pageable);
+
+    /*------定义获取全部分类的接口----返回一个List<Type>--用于博客管理页面分类下拉框的展示和选择---*/
+    List<Type> listType();
 
     /*------定义修改分类的接口---根据Long类型id查询--然后根据Type类型修改-----*/
     Type updateType(Long id,Type type);

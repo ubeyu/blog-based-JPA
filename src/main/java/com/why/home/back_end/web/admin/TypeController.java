@@ -1,6 +1,6 @@
 package com.why.home.back_end.web.admin;
 
-import com.why.home.back_end.entity.Type;
+import com.why.home.back_end.po.Type;
 import com.why.home.back_end.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -12,8 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 /*---------------------------------------------------------------
@@ -45,7 +43,7 @@ public class TypeController {
                             direction代表排序方式 此处DESC表示倒序----------------- */
     /* Model存储SpringBoot是查询后的信息 */
     public String managePage(@PageableDefault(size = 3 , sort = {"id"} , direction = Sort.Direction.DESC) Pageable pageable, Model model) {
-        /* Model存储查询后的分页信息 从而输出给前端页面 */
+        /* Model存储查询后的分页信息 从而输出给前端页面 进行数据渲染 */
         /* typeService.listType(pageable)返回类似JSON的信息 */
         model.addAttribute("page",typeService.listType(pageable));
         return "admin/types-manage";

@@ -2,7 +2,7 @@ package com.why.home.back_end.web.admin;
 
 
 
-import com.why.home.back_end.entity.Tag;
+import com.why.home.back_end.po.Tag;
 import com.why.home.back_end.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -48,7 +48,7 @@ public class TagController {
                             direction代表排序方式 此处DESC表示倒序----------------- */
     /* Model存储SpringBoot是查询后的信息 */
     public String managePage(@PageableDefault(size = 3 , sort = {"id"} , direction = Sort.Direction.DESC) Pageable pageable, Model model) {
-        /* Model存储查询后的分页信息 从而输出给前端页面 */
+        /* Model存储查询后的分页信息 从而输出给前端页面 进行数据渲染 */
         /* tagService.listTag(pageable)返回类似JSON的信息 */
         model.addAttribute("page",tagService.listTag(pageable));
         return "admin/tags-manage";

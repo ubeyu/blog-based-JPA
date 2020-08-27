@@ -4,7 +4,7 @@ package com.why.home.back_end.service;
 
 import com.why.home.back_end.NotFoundException;
 import com.why.home.back_end.dao.TagRepository;
-import com.why.home.back_end.entity.Tag;
+import com.why.home.back_end.po.Tag;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -58,7 +58,12 @@
 <div class="m-container m-padded-tb-large">
     <div class="ui container">
         <!--上面框选项-->
-        <form action="#" method="post" class="ui segment form">
+        <!--与JS对应，传递form表单内输入的title/typeId等内容，用于局部渲染-->
+        <!--不再用form表单post请求，而是调用JS方法-->
+        <!--form action="#" method="post" class="ui secondary segment form"-->
+        <div class="ui secondary segment form">
+            <!---定义隐含域----将page参数放入form表单内--后台传递page值--用于点击上下页时动态赋值，使查询条件不丢失--->
+            <input type="hidden" name="page">
             <!--上框多个field-->
             <div class="inline fields">
                 <!--标题-->
@@ -68,35 +73,35 @@
                 <!--分类-->
                 <div class="field">
                     <div class="ui selection dropdown">
-                        <input type="hidden" name="type">
+                        <!---定义隐含域----后台传递type值--->
+                        <input type="hidden" name="typeId">
                         <i class="dropdown icon"></i>
                         <div class="default text">分类</div>
                         <div class="menu">
-                            <div class="item" data-value="1">
-                                错误日志
-                            </div>
-                            <div class="item" data-value="2">
-                                开发者手册
-                            </div>
+                            <!--与后端结合 使用th:each="type:${types}"以循环的方式从types对象可以获取所有type对象 -->
+                            <div th:each="type:${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.name}">错误日志</div>
                         </div>
                     </div>
                 </div>
                 <!--推荐-->
                 <div class="field">
                     <div class="ui checkbox">
-                        <input type="checkbox" name="recommend" id="recommend">
-                        <label for="recommend">推荐</label>
+                        <input type="checkbox" name="recommendOpening" id="recommendOpening">
+                        <label for="recommendOpening">推荐</label>
                     </div>
                 </div>
                 <!--搜索-->
                 <div class="field">
-                    <button class="ui basic violet button"><i class="search icon"></i>搜索</button>
+                    <button type="button" id="search-button" class="ui basic violet button"><i class="search icon"></i>搜索</button>
                 </div>
             </div>
-        </form>
+        </div>
         <!--下框表-->
-        <table class="ui celled table">
-            <thead>
+        <!--配合自定义loadData用于实现jQuery的ajax请求方法，通过 HTTP 请求加载远程数据，使用load方法动态获取表格内容，用于局部渲染--<div id="table-container">不用#-->
+        <div id="table-container">
+            <!-- :: blogList用于返回管理页下面的blogList片段，用于局部渲染，除列表显示外，其他区域不刷新，可以在点击上下页时保留查询条件，此处与Controller对应-->
+            <table th:fragment="blogList" class="ui teal celled table">
+                <thead>
                 <tr>
                     <th></th>
                     <th>标题</th>
@@ -105,76 +110,69 @@
                     <th>更新时间</th>
                     <th>操作</th>
                 </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td data-label="标题">James</td>
-                    <td data-label="类型">24</td>
-                    <td data-label="推荐">Engineer</td>
-                    <td data-label="更新时间">James</td>
+                </thead>
+                <tbody>
+                <!--与后端结合 使用th:each以循环的方式从page对象中的content可以获取所有Blog对象 iterStat表示进行循环 -->
+                <tr th:each="blog,iterStat:${page.content}">
+                    <!--使用th:text从iterStat中获取循环索引值-->
+                    <td th:text="${iterStat.count}">1</td>
+                    <!--使用th:text从每个blog对象获取指定字段值-->
+                    <td data-label="标题" th:text="${blog.title}">James</td>
+                    <td data-label="类型" th:text="${blog.type.name}">24</td>
+                    <td data-label="推荐" th:text="${blog.recommendOpening} ? '是' : '否' ">Engineer</td>
+                    <td data-label="更新时间" th:text="${blog.updateTime}">James</td>
                     <td data-label="操作">
-                        <a href="#" class="ui mini teal button">编辑</a>
-                        <a href="#" class="ui mini red button">删除</a>
+                        <!--返回编辑页面-->
+                        <!--------通过Thymeleaf中th:href---Controller---/admin/blogManage----->
+                        <!--使用${blog.id}从每个blog对象获取id 调用update 然后替换路径中（id）-->
+                        <a href="#" th:href="@{/admin/blogManage/update/{id}(id=${blog.id})}" class="ui mini teal button">编辑</a>
+                        <!--返回删除页面-->
+                        <!--使用${blog.id}从每个blog对象获取id 调用delete 然后删除路径中（id）-->
+                        <a href="#" th:href="@{/admin/blogManage/delete/{id}(id=${blog.id})}" class="ui mini red button">删除</a>
                     </td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td data-label="标题">James</td>
-                    <td data-label="类型">24</td>
-                    <td data-label="推荐">Engineer</td>
-                    <td data-label="更新时间">James</td>
-                    <td data-label="操作">
-                        <a href="#" class="ui mini teal button">编辑</a>
-                        <a href="#" class="ui mini red button">删除</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td data-label="标题">James</td>
-                    <td data-label="类型">24</td>
-                    <td data-label="推荐">Engineer</td>
-                    <td data-label="更新时间">James</td>
-                    <td data-label="操作">
-                        <a href="#" class="ui mini teal button">编辑</a>
-                        <a href="#" class="ui mini red button">删除</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td data-label="标题">James</td>
-                    <td data-label="类型">24</td>
-                    <td data-label="推荐">Engineer</td>
-                    <td data-label="更新时间">James</td>
-                    <td data-label="操作">
-                        <a href="#" class="ui mini teal button">编辑</a>
-                        <a href="#" class="ui mini red button">删除</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td data-label="标题">James</td>
-                    <td data-label="类型">24</td>
-                    <td data-label="推荐">Engineer</td>
-                    <td data-label="更新时间">James</td>
-                    <td data-label="操作">
-                        <a href="#" class="ui mini teal button">编辑</a>
-                        <a href="#" class="ui mini red button">删除</a>
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
+                </tbody>
+                <tfoot>
                 <tr>
                     <th colspan="6">
-                        <div class="ui pagination menu">
-                            <a class="icon item">上一页</a>
-                            <a class="icon item">下一页</a>
+                        <!----------------------------这种方式未传递查询值，只传递分页页码，会造成在点击上下页时查询条件丢失------------------------------------------------->
+                        <!--------通过Thymeleaf中th:href---Controller---/admin/blogManage----->
+                        <!--th:if="${page.totalPages>1}"代表如果总页数大于1才显示 上下一页的框-->
+                        <!--
+                        <div class="ui pagination menu" th:if="${page.totalPages>1}">-->
+                        <!--返回上一页-->
+                        <!--使用${page.number}从page对象获取number页数 -1则为上一页-->
+                        <!--反馈到url上 http://localhost:8080/admin/blogManage?page=1 (page>=-1) -->
+                        <!--th:unless="${page.first}"代表如果不是第一页 就显示第上一页按钮-->
+                        <!--     <a th:href="@{/admin/tagManage(page=${page.number}-1)}" class="icon item" th:unless="${page.first}">上一页</a>-->
+                        <!--返回下一页-->
+                        <!--使用${page.number}从page对象获取number页数 +1则为下一页-->
+                        <!--反馈到url上 http://localhost:8080/admin/blogeManage?page=1 (page>=-1) -->
+                        <!--th:unless="${page.last}"代表如果不是最后一页 就显示第下一页按钮-->
+                        <!--    <a th:href="@{/admin/tagManage(page=${page.number}+1)}" class="icon item" th:unless="${page.last}">下一页</a>-->
+                        <!-- </div>-->
+                        <!---------------------------这种方式未传递查询值，只传递分页页码，会造成在点击上下页时查询条件丢失------------------------------------------------->
+
+                        <div class="ui pagination menu" th:if="${page.totalPages>1}">
+                            <!----返回上一页----------------------------------------------------------
+                                    onclick="page()"当点击上下页时调用page的js方法，动态处理form表单中page属性值，从而传递对象，最终提交表单请求数据；
+                                    data-page为自定义数据类型
+                             ----------------------------------------------------------------------->
+                            <a onclick="page(this)" th:attr="data-page=${page.number}-1" class="icon item" th:unless="${page.first}">上一页</a>
+                            <!--返回下一页----------------------------------------------------------->
+                            <a onclick="page(this)" th:attr="data-page=${page.number}+1" class="icon item" th:unless="${page.last}">下一页</a>
                         </div>
-                        <a href="#" class="ui right floated blue button">新增</a>
+
+                        <!--新增-->
+                        <!--------通过Thymeleaf中th:href---Controller---/admin/blogManage/add----->
+                        <!--使用/admin/blogManage/add进入新增页-->
+                        <a href="#" th:href="@{/admin/blogManage/add}" class="ui right floated blue button">新增</a>
                     </th>
                 </tr>
-            </tfoot>
-        </table>
+                </tfoot>
+            </table>
+        </div>
+
     </div>
 </div>
 </div>
@@ -240,6 +238,28 @@
                 on:'hover',
                 transition: 'drop'
             });
+        //点击搜索按钮脚本<div id="table-container">不用#
+        $('#search-button').click(function () {
+            loadData();
+        });
+        //用于点击上下页时动态处理form表单中page属性值
+        function page(obj) {
+            //name='page'获取隐含域，val用于对其赋obj的值，obj为点击时生成对象，.data()为自定义的data-page值
+            $("[name='page']").val($(obj).data("page"));
+            //点击上下页时也需要调用此方法
+            loadData();
+        }
+        //不能再使用form表单的submit请求，自定义loadData用于实现jQuery的ajax请求方法，通过 HTTP 请求加载远程数据，使用load方法动态获取表格内容
+        function loadData() {
+            //"#table-container"代表外层div，使用load方法请求地址，传递form表单内输入的title/typeId等内容
+            ///*[[@{/admin/blogManage/search}]]*/为thymeleaf写法
+            $("#table-container").load(/*[[@{/admin/blogManage/search}]]*/"/admin/blogManage/search",{
+                title: $("[name='title']").val(),
+                typeId: $("[name='typeId']").val(),
+                recommendOpening: $("[name='recommendOpening']").prop('checked'),
+                page: $("[name='page']").val()
+            });
+        }
     </script>
 
 
