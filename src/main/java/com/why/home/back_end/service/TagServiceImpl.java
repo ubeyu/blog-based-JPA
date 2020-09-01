@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 /*---------------------------------------------------------------
               TagServiceImpl Release 1.0
@@ -68,6 +70,36 @@ public class TagServiceImpl implements TagService {
         /*-------分页查询Page<Type>对象-----*/
         return tagRepository.findAll(pageable);
     }
+
+    /*------获取全部标签-----用于博客管理页面分类下拉框的展示和选择---*/
+    @Override
+    @Transactional
+    public List<Tag> listTag() {
+        return tagRepository.findAll();
+    }
+
+
+
+    /*------获取对应博客的标签Id列表-----用于博客新增---------*/
+    @Override
+    @Transactional
+    public List<Tag> listTag(String ids) {
+        /*------此版本findAll()已经变为findAllById()，可根据Id的集合获取对象的集合-----*/
+        return tagRepository.findAllById(listGetIDs(ids));
+
+    }
+    /*------从字符"1,2,3,5,12,54..."中获取List[1,2,3,5...]数组的方法--------*/
+    public List<Long> listGetIDs(String ids){  //Ids=1,2,3...
+        List<Long> listIds=new ArrayList<>();
+        if(ids != null && "".equals(ids)){
+           String[] idsArray=ids.split(",");
+           for(String idArray:idsArray){
+               listIds.add(Long.valueOf(idArray));
+           }
+        }
+        return listIds;
+    }
+
 
     /*--------更新---@Transactional将操作放入事务中-----*/
     @Transactional

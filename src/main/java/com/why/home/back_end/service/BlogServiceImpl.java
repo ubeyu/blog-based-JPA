@@ -20,6 +20,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /*---------------------------------------------------------------
@@ -44,6 +45,10 @@ public class BlogServiceImpl implements BlogService {
     @Transactional
     @Override
     public Blog saveBlog(Blog blog) {
+        /*--------对创建/更新日期/浏览次数设置-----*/
+        blog.setCreateTime(new Date());
+        blog.setUpdateTime(new Date());
+        blog.setViews(0);
         return blogRepository.save(blog);
     }
 
@@ -99,6 +104,7 @@ public class BlogServiceImpl implements BlogService {
     /*--------分页查询---@Transactional将操作放入事务中-----*/
     /*--------根据Pageable类型和Blog条件（分类/标签/是否推荐）查询--返回一个Page<Blog>-----*/
     /* Blog换为BlogQuery 构造的查询对象 */
+    @Transactional
     @Override
     public Page<Blog> listBlogQuery(Pageable pageable, BlogQuery blogQuery) {
         return blogRepository.findAll(new Specification<Blog>() {

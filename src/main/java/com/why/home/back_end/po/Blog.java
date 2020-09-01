@@ -47,6 +47,11 @@ public class Blog {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateTime;
 
+    /*@Transient表示不会进入数据库的字段*/
+    @Transient
+    /*ids表示新增博客时由前端获取的"1,2,3..."形式的String字符串*/
+    private String tagIds;
+
     /*----------------------------处理实体类之间关系(开始线)-----------------------------------*/
     /*---多个Blog对应一个Type用ManyToOne---*/
     /*---作为关系被维护端---*/
@@ -101,6 +106,14 @@ public class Blog {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTagIds() {
+        return tagIds;
+    }
+
+    public void setTagIds(String tagIds) {
+        this.tagIds = tagIds;
     }
 
     public String getTitle() {
@@ -183,7 +196,7 @@ public class Blog {
         this.recommendOpening = recommendOpening;
     }
 
-    public Date getCreateTime() {
+    public Date getCreateTime(Date date) {
         return createTime;
     }
 

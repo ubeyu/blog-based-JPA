@@ -57,6 +57,13 @@
 <!--中间-->
 <div class="m-container m-padded-tb-large">
     <div class="ui container">
+
+        <!-------由RedirectAttributes输入 增加上方自定义提示消息 使用Thymeleaf进行判断 标签名称输入不为空时提示消息------->
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i><div class="header">提示：</div>
+            <p th:text="${message}">操作成功！</p>
+        </div>
+
         <!--上面框选项-->
         <!--与JS对应，传递form表单内输入的title/typeId等内容，用于局部渲染-->
         <!--不再用form表单post请求，而是调用JS方法-->
@@ -72,15 +79,21 @@
                 </div>
                 <!--分类-->
                 <div class="field">
-                    <div class="ui selection dropdown">
-                        <!---定义隐含域----后台传递type值--->
-                        <input type="hidden" name="typeId">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">分类</div>
-                        <div class="menu">
-                            <!--与后端结合 使用th:each="type:${types}"以循环的方式从types对象可以获取所有type对象 -->
-                            <div th:each="type:${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.name}">错误日志</div>
+                    <div class="ui labeled input">
+                        <div class="ui type selection dropdown">
+                            <!---定义隐含域----后台传递type值--->
+                            <input type="hidden" name="typeId">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">分类</div>
+                            <div class="menu">
+                                <!--与后端结合 使用th:each="type:${types}"以循环的方式从types对象可以获取所有type对象 -->
+                                <div th:each="type:${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.name}">错误日志</div>
+                            </div>
                         </div>
+                        <!--清除-->
+                        <button class="ui compact clear button">
+                            Clear
+                        </button>
                     </div>
                 </div>
                 <!--推荐-->
@@ -96,6 +109,7 @@
                     <!--button class="ui basic violet button"><i class="search icon"></i>搜索</button-->
                     <button type="button" id="search-button" class="ui basic violet button"><i class="search icon"></i>搜索</button>
                 </div>
+
             </div>
         </div>
         <!--下框表-->
@@ -109,6 +123,7 @@
                     <th>标题</th>
                     <th>类型</th>
                     <th>推荐</th>
+                    <th>状态</th>
                     <th>更新时间</th>
                     <th>操作</th>
                 </tr>
@@ -122,6 +137,7 @@
                     <td data-label="标题" th:text="${blog.title}">James</td>
                     <td data-label="类型" th:text="${blog.type.name}">24</td>
                     <td data-label="推荐" th:text="${blog.recommendOpening} ? '是' : '否' ">Engineer</td>
+                    <td data-label="发布" th:text="${blog.publishOpening} ? '发布' : '草稿' ">草稿</td>
                     <td data-label="更新时间" th:text="${blog.updateTime}">James</td>
                     <td data-label="操作">
                         <!--返回编辑页面-->
@@ -136,7 +152,8 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <th colspan="6">
+                    <!--新增框所在列-->
+                    <th colspan="7">
                         <!----------------------------这种方式未传递查询值，只传递分页页码，会造成在点击上下页时查询条件丢失------------------------------------------------->
                         <!--------通过Thymeleaf中th:href---Controller---/admin/blogManage----->
                         <!--th:if="${page.totalPages>1}"代表如果总页数大于1才显示 上下一页的框-->
@@ -173,6 +190,7 @@
                 </tr>
                 </tfoot>
             </table>
+
         </div>
 
     </div>
@@ -240,8 +258,26 @@
                 on:'hover',
                 transition: 'drop'
             });
+        //消息提示关闭脚本
+        $('.message .close')
+            .on('click',function () {
+                $(this)
+                    .closest('.message')
+                    .transition('fade');
+            });
+        //搜索清除脚本<div id="table-container">不用#
+        $('.clear.button')
+            .on('click', function() {
+                $('.type.ui.dropdown')
+                    .dropdown('clear')
+                ;
+            })
+        ;
         //点击搜索按钮脚本<div id="table-container">不用#
         $('#search-button').click(function () {
+            //name='page'获取隐含域，val用于对其赋obj的值，obj为点击时生成对象，.data()为自定义的data-page值
+            //点击搜索时，对原有状态清零
+            $("[name='page']").val(0);
             loadData();
         });
         //用于点击上下页时动态处理form表单中page属性值

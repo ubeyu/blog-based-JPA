@@ -4,6 +4,8 @@ import com.why.home.back_end.po.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /*---------------------------------------------------------------
               TagsService Release 1.0
 ;  Copyright (c) 2020-2020 by why Co.
@@ -25,6 +27,12 @@ public interface TagService {
 
     /*------定义分页查询的接口---根据Pageable类型查询--返回一个Page<Type>-----*/
     Page<Tag> listTag(Pageable pageable);
+
+    /*------定义获取全部标签的接口----返回一个List<Tag>--用于博客管理页面分类下拉框的展示和选择---*/
+    List<Tag> listTag();
+
+    /*------定义获取博客标签的接口----返回一个List<Tag>--用于博客新增---*/
+    List<Tag> listTag(String ids);  //ids=1,2,3...
 
     /*------定义修改标签的接口---根据Long类型id查询--然后根据Type类型修改-----*/
     Tag updateTag(Long id, Tag tag);
