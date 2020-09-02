@@ -51,7 +51,7 @@
     <div class="ui container">
         <div class="right menu">
             <a href="#" th:href="@{/admin/tagManage}" class="item">列表</a>
-            <a href="#" th:href="@{/admin/tagManage/add}" class="teal active item">新增</a>
+            <a href="#" th:href="@{/admin/tagManage/add}" class="teal active item">发布</a>
         </div>
     </div>
 </div>
@@ -61,8 +61,8 @@
     <div class="ui container">
         <!--------method="post"表单以post方式提交 对应Controller中Post----------->
         <!--------通过Thymeleaf中th:action与后台管理连接------将表单输入的分类名称提交给Controller---/admin/tagManage----->
-        <!---后端校验提示内容：th:object="${tag}"用来从后端控制器获取tag对象--->
-        <!---（需要放在th:object后才能获取id）th:action="*{id} == null? @{/admin/tagManage}:@{/admin/tagManage/{id}}"用来判断是[新增]还是[修改]--->
+        <!---后端校验提示内容：th:object="${tag}"用来从后端控制器获取tag对象---对新的页面按之前值进行初始化--修改用-->
+         <!---（需要放在th:object后才能获取id）th:action="*{id} == null? @{/admin/tagManage}:@{/admin/tagManage/{id}}"用来判断是[新增]还是[修改]--->
         <form action="#" method="post" th:object="${tag}" th:action="*{id} == null? @{/admin/tagManage/add}:@{/admin/tagManage/update/{id}(id=*{id})}" class="ui form">
             <!---定义隐含域----后台传递id值--->
             <input type="hidden" name="id" th:value="*{id}">

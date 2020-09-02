@@ -86,12 +86,11 @@ public class TagServiceImpl implements TagService {
     public List<Tag> listTag(String ids) {
         /*------此版本findAll()已经变为findAllById()，可根据Id的集合获取对象的集合-----*/
         return tagRepository.findAllById(listGetIDs(ids));
-
     }
-    /*------从字符"1,2,3,5,12,54..."中获取List[1,2,3,5...]数组的方法--------*/
+    /*-----String转list----从字符"1,2,3,5,12,54..."中获取List[1,2,3,5...]数组的方法--------*/
     public List<Long> listGetIDs(String ids){  //Ids=1,2,3...
         List<Long> listIds=new ArrayList<>();
-        if(ids != null && "".equals(ids)){
+        if(!"".equals(ids) && ids != null){
            String[] idsArray=ids.split(",");
            for(String idArray:idsArray){
                listIds.add(Long.valueOf(idArray));

@@ -28,8 +28,8 @@ public interface BlogService {
     /*------定义分页查询的接口---根据Pageable类型和BlogQuery条件（分类/标签/是否推荐）查询--返回一个Page<Blog>-----*/
     Page<Blog> listBlogQuery(Pageable pageable, BlogQuery blogQuery);
 
-    /*------定义修改博客的接口---根据Long类型id查询--然后根据Blog类型修改-----*/
-    Blog updateBlog(Long id, Blog blog);
+    /*------定义修改博客的接口---直接保存更新时间（根据Long类型id查询--然后根据Blog类型修改）-----*/
+    Blog updateBlog(Blog blog);
 
     /*------定义删除博客的接口---根据Long类型的id删除--使用void方法-----*/
     void deleteBlog(Long id);

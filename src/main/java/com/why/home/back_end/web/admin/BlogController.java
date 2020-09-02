@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -68,6 +69,7 @@ public class BlogController {
     }
     /*-------------------------------------------------博客列表页面显示逻辑（结束）------------------------------------------------------------*/
 
+
     /*-------------------------------------------------博客页面查询显示逻辑（只刷新博客列表）------------------------------------------------------------*/
     /* PostMapping 返回查询页 */
     /* 加参数 同样在全局/admin下访问 即/admin/blogManage/search */
@@ -80,6 +82,7 @@ public class BlogController {
 
     }
     /*-------------------------------------------------博客页面查询显示逻辑（只刷新博客列表）------------------------------------------------------------*/
+
 
     /*-------------------------------------------------博客新增页面提交逻辑（开始）------------------------------------------------------------*/
     /* 通过Post请求路径 提交输入的分类名称 用于新增博客 */
@@ -119,13 +122,79 @@ public class BlogController {
     /* 后端校验提示内容： 使用model 用于前端→后端 增加一个新的Blog对象 */
     public String addBlogPage(Model model) {
         /* Model存储所有分类信息List 从而输出给前端页面 进行数据渲染 */
-        /* typeService.listType()、tagService.listTag()返回类似JSON的信息 */
-        model.addAttribute("types",typeService.listType());
-        model.addAttribute("tags",tagService.listTag());
+        setTypeAndTagModel(model);
         /* 后端校验提示内容： 使用model 增加一个新的Blog对象 */
         model.addAttribute("blog", new Blog());
         return "admin/blogs-publish";
     }
-    /*-------------------------------------------------博客增加页面显示逻辑（结束）------------------------------------------------------------*/
+    /*-------------------------------------------------博客新增页面显示逻辑（结束）------------------------------------------------------------*/
 
+
+    /*-------------------------------------------------博客修改页面提交逻辑（开始）------------------------------------------------------------*/
+    /* 通过Post请求路径 提交输入的分类名称 用于修改博客 */
+    /* Post和Get类型不一样 所以参数一样也不冲突 */
+    /* HttpSession用于获取当前登录用户 */
+    /*  @PathVariable与{id}对应 保证url中的id能作为参数输入Post */
+    @PostMapping("/blogManage/update/{id}")
+    public String updateBlogPost(@PathVariable Long id,Blog blog,
+                              RedirectAttributes attributes,
+                              HttpSession session){
+        blog.setUser((User) session.getAttribute("user"));
+        blog.setType(typeService.getType(blog.getType().getId()));
+        blog.setTags(tagService.listTag(blog.getTagIds()));
+
+        /*-----------------blog_added校验信息输出逻辑（开始）--------------------*/
+        /* 定义新增后的Blog对象 */
+        Blog blog_added = blogService.updateBlog(blog);
+        /* 如果对象为空 */
+        if(blog_added == null){
+            /* 由于使用重定向 后端→前端 给前端页面提示需要用attributes.addFlashAttribute */
+            /* 切换页面 不能用post加Model model参数 会造成重定向后 返回页面无法拿到数据 需要用model.addAttribute的方式 */
+            attributes.addFlashAttribute("message","修改失败！");
+        }else{
+            attributes.addFlashAttribute("message","修改成功！");
+        }
+        /* 需要用重定向 否则返回不了新输入的数据 */
+        return "redirect:/admin/blogManage";
+        /*-----------------blog_added校验信息输出逻辑（结束）--------------------*/
+    }
+    /*-------------------------------------------------博客修改页面提交逻辑（结束）------------------------------------------------------------*/
+    /*-------------------------------------------------博客修改页面显示逻辑（开始）------------------------------------------------------------*/
+    /* 通过Get请求路径 返回修改页 */
+    /* 加参数 同样在全局/admin下访问 即/admin/blogManage/update/{id} @PathVariable与{id}对应 保证id能输出到url */
+    @GetMapping("/blogManage/update/{id}")
+    /* 后端校验提示内容： 使用model 用于前端→后端 利用id查询对应Blog对象 */
+    public String updateBlogPage(@PathVariable Long id, Model model) {
+        /* Model存储所有分类信息List 从而输出给前端页面 进行数据渲染 */
+        setTypeAndTagModel(model);
+        /*---------------init()用于前端页面拿到"1,2,3..."形式的tagIds值------------*/
+        Blog blog=blogService.getBlog(id);
+        blog.init();
+        /* 使用model 利用id查询对应Blog对象 */
+        model.addAttribute("blog", blog);
+        return "admin/blogs-publish";
+    }
+    /*-------------------------------------------------博客修改页面显示逻辑（结束）------------------------------------------------------------*/
+
+    /*-------------------------------------------------博客删除页面提交逻辑（开始）------------------------------------------------------------*/
+    /* 通过Get请求路径 返回删除页 */
+    /* 加参数 同样在全局/admin下访问 即/admin/blogManage/delete/{id} @PathVariable与{id}对应 保证url中的id能作为参数输入Post*/
+    @GetMapping("/blogManage/delete/{id}")
+    public String deleteTagPage(@PathVariable Long id,RedirectAttributes attributes) {
+        blogService.deleteBlog(id);
+        /* 通过RedirectAttributes 加校验反馈消息 与redirect连用 */
+        attributes.addFlashAttribute("message","删除成功！");
+        /* 修改后一定重定向 否则返回500 */
+        return "redirect:/admin/blogManage";
+    }
+    /*-------------------------------------------------博客删除页面提交逻辑（结束）------------------------------------------------------------*/
+
+
+
+    /* 用于返回前端指定字段信息 */
+    private void setTypeAndTagModel(Model model){
+        /* typeService.listType()、tagService.listTag()返回类似JSON的信息 */
+        model.addAttribute("types",typeService.listType());
+        model.addAttribute("tags",tagService.listTag());
+    }
 }

@@ -60,7 +60,6 @@ public class BlogServiceImpl implements BlogService {
         return blogRepository.findById(id).get();
     }
 
-
     @Transactional
     @Override
     public Page<Blog> listBlog(Pageable pageable, Blog blog) {
@@ -127,18 +126,21 @@ public class BlogServiceImpl implements BlogService {
     }
 
     /*--------更新---@Transactional将操作放入事务中-----*/
+    /*--------一直报错"Id={46"是对此处修改有问题-----*/
+    /*-------错误代码：
+            首先根据id查blog
+                Blog blog_cur=blogRepository.findById(id).get();
+                if(blog_cur == null){
+                    --------未查到则抛出异常---
+                    throw new NotFoundException("该博客不存在");
+                }
+             -----------------------------------------------*/
     @Transactional
     @Override
-    public Blog updateBlog(Long id, Blog blog) {
-        /*--------首先根据id查blog-----*/
-        Blog blog_cur=blogRepository.findById(id).get();
-        if(blog_cur == null){
-            /*--------未查到则抛出异常-----*/
-            throw new NotFoundException("该博客不存在");
-        }
-        /*--------将blog属性复制到blog_cur-----*/
-        BeanUtils.copyProperties(blog,blog_cur);
-        return blogRepository.save(blog_cur);
+    public Blog updateBlog(Blog blog) {
+        /*--------对更新日期修改-----*/
+        blog.setUpdateTime(new Date());
+        return blogRepository.save(blog);
     }
 
     /*--------删除---@Transactional将操作放入事务中----*/

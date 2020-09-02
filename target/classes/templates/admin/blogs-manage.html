@@ -49,7 +49,7 @@
     <div class="ui container">
         <div class="right menu">
             <a href="#" th:href="@{/admin/blogManage}" class="teal active item">列表</a>
-            <a href="#" th:href="@{/admin/blogManage/add}" class="item">新增</a>
+            <a href="#" th:href="@{/admin/blogManage/add}" class="item">发布</a>
         </div>
     </div>
 </div>
@@ -124,6 +124,7 @@
                     <th>类型</th>
                     <th>推荐</th>
                     <th>状态</th>
+                    <th>权限</th>
                     <th>更新时间</th>
                     <th>操作</th>
                 </tr>
@@ -138,6 +139,7 @@
                     <td data-label="类型" th:text="${blog.type.name}">24</td>
                     <td data-label="推荐" th:text="${blog.recommendOpening} ? '是' : '否' ">Engineer</td>
                     <td data-label="发布" th:text="${blog.publishOpening} ? '发布' : '草稿' ">草稿</td>
+                    <td data-label="权限" th:text="${blog.flag}">草稿</td>
                     <td data-label="更新时间" th:text="${blog.updateTime}">James</td>
                     <td data-label="操作">
                         <!--返回编辑页面-->
@@ -153,7 +155,7 @@
                 <tfoot>
                 <tr>
                     <!--新增框所在列-->
-                    <th colspan="7">
+                    <th colspan="8">
                         <!----------------------------这种方式未传递查询值，只传递分页页码，会造成在点击上下页时查询条件丢失------------------------------------------------->
                         <!--------通过Thymeleaf中th:href---Controller---/admin/blogManage----->
                         <!--th:if="${page.totalPages>1}"代表如果总页数大于1才显示 上下一页的框-->

@@ -244,6 +244,48 @@ public class Blog {
         this.comments = comments;
     }
 
+    /*---------------init()用于前端页面拿到"1,2,3..."形式的tagIds值--------
+    public void init(){
+        this.tagIds=listToString(this.getTags());
+    }----*/
+    /*---方法用于将list类型的tags转换为带","的String，输出给前端页面----
+    private String listToString(List<Tag> tags){
+        StringBuffer sb=new StringBuffer();
+        if(!tags.isEmpty()){
+            boolean flag=false;
+            for(int i=0;i<tags.size()-1;i++){
+                sb.append(tags.get(i)+",");
+            }
+            sb.append(tags.get(tags.size()-1));
+        }
+        return sb.toString();
+    }--*/
+
+
+    public void init() {
+        this.tagIds = tagsToIds(this.getTags());
+    }
+    //1,2,3
+    private String tagsToIds(List<Tag> tags) {
+        if (!tags.isEmpty()) {
+            StringBuffer ids = new StringBuffer();
+            boolean flag = false;
+            for (Tag tag : tags) {
+                if (flag) {
+                    ids.append(",");
+               } else {
+                    flag = true;
+                }
+                ids.append(tag.getId());
+            }
+            return ids.toString();
+        } else {
+            return tagIds;
+        }
+    }
+
+
+
     /*生成toString方法，主要用于日志输出*/
     @Override
     public String toString() {
