@@ -29,9 +29,10 @@ public class Blog {
     @GeneratedValue
     /*id表示对应数据表主键*/
     private Long id;
-    /*分别表示标题、内容、首图、标记、浏览次数、赞赏开启、版权开启、评论开启、是否发布、是否推荐、创建时间、更新时间*/
+    /*分别表示标题、内容、页面描述、首图、标记、浏览次数、赞赏开启、版权开启、评论开启、是否发布、是否推荐、创建时间、更新时间*/
     private String title;
     private String content;
+    private String description;
     private String topPicture;
     private String flag;
     private Integer views;
@@ -108,14 +109,6 @@ public class Blog {
         this.id = id;
     }
 
-    public String getTagIds() {
-        return tagIds;
-    }
-
-    public void setTagIds(String tagIds) {
-        this.tagIds = tagIds;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -130,6 +123,14 @@ public class Blog {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getTopPicture() {
@@ -196,7 +197,9 @@ public class Blog {
         this.recommendOpening = recommendOpening;
     }
 
-    public Date getCreateTime(Date date) {
+    /*---------org.springframework.beans.NotReadablePropertyException: Invalid property of bean class Bean property is not readable or has an invalid getter method
+                                        原因是getCreateTime()乱入了参数Date createTime                                                                                  ----*/
+    public Date getCreateTime() {
         return createTime;
     }
 
@@ -244,6 +247,15 @@ public class Blog {
         this.comments = comments;
     }
 
+
+    public String getTagIds() {
+        return tagIds;
+    }
+
+    public void setTagIds(String tagIds) {
+        this.tagIds = tagIds;
+    }
+
     /*---------------init()用于前端页面拿到"1,2,3..."形式的tagIds值--------
     public void init(){
         this.tagIds=listToString(this.getTags());
@@ -284,8 +296,6 @@ public class Blog {
         }
     }
 
-
-
     /*生成toString方法，主要用于日志输出*/
     @Override
     public String toString() {
@@ -293,6 +303,7 @@ public class Blog {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", description='" + description + '\'' +
                 ", topPicture='" + topPicture + '\'' +
                 ", flag='" + flag + '\'' +
                 ", views=" + views +
@@ -303,6 +314,11 @@ public class Blog {
                 ", recommendOpening=" + recommendOpening +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", tagIds='" + tagIds + '\'' +
+                ", type=" + type +
+                ", user=" + user +
+                ", tags=" + tags +
+                ", comments=" + comments +
                 '}';
     }
 }

@@ -34,6 +34,9 @@ public interface TagService {
     /*------定义获取博客标签的接口----返回一个List<Tag>--用于博客新增---*/
     List<Tag> listTag(String ids);  //ids=1,2,3...
 
+    /*------定义获取文章最多的标签排行List的接口----返回一个List<Tag>--用于用户页面展示 size表示显示排行前几个---*/
+    List<Tag> listTagTop(Integer size);
+
     /*------定义修改标签的接口---根据Long类型id查询--然后根据Type类型修改-----*/
     Tag updateTag(Long id, Tag tag);
 

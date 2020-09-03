@@ -14,3 +14,5 @@ My blog source code(Optimizing)
 2020/09/01 Blog publishing function is added.
 
 2020/09/02 Back_end management function is completed.
+
+2020/09/03 Home display and global query are completed.

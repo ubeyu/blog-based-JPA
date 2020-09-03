@@ -2,7 +2,11 @@ package com.why.home.back_end.dao;
 
 
 import com.why.home.back_end.po.Type;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /*---------------------------------------------------------------------
          TypeRepository接口 <继承JpaRepository<Type,Long>> Release 1.0
@@ -22,5 +26,13 @@ public interface TypeRepository extends JpaRepository<Type,Long> {
 
     /*------Jpa TypeRepository未定义---自定义查询分类的接口---根据String类型的name查询-----*/
     Type findByName(String name);
+
+
+    /*------ 简单定义接口 在Service中实现-----*/
+    /*------ @Query("")自定义查询-----*/
+    @Query("select t from Type t")
+        /*------Pageable根据分页对象传递参数，分页对象内有排序及大小-----*/
+    List<Type> findTopType(Pageable pageable);
+
 
 }

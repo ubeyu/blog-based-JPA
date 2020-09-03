@@ -51,12 +51,54 @@
                         <h3 class="ui teal header">博客</h3>
                     </div>
                     <div class="right aligned column">
-                        共 <h3 class="ui orange header m-inline-block m-text-thin">14</h3> 篇
+                        共 <h3 class="ui orange header m-inline-block m-text-thin" th:text="${page.totalElements}">14</h3> 篇
                     </div>
                 </div>
             </div>
             <!----文章列表---->
-            <div class="ui teal segment ">
+            <div class="ui teal top attached segment ">
+                <!----不需要获取id则不用加"blog,iterStat:${page.content}"中的iterStat--->
+                <div class="ui padded vertical segment" th:each="blog:${page.content}">
+                    <div class="ui middle aligned mobile reversed stackable grid">
+                        <div class="eleven wide column">
+                            <h3 class="ui header">
+                                <a href="#" th:href="@{/blogs/{id}(id=${blog.id})}" th:text="${blog.title}" target="_blank">Vue简单入门</a>
+                            </h3>
+                            <!--------th:text="|${blog.description}...|"用于连接字符串------->
+                            <p class="m-text-article" th:text="|${blog.description}......|">本文将对Vue的常用系统指令进行学习，包括v-on 指令、v-text 、v-html、v-blind指令、v-model指令、v-for指令、v-if 与 v-show指令，每个指令都给出案例进行演示......</p>
+                            <div class="ui middle aligned grid">
+                                <div class="twelve wide column">
+                                    <div class="ui mini horizontal link list">
+                                        <div class="item">
+                                            <img src="../static/images/myavatar.jpg" th:src="@{${blog.user.avatar}}" class="ui avatar image">
+                                            <div class="content">
+                                                <a href="#" class="header" th:text="${blog.user.nickname}">wanghaoyang</a>
+                                            </div>
+                                        </div>
+                                        <!----blog.updateTime格式化方法---->
+                                        <div class="item">
+                                            <!----！！！！span用于行内组合！！！！---->
+                                            <i class="calendar alternate icon"></i><span th:text="${#dates.format(blog.updateTime, 'yyyy-MM-dd')}"></span>
+                                        </div>
+                                        <div class="item">
+                                            <i class="eye icon"></i><span th:text="${blog.views}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="right aligned four wide column">
+                                    <a href="#" target="_blank" class="ui teal basic label m-padded-tb-small" th:text="${blog.type.name}">分类</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" five wide column">
+                            <a href="a" th:href="@{/blogs/{id}(id=*{blog.id})}" target="_blank" class="align-center" >
+                                <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" th:src="@{${blog.topPicture}}" style="height: 11em;width: 18em" class="ui rounded image">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!---静态页面显示 动态页面不显示--->
+                <!--/*-->
                 <div class="ui padded vertical segment">
                     <div class="ui mobile reversed stackable grid">
                         <div class="eleven wide column">
@@ -123,411 +165,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="ui padded vertical segment">
-                    <div class="ui mobile reversed stackable grid">
-                        <div class="eleven wide column">
-                            <h3 class="ui header">Vue简单入门</h3>
-                            <p class="m-text-article">本文将对Vue的常用系统指令进行学习，包括v-on 指令、v-text 、v-html、v-blind指令、v-model指令、v-for指令、v-if 与 v-show指令，每个指令都给出案例进行演示......</p>
-                            <div class="ui grid ">
-                                <div class="twelve wide column">
-                                    <div class="ui mini horizontal link list">
-                                        <div class="item">
-                                            <img src="../static/images/myavatar.jpg" th:src="@{/images/myavatar.jpg}" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">wanghaoyang</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar alternate icon"></i>2020-8-12
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>12
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="right aligned four wide column">
-                                    <a href="#" target="_blank" class="ui teal basic label m-padded-tb-small">标签</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" five wide column">
-                            <a href="a" target="_blank" class="align-center" >
-                                <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"  class="ui rounded image">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui padded vertical segment">
-                    <div class="ui mobile reversed stackable grid">
-                        <div class="eleven wide column">
-                            <h3 class="ui header">Vue简单入门</h3>
-                            <p class="m-text-article">本文将对Vue的常用系统指令进行学习，包括v-on 指令、v-text 、v-html、v-blind指令、v-model指令、v-for指令、v-if 与 v-show指令，每个指令都给出案例进行演示......</p>
-                            <div class="ui grid ">
-                                <div class="twelve wide column">
-                                    <div class="ui mini horizontal link list">
-                                        <div class="item">
-                                            <img src="../static/images/myavatar.jpg" th:src="@{/images/myavatar.jpg}" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">wanghaoyang</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar alternate icon"></i>2020-8-12
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>12
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="right aligned four wide column">
-                                    <a href="#" target="_blank" class="ui teal basic label m-padded-tb-small">标签</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" five wide column">
-                            <a href="a" target="_blank" class="align-center" >
-                                <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"  class="ui rounded image">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui padded vertical segment">
-                    <div class="ui mobile reversed stackable grid">
-                        <div class="eleven wide column">
-                            <h3 class="ui header">Vue简单入门</h3>
-                            <p class="m-text-article">本文将对Vue的常用系统指令进行学习，包括v-on 指令、v-text 、v-html、v-blind指令、v-model指令、v-for指令、v-if 与 v-show指令，每个指令都给出案例进行演示......</p>
-                            <div class="ui grid ">
-                                <div class="twelve wide column">
-                                    <div class="ui mini horizontal link list">
-                                        <div class="item">
-                                            <img src="../static/images/myavatar.jpg" th:src="@{/images/myavatar.jpg}" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">wanghaoyang</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar alternate icon"></i>2020-8-12
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>12
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="right aligned four wide column">
-                                    <a href="#" target="_blank" class="ui teal basic label m-padded-tb-small">标签</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" five wide column">
-                            <a href="a" target="_blank" class="align-center" >
-                                <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"  class="ui rounded image">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui padded vertical segment">
-                    <div class="ui mobile reversed stackable grid">
-                        <div class="eleven wide column">
-                            <h3 class="ui header">Vue简单入门</h3>
-                            <p class="m-text-article">本文将对Vue的常用系统指令进行学习，包括v-on 指令、v-text 、v-html、v-blind指令、v-model指令、v-for指令、v-if 与 v-show指令，每个指令都给出案例进行演示......</p>
-                            <div class="ui grid ">
-                                <div class="twelve wide column">
-                                    <div class="ui mini horizontal link list">
-                                        <div class="item">
-                                            <img src="../static/images/myavatar.jpg" th:src="@{/images/myavatar.jpg}" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">wanghaoyang</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar alternate icon"></i>2020-8-12
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>12
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="right aligned four wide column">
-                                    <a href="#" target="_blank" class="ui teal basic label m-padded-tb-small">标签</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" five wide column">
-                            <a href="a" target="_blank" class="align-center" >
-                                <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"  class="ui rounded image">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui padded vertical segment">
-                    <div class="ui mobile reversed stackable grid">
-                        <div class="eleven wide column">
-                            <h3 class="ui header">Vue简单入门</h3>
-                            <p class="m-text-article">本文将对Vue的常用系统指令进行学习，包括v-on 指令、v-text 、v-html、v-blind指令、v-model指令、v-for指令、v-if 与 v-show指令，每个指令都给出案例进行演示......</p>
-                            <div class="ui grid ">
-                                <div class="twelve wide column">
-                                    <div class="ui mini horizontal link list">
-                                        <div class="item">
-                                            <img src="../static/images/myavatar.jpg" th:src="@{/images/myavatar.jpg}" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">wanghaoyang</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar alternate icon"></i>2020-8-12
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>12
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="right aligned four wide column">
-                                    <a href="#" target="_blank" class="ui teal basic label m-padded-tb-small">标签</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" five wide column">
-                            <a href="a" target="_blank" class="align-center" >
-                                <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"  class="ui rounded image">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui padded vertical segment">
-                    <div class="ui mobile reversed stackable grid">
-                        <div class="eleven wide column">
-                            <h3 class="ui header">Vue简单入门</h3>
-                            <p class="m-text-article">本文将对Vue的常用系统指令进行学习，包括v-on 指令、v-text 、v-html、v-blind指令、v-model指令、v-for指令、v-if 与 v-show指令，每个指令都给出案例进行演示......</p>
-                            <div class="ui grid ">
-                                <div class="twelve wide column">
-                                    <div class="ui mini horizontal link list">
-                                        <div class="item">
-                                            <img src="../static/images/myavatar.jpg" th:src="@{/images/myavatar.jpg}" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">wanghaoyang</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar alternate icon"></i>2020-8-12
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>12
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="right aligned four wide column">
-                                    <a href="#" target="_blank" class="ui teal basic label m-padded-tb-small">标签</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" five wide column">
-                            <a href="a" target="_blank" class="align-center" >
-                                <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"  class="ui rounded image">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui padded vertical segment">
-                    <div class="ui mobile reversed stackable grid">
-                        <div class="eleven wide column">
-                            <h3 class="ui header">Vue简单入门</h3>
-                            <p class="m-text-article">本文将对Vue的常用系统指令进行学习，包括v-on 指令、v-text 、v-html、v-blind指令、v-model指令、v-for指令、v-if 与 v-show指令，每个指令都给出案例进行演示......</p>
-                            <div class="ui grid ">
-                                <div class="twelve wide column">
-                                    <div class="ui mini horizontal link list">
-                                        <div class="item">
-                                            <img src="../static/images/myavatar.jpg" th:src="@{/images/myavatar.jpg}" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">wanghaoyang</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar alternate icon"></i>2020-8-12
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>12
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="right aligned four wide column">
-                                    <a href="#" target="_blank" class="ui teal basic label m-padded-tb-small">标签</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" five wide column">
-                            <a href="a" target="_blank" class="align-center" >
-                                <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"  class="ui rounded image">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui padded vertical segment">
-                    <div class="ui mobile reversed stackable grid">
-                        <div class="eleven wide column">
-                            <h3 class="ui header">Vue简单入门</h3>
-                            <p class="m-text-article">本文将对Vue的常用系统指令进行学习，包括v-on 指令、v-text 、v-html、v-blind指令、v-model指令、v-for指令、v-if 与 v-show指令，每个指令都给出案例进行演示......</p>
-                            <div class="ui grid ">
-                                <div class="twelve wide column">
-                                    <div class="ui mini horizontal link list">
-                                        <div class="item">
-                                            <img src="../static/images/myavatar.jpg" th:src="@{/images/myavatar.jpg}" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">wanghaoyang</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar alternate icon"></i>2020-8-12
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>12
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="right aligned four wide column">
-                                    <a href="#" target="_blank" class="ui teal basic label m-padded-tb-small">标签</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" five wide column">
-                            <a href="a" target="_blank" class="align-center" >
-                                <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"  class="ui rounded image">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui padded vertical segment">
-                    <div class="ui mobile reversed stackable grid">
-                        <div class="eleven wide column">
-                            <h3 class="ui header">Vue简单入门</h3>
-                            <p class="m-text-article">本文将对Vue的常用系统指令进行学习，包括v-on 指令、v-text 、v-html、v-blind指令、v-model指令、v-for指令、v-if 与 v-show指令，每个指令都给出案例进行演示......</p>
-                            <div class="ui grid ">
-                                <div class="twelve wide column">
-                                    <div class="ui mini horizontal link list">
-                                        <div class="item">
-                                            <img src="../static/images/myavatar.jpg" th:src="@{/images/myavatar.jpg}" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">wanghaoyang</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar alternate icon"></i>2020-8-12
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>12
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="right aligned four wide column">
-                                    <a href="#" target="_blank" class="ui teal basic label m-padded-tb-small">标签</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" five wide column">
-                            <a href="a" target="_blank" class="align-center" >
-                                <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"  class="ui rounded image">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui padded vertical segment">
-                    <div class="ui mobile reversed stackable grid">
-                        <div class="eleven wide column">
-                            <h3 class="ui header">Vue简单入门</h3>
-                            <p class="m-text-article">本文将对Vue的常用系统指令进行学习，包括v-on 指令、v-text 、v-html、v-blind指令、v-model指令、v-for指令、v-if 与 v-show指令，每个指令都给出案例进行演示......</p>
-                            <div class="ui grid ">
-                                <div class="twelve wide column">
-                                    <div class="ui mini horizontal link list">
-                                        <div class="item">
-                                            <img src="../static/images/myavatar.jpg" th:src="@{/images/myavatar.jpg}" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">wanghaoyang</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar alternate icon"></i>2020-8-12
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>12
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="right aligned four wide column">
-                                    <a href="#" target="_blank" class="ui teal basic label m-padded-tb-small">标签</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" five wide column">
-                            <a href="a" target="_blank" class="align-center" >
-                                <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"  class="ui rounded image">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui padded vertical segment">
-                    <div class="ui mobile reversed stackable grid">
-                        <div class="eleven wide column">
-                            <h3 class="ui header">Vue简单入门</h3>
-                            <p class="m-text-article">本文将对Vue的常用系统指令进行学习，包括v-on 指令、v-text 、v-html、v-blind指令、v-model指令、v-for指令、v-if 与 v-show指令，每个指令都给出案例进行演示......</p>
-                            <div class="ui grid ">
-                                <div class="twelve wide column">
-                                    <div class="ui mini horizontal link list">
-                                        <div class="item">
-                                            <img src="../static/images/myavatar.jpg" th:src="@{/images/myavatar.jpg}" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">wanghaoyang</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar alternate icon"></i>2020-8-12
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>12
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="right aligned four wide column">
-                                    <a href="#" target="_blank" class="ui teal basic label m-padded-tb-small">标签</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" five wide column">
-                            <a href="a" target="_blank" class="align-center" >
-                                <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"  class="ui rounded image">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui padded vertical segment">
-                    <div class="ui mobile reversed stackable grid">
-                        <div class="eleven wide column">
-                            <h3 class="ui header">Vue简单入门</h3>
-                            <p class="m-text-article">本文将对Vue的常用系统指令进行学习，包括v-on 指令、v-text 、v-html、v-blind指令、v-model指令、v-for指令、v-if 与 v-show指令，每个指令都给出案例进行演示......</p>
-                            <div class="ui grid ">
-                                <div class="twelve wide column">
-                                    <div class="ui mini horizontal link list">
-                                        <div class="item">
-                                            <img src="../static/images/myavatar.jpg" th:src="@{/images/myavatar.jpg}" class="ui avatar image">
-                                            <div class="content"><a href="#" class="header">wanghaoyang</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar alternate icon"></i>2020-8-12
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>12
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="right aligned four wide column">
-                                    <a href="#" target="_blank" class="ui teal basic label m-padded-tb-small">标签</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" five wide column">
-                            <a href="a" target="_blank" class="align-center" >
-                                <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"  class="ui rounded image">
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <!--*/-->
             </div>
             <!----上下分页---->
-            <div class="ui segment">
+            <div class="ui attached segment" th:if="${page.totalPages>1}">
                 <div class="ui middle aligned two column grid">
                     <div class="column">
-                        <a href="a" class="ui teal basic button">上一页</a>
+                        <a href="a" th:href="@{/(page=${page.number}-1)}" class="ui teal basic button" th:unless="${page.first}">上一页</a>
                     </div>
                     <div class="right aligned column">
-                        <a href="a" class="ui teal basic button">下一页</a>
+                        <a href="a" th:href="@{/(page=${page.number}+1)}" class="ui teal basic button" th:unless="${page.last}">下一页</a>
                     </div>
                 </div>
             </div>
@@ -551,10 +198,15 @@
                 <!----分类框内容---->
                 <div class="ui teal segment">
                     <div class="ui fluid vertical menu ">
-                        <a href="#" class="item">
-                            学习日志
-                            <div class="ui teal left pointing label">13</div>
+                        <a href="#" class="item" th:each="type:${types}">
+                            <!----span用于行内！！！---->
+                            <span th:text="${type.name}">学习日志</span>
+                            <!----#arrays.length()用于求该集合大小！！！---->
+                            <div class="ui teal left pointing label" th:text="${#arrays.length(type.blogs)}">13</div>
                         </a>
+
+                        <!---静态页面显示 动态页面不显示--->
+                        <!--/*-->
                         <a href="#" class="item">
                             思考与感悟
                             <div class="ui teal left pointing label">13</div>
@@ -575,6 +227,7 @@
                             认知升级
                             <div class="ui teal left pointing label">13</div>
                         </a>
+                        <!--*/-->
                     </div>
                 </div>
             </div>
@@ -591,9 +244,14 @@
                     </div>
                 </div>
                 <div class="ui teal segment ">
-                    <a href="#" target="_blank" class="ui teal basic label m-margin-tb-mini">
-                        自然辩证法<div class="detail">21</div>
+                    <a href="#" target="_blank" class="ui teal basic label m-margin-tb-mini" th:each="tag:${tags}">
+                        <!----span用于行内！！！---->
+                        <span th:text="${tag.name}">自然辩证法</span>
+                        <!----#arrays.length()用于求该集合大小！！！---->
+                        <div class="detail" th:text="${#arrays.length(tag.blogs)}">21</div>
                     </a>
+                    <!---静态页面显示 动态页面不显示--->
+                    <!--/*-->
                     <a href="#" target="_blank" class="ui teal basic label m-margin-tb-mini">
                         测试<div class="detail">23</div>
                     </a>
@@ -615,6 +273,7 @@
                     <a href="#" target="_blank" class="ui teal basic label m-margin-tb-mini">
                         哲学<div class="detail">23</div>
                     </a>
+                    <!--*/-->
                 </div>
             </div>
             <!----右边博客列表最新推荐---->
@@ -622,21 +281,24 @@
                 <div class="ui secondary segment">
                     <h3 class="ui m-text-title-thin header">最新推荐</h3>
                 </div>
-                <div class="ui teal segment ">
-                    <a href="#" target="_blank" class="m-black m-text-thin">
+                <div class="ui segment" th:each="recommendBlog:${recommendBlogs}">
+                    <a href="#" th:href="@{/blogs/{id}(id=${recommendBlog.id})}" target="_blank" class="m-black m-text-thin" th:text="${recommendBlog.title}">
                         学习日志
                     </a>
                 </div>
-                <div class="ui segment ">
-                    <a href="#" target="_blank" class="m-black m-text-thin">
-                        关于自然辩证法
-                    </a>
+                <!---静态页面显示 动态页面不显示--->
+                <!--/*-->
+                <div class="ui segment">
+                        <a href="#" target="_blank" class="m-black m-text-thin">
+                            关于自然辩证法
+                        </a>
                 </div>
-                <div class="ui segment ">
-                    <a href="#" target="_blank" class="m-black m-text-thin">
-                        我的Lab生活
-                    </a>
+                <div class="ui segment">
+                        <a href="#" target="_blank" class="m-black m-text-thin">
+                            我的Lab生活
+                        </a>
                 </div>
+                <!--*/-->
             </div>
             <!----右边博客列表扫码关注---->
             <h4 class="ui horizontal divider header ">扫码关注我</h4>

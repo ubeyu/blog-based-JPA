@@ -8,7 +8,9 @@ import com.why.home.back_end.po.Tag;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -78,8 +80,6 @@ public class TagServiceImpl implements TagService {
         return tagRepository.findAll();
     }
 
-
-
     /*------获取对应博客的标签Id列表-----用于博客新增---------*/
     @Override
     @Transactional
@@ -87,6 +87,16 @@ public class TagServiceImpl implements TagService {
         /*------此版本findAll()已经变为findAllById()，可根据Id的集合获取对象的集合-----*/
         return tagRepository.findAllById(listGetIDs(ids));
     }
+
+    /*------获取文章最多的标签排行List----返回一个List<Tag>--用于用户页面展示 size表示显示排行前几个---*/
+    @Override
+    public List<Tag> listTagTop(Integer size) {
+        /*------改为这样的！！！利用的是Tag实体类中的blogs集合取size---*/
+        Sort sort= Sort.by(Sort.Direction.DESC,"blogs.size");
+        Pageable pageable= PageRequest.of(0,size,sort);
+        return tagRepository.findTopTag(pageable);
+    }
+
     /*-----String转list----从字符"1,2,3,5,12,54..."中获取List[1,2,3,5...]数组的方法--------*/
     public List<Long> listGetIDs(String ids){  //Ids=1,2,3...
         List<Long> listIds=new ArrayList<>();

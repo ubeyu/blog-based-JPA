@@ -6,11 +6,14 @@ import com.why.home.back_end.NotFoundException;
 import com.why.home.back_end.dao.BlogRepository;
 import com.why.home.back_end.po.Blog;
 import com.why.home.back_end.po.Type;
+import com.why.home.back_end.util.MyBeanUtils;
 import com.why.home.back_end.vo.BlogQuery;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -60,6 +63,12 @@ public class BlogServiceImpl implements BlogService {
         return blogRepository.findById(id).get();
     }
 
+    /*------定义返回全部Blog的接口-----返回一个Page<Blog>-----*/
+    @Override
+    public Page<Blog> listBlog(Pageable pageable) {
+        return blogRepository.findAll(pageable);
+    }
+
     @Transactional
     @Override
     public Page<Blog> listBlog(Pageable pageable, Blog blog) {
@@ -103,6 +112,7 @@ public class BlogServiceImpl implements BlogService {
     /*--------分页查询---@Transactional将操作放入事务中-----*/
     /*--------根据Pageable类型和Blog条件（分类/标签/是否推荐）查询--返回一个Page<Blog>-----*/
     /* Blog换为BlogQuery 构造的查询对象 */
+    /*-------若直接用Blog会报错java.lang.NullPointerException: null，因为若查询时Type未输入，则.getId()本身会报错。改用直接将三个查询参数封装为一个对象的方式，将type.id封装为这个对象的Long类型id----*/
     @Transactional
     @Override
     public Page<Blog> listBlogQuery(Pageable pageable, BlogQuery blogQuery) {
@@ -125,6 +135,20 @@ public class BlogServiceImpl implements BlogService {
         },pageable);
     }
 
+    /*------实现获取查询得到的文章List的接口----返回一个List<Blog>--用于全局搜索 搜索的字符串是否包含在标题/正文中---*/
+    @Override
+    public Page<Blog> listBlogSearch(Pageable pageable,String query) {
+        return blogRepository.findSearchBlog(query,pageable);
+    }
+
+    /*------实现获取文章最多的标签排行List的接口----返回一个List<Blog>--用于用户页面展示 size表示显示排行前几个---*/
+    @Override
+    public List<Blog> listBlogTop(Integer size) {
+        Sort sort= Sort.by(Sort.Direction.DESC,"updateTime");
+        Pageable pageable= PageRequest.of(0,size,sort);
+        return blogRepository.findTopBlog(pageable);
+    }
+
     /*--------更新---@Transactional将操作放入事务中-----*/
     /*--------一直报错"Id={46"是对此处修改有问题-----*/
     /*-------错误代码：
@@ -134,14 +158,35 @@ public class BlogServiceImpl implements BlogService {
                     --------未查到则抛出异常---
                     throw new NotFoundException("该博客不存在");
                 }
-             -----------------------------------------------*/
+                  BeanUtils.copyProperties(tag,tag_cur);
+       第二次修改
     @Transactional
     @Override
-    public Blog updateBlog(Blog blog) {
-        /*--------对更新日期修改-----*/
+    public Blog updateBlog(Long id,Blog blog) {
+        /*--------对更新日期修改----
         blog.setUpdateTime(new Date());
         return blogRepository.save(blog);
     }
+     -----------------------------------------------*/
+
+    @Transactional
+    @Override
+    public Blog updateBlog(Long id,Blog blog) {
+        Blog blog_cur=blogRepository.findById(id).get();
+        Date createTime=blog_cur.getCreateTime();
+        if(blog_cur == null){
+             /*---------未查到则抛出异常-----*/
+            throw new NotFoundException("该博客不存在");
+        }
+        /*-------- MyBeanUtils.getNullPropertyNames(blog)存储了属性值为空的字段名称的数组
+              放在BeanUtils.copyProperties第三个参数可以用于过滤blog中属性值为空的数组，不复制为空的
+              相当于保留了createTime和views等属性值--------------*/
+        BeanUtils.copyProperties(blog,blog_cur,MyBeanUtils.getNullPropertyNames(blog));
+        /*--------对更新日期修改------*/
+        blog_cur.setUpdateTime(new Date());
+        return blogRepository.save(blog_cur);
+    }
+
 
     /*--------删除---@Transactional将操作放入事务中----*/
     @Transactional

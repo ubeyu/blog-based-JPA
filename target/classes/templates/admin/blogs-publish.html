@@ -69,6 +69,12 @@
             <input type="hidden" name="id" th:value="*{id}">
             <!--这里定义隐含域 name="publishOpening" 对应为Blog的publishOpening 判断是否发布 -->
             <input type="hidden" name="publishOpening">
+
+            <!--（行不通行不通行不通行不通）这里定义隐含域 name="views" 对应为Blog的views 传递已有的浏览次数 --
+            <input type="hidden" name="views" th:value="*{id}"> -->
+            <!--（行不通行不通行不通行不通）这里定义隐含域 name="createTime" 对应为Blog的createTime 传递已有的创建时间
+            <input type="hidden" name="createTime" th:text="*{createTime}"> -->
+
             <!--博客标题-->
             <div class="field">
                 <div class="ui labeled input">
@@ -137,6 +143,10 @@
                     <!--这里 name="topPicture" 对应为Blog的topPicture -->
                     <input type="text" name="topPicture" th:value="*{topPicture}" placeholder="首图引用地址">
                 </div>
+            </div>
+            <!--博客描述-->
+            <div class="field">
+                <textarea placeholder="博客描述" name="description" th:text="*{description}">博客描述</textarea>
             </div>
             <!--博客checkbox-->
             <div class="inline fields">
@@ -306,6 +316,14 @@
                     rules:[{
                         type:'empty',
                         prompt:'请添加博客首图!!!'
+                    }]
+                },
+                //描述非空
+                description:{
+                    identifier:'description',
+                    rules:[{
+                        type:'empty',
+                        prompt:'请添加博客描述!!!'
                     }]
                 },
             }

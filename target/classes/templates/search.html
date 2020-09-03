@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+
+<!---传入th:replace，取代原有head元素，即添加了th:href="@{/css/me.css}"等相关引用--->
+<head th:replace="_fragments :: head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>搜索</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <!-------(若使用th:replace则不再需要添加)--格式混乱，css未找到路径，原因是需thymeleaf引入--th:href="@{/css/me.css}"--------->
+    <!-------(若使用th:replace则不再需要添加)--只对静态页面产生影响----------------------------------------------------------->
+    <link rel="stylesheet" href="../static/css/me.css"> <!--(若使用th:replace则不再需要添加)th:href="@{/css/me.css}"-->
+</head>
+
+<body>
+
+<!--导航-->
+<!---将导航做统一模板，引入th:replace通过参数n区分不同active，此处为标签页传入3--->
+<nav th:replace="_fragments :: menu(3)" class="ui inverted attached segment m-padded-tb-mini m-shadow-bottom-small">
+    <div class="ui container">
+        <!--导航主菜单-->
+        <div class="ui inverted secondary stackable menu ">
+            <h2 class="ui teal header item">WhyHomePage</h2>
+            <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>首页</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="tasks icon"></i>分类</a>
+            <a href="#" class="m-item active item m-mobile-hide"><i class="tags icon"></i>标签</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="clone icon"></i>归档</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="user circle icon"></i> 关于我</a>
+            <div class="m-item right item m-mobile-hide">
+                <div class="ui icon input">
+                    <input type="text" placeholder="Search...">
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+        </div>
+        <!--导航手机端菜单按钮-->
+    </div>
+    <a href="#" class="ui menu toggle black m-top-right m-pc-hide button">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+
+<!--中间-->
+<div class="ui container m-padded-tb-large">
+    <!--标签segment的容器-->
+    <div class="ui segments">
+        <!--标签页面头部-->
+        <div class="ui segment">
+            <div class="ui two column grid">
+                <div class="column">
+                    <h3 class="ui teal header">搜索结果</h3>
+                </div>
+                <div class="right aligned column">
+                    共 <h3 class="ui orange header m-inline-block m-text-thin" th:text="${page.totalElements}">14</h3> 个
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--文章segment的容器-->
+    <div class="ui top attached teal segment">
+        <!--分类页面文章-->
+        <!----不需要获取id则不用加"blog,iterStat:${page.content}"中的iterStat--->
+        <div class="ui padded vertical m-padded-lr-types-responsive segment" th:each="blog:${page.content}">
+            <div class="ui middle aligned mobile reversed stackable grid">
+                <div class="eleven wide column">
+                    <h3 class="ui header">
+                        <a href="#" th:href="@{/blogs/{id}(id=${blog.id})}" th:text="${blog.title}" target="_blank">Vue简单入门</a>
+                    </h3>
+                    <!--------th:text="|${blog.description}...|"用于连接字符串------->
+                    <p class="m-text-article" th:text="|${blog.description}......|">本文将对Vue的常用系统指令进行学习，包括v-on 指令、v-text 、v-html、v-blind指令、v-model指令、v-for指令、v-if 与 v-show指令，每个指令都给出案例进行演示......</p>
+                    <div class="ui middle aligned grid">
+                        <div class="twelve wide column">
+                            <div class="ui mini horizontal link list">
+                                <div class="item">
+                                    <img src="../static/images/myavatar.jpg" th:src="@{${blog.user.avatar}}" class="ui avatar image">
+                                    <div class="content">
+                                        <a href="#" class="header" th:text="${blog.user.nickname}">wanghaoyang</a>
+                                    </div>
+                                </div>
+                                <!----blog.updateTime格式化方法---->
+                                <div class="item">
+                                    <!----！！！！span用于行内组合！！！！---->
+                                    <i class="calendar alternate icon"></i><span th:text="${#dates.format(blog.updateTime, 'yyyy-MM-dd')}"></span>
+                                </div>
+                                <div class="item">
+                                    <i class="eye icon"></i><span th:text="${blog.views}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right aligned four wide column">
+                            <a href="#" target="_blank" class="ui teal basic label m-padded-tb-small" th:text="${blog.type.name}">分类</a>
+                        </div>
+                    </div>
+                </div>
+                <div class=" five wide column">
+                    <a href="a" th:href="@{/blogs/{id}(id=*{blog.id})}" target="_blank" class="align-center" >
+                        <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" th:src="@{${blog.topPicture}}" style="height: 11em;width: 18em" class="ui rounded image">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!---静态页面显示 动态页面不显示--->
+        <!--/*-->
+        <div class="ui padded vertical m-padded-lr-types-responsive segment">
+                <div class="ui mobile reversed stackable grid">
+                    <div class="eleven wide column">
+                        <h3 class="ui header">Vue简单入门</h3>
+                        <p class="m-text-article">本文将对Vue的常用系统指令进行学习，包括v-on 指令、v-text 、v-html、v-blind指令、v-model指令、v-for指令、v-if 与 v-show指令，每个指令都给出案例进行演示......</p>
+                        <div class="ui grid ">
+                            <div class="row"><div class="twelve wide column">
+                                <div class="ui mini horizontal link list">
+                                    <div class="item">
+                                        <img src="../static/images/myavatar.jpg" th:src="@{/images/myavatar.jpg}" class="ui avatar image">
+                                        <div class="content"><a href="#" class="header">wanghaoyang</a></div>
+                                    </div>
+                                    <div class="item">
+                                        <i class="calendar alternate icon"></i>2020-8-12
+                                    </div>
+                                    <div class="item">
+                                        <i class="eye icon"></i>12
+                                    </div>
+
+                                </div>
+                            </div>
+                                <div class="right aligned four wide column">
+                                    <a href="#" target="_blank" class="ui teal basic label m-padded-tb-small">标签</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="column">
+                                    <a href="#" target="_blank" class="ui teal left pointing mini label m-text-thin">
+                                        前端
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" five wide column">
+                        <a href="a" target="_blank" class="align-center" >
+                            <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"  class="ui rounded image">
+                        </a>
+                    </div>
+                </div>
+        </div>
+        <!--*/-->
+
+        <!----上下分页---->
+        <div class="ui bottom attached segment" th:if="${page.totalPages>1}">
+            <div class="ui middle aligned two column grid" >
+                <div class="column">
+                    <a href="a" th:href="@{/(page=${page.number}-1)}" class="ui mini teal basic button" th:unless="${page.first}">上一页</a>
+                </div>
+                <div class="right aligned column">
+                    <a href="a" th:href="@{/(page=${page.number}+1)}" class="ui mini teal basic button" th:unless="${page.last}">下一页</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--底部-->
+<!---将底部做统一模板，引入th:replace，每个页面底部完全一致--->
+<footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-tb-large m-shadow-top-small">
+    <div class="ui center aligned container">
+        <!-----上方介绍----->
+        <div class="ui inverted divided stackable grid">
+            <!-----左边二维码----->
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <!---引入th:replace后不需加th:src="@{/images/wechat1.jpg}"-->
+                        <img src="../static/images/wechat1.jpg" class="ui rounded image" style="width: 130px">
+                    </div>
+                </div>
+            </div>
+            <!-----中间最新博客----->
+            <div class="three wide column">
+                <h4 class="ui inverted header">最新博客</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">用户故事</a>
+                    <a href="#" class="item">用户故事</a>
+                    <a href="#" class="item">用户故事</a>
+                </div>
+            </div>
+            <!-----中间联系我----->
+            <div class="four wide column">
+                <h4 class="ui inverted header">联系我</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">E-mail：wanghaoyang949@gmail.com</a>
+                    <a href="#" class="item">QQ：363057994</a>
+                </div>
+            </div>
+            <!-----右边资料----->
+            <div class="six wide column">
+                <h4 class="ui inverted header ">WHY</h4>
+                <p class="m-text-thin m-text-spaced m-opacity-small">1111111111111</p>
+            </div>
+        </div>
+        <!-----下方所有权----->
+        <div class="ui inverted section divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2020 - 2021 Why. All Rights Reserved. </p>
+    </div>
+</footer>
+
+<!-----Thymeleaf中特殊注释方式，在Thymeleaf模板下会自动取消注释------->
+<!--/*/<th:block th:replace="_fragments :: script">/*/-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+    <script>
+        //手机端导航菜单按钮
+        $('.menu.toggle').click(function (){
+            $('.m-item').toggleClass('m-mobile-hide');
+        });
+    </script>
+</body>
+
+
+</html>

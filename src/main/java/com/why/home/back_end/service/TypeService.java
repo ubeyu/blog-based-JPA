@@ -31,6 +31,9 @@ public interface TypeService {
     /*------定义获取全部分类的接口----返回一个List<Type>--用于博客管理页面分类下拉框的展示和选择---*/
     List<Type> listType();
 
+    /*------定义获取文章最多的分类排行List的接口----返回一个List<Type>--用于用户页面展示 size表示显示排行前几个---*/
+    List<Type> listTypeTop(Integer size);
+
     /*------定义修改分类的接口---根据Long类型id查询--然后根据Type类型修改-----*/
     Type updateType(Long id,Type type);
 

@@ -6,7 +6,9 @@ import com.why.home.back_end.po.Type;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -71,6 +73,19 @@ public class TypeServiceImpl implements TypeService {
     @Override
     public List<Type> listType() {
         return typeRepository.findAll();
+    }
+
+    /*------获取文章最多的分类排行----返回一个List<Type>--用于用户页面展示 size表示显示排行前几个---*/
+    /*------typeRepository内没有的方法，需要去DAO层自定义---*/
+    @Transactional
+    @Override
+    public List<Type> listTypeTop(Integer size) {
+        /*------指定排序规则------------本版本Spring需要将new Sort(Sort.Direction.DESC,"blog.size")改为这样的！！！利用的是Type实体类中的blogs集合取size------------------------*/
+        Sort sort= Sort.by(Sort.Direction.DESC,"blogs.size");
+        /*------取分页对象中第一页，指定size--------本版本Spring需要将new PageRequest(0,size,sort)改为这样的---------------------------*/
+        Pageable pageable= PageRequest.of(0,size,sort);
+        /*------取分页对象中第一页，指定size--------本版本Spring需要将pageable改为(java.awt.print.Pageable) pageable------------------*/
+        return typeRepository.findTopType(pageable);
     }
 
     /*--------更新---@Transactional将操作放入事务中-----*/

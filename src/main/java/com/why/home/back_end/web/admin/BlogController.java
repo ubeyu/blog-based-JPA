@@ -59,10 +59,10 @@ public class BlogController {
                             direction代表排序方式 此处DESC表示倒序----------------- */
     /* Blog换为BlogQuery 构造的查询对象 */
     public String manage(@PageableDefault(size = 5 , sort = {"updateTime"} , direction = Sort.Direction.DESC) Pageable pageable, BlogQuery blogQuery, Model model){
-        /* Model存储所有分类信息List 从而输出给前端页面 进行数据渲染 */
+        /* Model存储所有分类信息List 从而输出给前端页面 进行！！！分类搜索框！！！数据渲染 */
         /* typeService.listType()返回类似JSON的信息 */
         model.addAttribute("types",typeService.listType());
-        /* Model存储查询后的分页信息 从而输出给前端页面 进行数据渲染 */
+        /* Model存储查询后的分页信息 从而输出给前端页面 进行！！！博客列表！！！数据渲染 */
         /* blogService.listBlog(pageable,blog)返回类似JSON的信息 */
         model.addAttribute("page",blogService.listBlogQuery(pageable,blogQuery));
         return "admin/blogs-manage";
@@ -74,6 +74,7 @@ public class BlogController {
     /* PostMapping 返回查询页 */
     /* 加参数 同样在全局/admin下访问 即/admin/blogManage/search */
     /* Blog换为BlogQuery 构造的查询对象 */
+    /*-------若直接用Blog会报错java.lang.NullPointerException: null，因为若查询时Type未输入，则.getId()本身会报错。改用直接将三个查询参数封装为一个对象的方式，将type.id封装为这个对象的Long类型id----*/
     @PostMapping("/blogManage/search")
     public String search(@PageableDefault(size = 5 , sort = {"updateTime"} , direction = Sort.Direction.DESC) Pageable pageable, BlogQuery blogQuery, Model model){
         model.addAttribute("page",blogService.listBlogQuery(pageable,blogQuery));
@@ -145,7 +146,7 @@ public class BlogController {
 
         /*-----------------blog_added校验信息输出逻辑（开始）--------------------*/
         /* 定义新增后的Blog对象 */
-        Blog blog_added = blogService.updateBlog(blog);
+        Blog blog_added = blogService.updateBlog(id,blog);
         /* 如果对象为空 */
         if(blog_added == null){
             /* 由于使用重定向 后端→前端 给前端页面提示需要用attributes.addFlashAttribute */
