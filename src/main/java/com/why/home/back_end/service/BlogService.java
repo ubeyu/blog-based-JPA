@@ -24,6 +24,9 @@ public interface BlogService {
     /*------定义查询博客的接口---根据Long类型的id查询-----*/
     Blog getBlog(Long id);
 
+    /* 博客详情页：本可以用getBlog查询id得到对应blog对象，但此方法得到的String类型content文本属于MarkDown语法，需要转化为HTML才能在博客详情页完整显示，所以在BlogService中利用MarkDownUtils工具引入新的方法处理  */
+    Blog getBlogMTH(Long id);
+
     /*------定义返回全部Blog的接口-----返回一个Page<Blog>-----*/
     Page<Blog> listBlog(Pageable pageable);
 

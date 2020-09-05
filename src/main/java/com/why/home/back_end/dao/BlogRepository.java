@@ -5,8 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -37,4 +39,11 @@ public interface BlogRepository extends JpaRepository<Blog,Long>, JpaSpecificati
     @Query("select b from Blog b where b.title like ?1 or b.content like ?1 ")
     /*------Pageable根据分页对象传递参数，分页对象内有排序及大小-----*/
     Page<Blog> findSearchBlog(String query,Pageable pageable);
+
+    /*------ 简单定义接口 在Service中实现-----*/
+    /*------ @Query("")自定义更新--只选择id为对应值的blog，view+1-----*/
+    /*------ 更新操作时要加 @Modifying ----*/
+    @Modifying
+    @Query("update Blog b set b.views=b.views+1 where b.id=?1 ")
+    int updateViews(Long id);
 }

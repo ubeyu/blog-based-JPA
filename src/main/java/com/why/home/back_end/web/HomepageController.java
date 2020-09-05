@@ -2,10 +2,8 @@ package com.why.home.back_end.web;
 
 import com.why.home.back_end.NotFoundException;
 import com.why.home.back_end.service.BlogService;
-import com.why.home.back_end.service.BlogServiceImpl;
 import com.why.home.back_end.service.TagService;
 import com.why.home.back_end.service.TypeService;
-import com.why.home.back_end.vo.BlogQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -57,8 +55,9 @@ public class HomepageController {
 
     /*通过Get请求路径 返回博客详情页*/
     @GetMapping("/blogs/{id}")
-    public String blogs() {
-
+    public String blogsDetails(@PathVariable Long id, Model model) {
+        /* 使用getBlogMTH：本可以用getBlog查询id得到对应blog对象，但此方法得到的String类型content文本属于MarkDown语法，需要转化为HTML才能在详情页完整显示，所以在BlogService中利用MarkDownUtils工具引入新的方法处理  */
+        model.addAttribute("blog", blogService.getBlogMTH(id));
         return "blogs";
     }
 

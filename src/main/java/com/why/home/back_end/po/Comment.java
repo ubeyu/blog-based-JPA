@@ -39,6 +39,9 @@ public class Comment {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 
+    /*用于判断是否是博主评论*/
+    private boolean adminComment;
+
 
     /*----------------------------处理实体类之间关系(开始线)-----------------------------------*/
     /*---多个Comment对应一个Blog用ManyToOne---*/
@@ -115,6 +118,14 @@ public class Comment {
         this.createTime = createTime;
     }
 
+    public boolean isAdminComment() {
+        return adminComment;
+    }
+
+    public void setAdminComment(boolean adminComment) {
+        this.adminComment = adminComment;
+    }
+
     public Blog getBlog() {
         return blog;
     }
@@ -139,7 +150,6 @@ public class Comment {
         this.replyComments = replyComments;
     }
 
-    /*生成toString方法，主要用于日志输出*/
     @Override
     public String toString() {
         return "Comment{" +
@@ -149,6 +159,10 @@ public class Comment {
                 ", avatar='" + avatar + '\'' +
                 ", content='" + content + '\'' +
                 ", createTime=" + createTime +
+                ", adminComment=" + adminComment +
+                ", blog=" + blog +
+                ", parentComment=" + parentComment +
+                ", replyComments=" + replyComments +
                 '}';
     }
 }

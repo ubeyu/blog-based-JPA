@@ -21,7 +21,7 @@ import static com.why.home.back_end.util.MD5Utils.code;
 public class UserServiceImpl implements UserService{
 
     /*---------第三步UserRepository接口构建完成后注入-------*/
-    /*---- 可以对类成员变量、方法及构造函数进行标注 让Spring完成bean自动装配工作 ---*/
+    /*---- 可以对类成员变量、方法及构造函数进行标注 让Spring完成bean自动装配工作  (只有定义了UserRepository，Spring才能自动生成下面的方法)---*/
     @Autowired
     private UserRepository userRepository;
 

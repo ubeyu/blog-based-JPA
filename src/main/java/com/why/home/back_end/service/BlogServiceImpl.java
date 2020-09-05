@@ -6,6 +6,7 @@ import com.why.home.back_end.NotFoundException;
 import com.why.home.back_end.dao.BlogRepository;
 import com.why.home.back_end.po.Blog;
 import com.why.home.back_end.po.Type;
+import com.why.home.back_end.util.MarkDownUtils;
 import com.why.home.back_end.util.MyBeanUtils;
 import com.why.home.back_end.vo.BlogQuery;
 import org.springframework.beans.BeanUtils;
@@ -40,7 +41,7 @@ import java.util.List;
 public class BlogServiceImpl implements BlogService {
 
     /*---------第三步BlogRepository接口构建完成后注入-------*/
-    /*---- 可以对类成员变量、方法及构造函数进行标注 让Spring完成bean自动装配工作 ---*/
+    /*---- 可以对类成员变量、方法及构造函数进行标注 让Spring完成bean自动装配工作 (只有定义了BlogRepository，Spring才能自动生成下面的方法) ---*/
     @Autowired
     private BlogRepository blogRepository;
 
@@ -63,7 +64,28 @@ public class BlogServiceImpl implements BlogService {
         return blogRepository.findById(id).get();
     }
 
+    /* 博客详情页：本可以用getBlog查询id得到对应blog对象，但此方法得到的String类型content文本属于MarkDown语法，需要转化为HTML才能在博客详情页完整显示，所以在BlogService中利用MarkDownUtils工具引入新的方法处理  */
+    @Transactional
+    @Override
+    public Blog getBlogMTH(Long id) {
+        Blog blog=blogRepository.findById(id).get();
+        if(blog == null){
+            throw new NotFoundException("该博客不存在");
+        }
+        /*-----直接操作可能会改变数据库或Session，利用新对象处理-----*/
+        Blog blog_new=new Blog();
+        BeanUtils.copyProperties(blog,blog_new);
+        /*------获取content，处理content，重设content-----*/
+        blog_new.setContent(MarkDownUtils.markdownToHtmlExtensions(blog_new.getContent()));
+
+        /*------每访问一次对应id博客的views加1-----*/
+        blogRepository.updateViews(id);
+
+        return blog_new;
+    }
+
     /*------定义返回全部Blog的接口-----返回一个Page<Blog>-----*/
+    @Transactional
     @Override
     public Page<Blog> listBlog(Pageable pageable) {
         return blogRepository.findAll(pageable);

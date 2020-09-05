@@ -149,6 +149,9 @@ body{
 .m-black{
     color: #333 !important;
 }
+.m-teal{
+    color: #00B5AD !important;
+}
 
 /*-------PC端---------*/
 .m-pc-hide{

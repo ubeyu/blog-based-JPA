@@ -273,8 +273,7 @@
                 $('.type.ui.dropdown')
                     .dropdown('clear')
                 ;
-            })
-        ;
+            });
         //点击搜索按钮脚本<div id="table-container">不用#
         $('#search-button').click(function () {
             //name='page'获取隐含域，val用于对其赋obj的值，obj为点击时生成对象，.data()为自定义的data-page值
@@ -284,7 +283,7 @@
         });
         //用于点击上下页时动态处理form表单中page属性值
         function page(obj) {
-            //name='page'获取隐含域，val用于对其赋obj的值，obj为点击时生成对象，.data()为自定义的data-page值
+            //name='page'获取隐含域，val用于对其赋obj的值，obj为点击时生成对象，.data()为自定义的data-page值，只使用后缀即可
             $("[name='page']").val($(obj).data("page"));
             //点击上下页时也需要调用此方法
             loadData();

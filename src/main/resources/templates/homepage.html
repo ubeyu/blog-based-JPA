@@ -78,7 +78,7 @@
                                         <!----blog.updateTime格式化方法---->
                                         <div class="item">
                                             <!----！！！！span用于行内组合！！！！---->
-                                            <i class="calendar alternate icon"></i><span th:text="${#dates.format(blog.updateTime, 'yyyy-MM-dd')}"></span>
+                                            <i class="calendar alternate icon"></i><span th:text="${#dates.format(blog.updateTime, 'yyyy-MM-dd HH:mm')}"></span>
                                         </div>
                                         <div class="item">
                                             <i class="eye icon"></i><span th:text="${blog.views}"></span>
@@ -201,7 +201,7 @@
                         <a href="#" class="item" th:each="type:${types}">
                             <!----span用于行内！！！---->
                             <span th:text="${type.name}">学习日志</span>
-                            <!----#arrays.length()用于求该集合大小！！！---->
+                            <!----#arrays.length()用于求该list集合大小！！！---->
                             <div class="ui teal left pointing label" th:text="${#arrays.length(type.blogs)}">13</div>
                         </a>
 

@@ -53,37 +53,38 @@
                 <div class="column">
                     <div class="ui horizontal link list">
                         <div class="item">
-                            <img src="../static/images/myavatar.jpg" th:src="@{/images/myavatar.jpg}" class="ui avatar image" >
-                            <div class="content"><a href="#" class="header">wanghaoyang</a></div>
+                            <img src="../static/images/myavatar.jpg" th:src="@{${blog.user.avatar}}" class="ui avatar image" >
+                            <div class="content"><a href="#" class="header" th:text="${blog.user.nickname}">wanghaoyang</a></div>
                         </div>
-                        <div class="item">
+                        <div class="item" th:text="|更新于 ${#dates.format(blog.updateTime, 'yyyy-MM-dd HH:mm')}|">
                             更新于 2020-8-13 17:30
                         </div>
-                        <div class="item">
+                        <div class="item" th:text="|浏览：${blog.views}次|">
                             浏览:12次
                         </div>
                     </div>
                 </div>
                 <div class="right aligned column">
-                    <a href="#" target="_blank">more</a>
+                    <a href="#" th:href="@{/}" target="_blank">more</a>
                 </div>
             </div>
         </div>
         <!----博客详情页图片---->
         <div class="ui segment">
-            <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"  alt="" class="ui fluid rounded image" >
+            <img src="https://images.unsplash.com/photo-1597098495323-fc5d2ac74f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"  th:src="@{${blog.topPicture}}" alt="" class="ui fluid rounded image" >
         </div>
         <!----博客详情页内容---->
         <div class="ui attached padded segment">
-            <!----博客详情页内容-标签--->
+            <!----博客详情页内容-权限--->
             <div class="ui right aligned basic segment">
-                <div class="ui orange label">原创</div>
+                <div class="ui orange label" th:text="${blog.flag}">原创</div>
             </div>
             <!----博客详情页内容-内容-标题-->
-            <h2 class="ui center aligned header">关于刻意练习的清单</h2>
+            <h2 class="ui center aligned header" th:text="${blog.title}">关于刻意练习的清单</h2>
             <br>
             <!----博客详情页内容-内容-正文-->
-            <div id="content" class="typo typo-selection js-toc-content m-padded-lr-responsive m-padded-tb-massive">
+            <!-------直接th:text="${blog.content}"会丢失MarkDown格式-----------解决：直接采用MarkDown转HTML工具------->
+            <div id="content" class="typo typo-selection js-toc-content m-padded-lr-responsive m-padded-tb-massive" th:utext="${blog.content}">
                 <ol id="table">
                     <li><a href="#section1">关于 <i class="serif">Typo.css</i></a></li>
                     <li><a href="#section2">排版实例</a>
@@ -455,9 +456,13 @@
                         href="//typo.sofi.sh/license.txt">license.txt</a> 即可。</p>
             </div>
             <!----博客详情页内容-内容-内容标签-->
-            <div class="ui basic m-padded-lr-responsive segment">
-                <div class="ui teal basic label">方法论</div>
+            <div class="ui basic m-padded-lr-responsive segment" >
+                <a href="#" target="_blank" class="ui teal basic label m-margin-tb-mini" th:each="tag:${blog.tags}">
+                    <!----span用于行内！！！---->
+                    <span th:text="${tag.name}">自然辩证法</span>
+                </a>
             </div>
+
             <!----博客详情页内容-内容-赞赏-->
             <div class="ui center aligned basic m-padded-lr-responsive segment">
                 <div id="payButton" class="ui orange basic circular button">赞赏</div>
@@ -483,9 +488,9 @@
             <div class="ui middle aligned grid">
                 <div class="thirteen wide column">
                     <ui class="list">
-                        <li>作者：wanghaoyang （联系作者）</li>
-                        <li>发表时间：2020-8-13 17:30</li>
-                        <li>版权声明：自由转载-非商用</li>
+                        <li><span th:text="|作者：${blog.user.nickname} |">作者：wanghaoyang</span><a href="#" th:href="@{/aboutme}" target="_blank">[联系作者]</a></li>
+                        <li><span th:text="|发表时间： ${#dates.format(blog.createTime, 'yyyy-MM-dd HH:mm')}|">2020-8-13 17:30</span></li>
+                        <li><span th:text="|版权声明： ${blog.flag}|">版权声明：自由转载-非商用</span></li>
                         <li>公众号转载：请添加作者公众号</li>
                     </ui>
                 </div>
@@ -495,85 +500,154 @@
             </div>
         </div>
         <!----博客详情页评论---->
-        <div id="comment-content" class="ui segment">
-            <!----博客详情页评论-详情--->
-            <div class="ui teal segment">
-                <div class="ui comments">
-                    <h3 class="ui dividing header">Comments</h3>
-                    <div class="comment">
-                        <a class="avatar">
-                            <img src="../static/images/wechat1.jpg" th:src="@{/images/wechat1.jpg}">
-                        </a>
-                        <div class="content">
-                            <a class="author">Matt</a>
-                            <div class="metadata">
-                                <span class="date">Today at 5:42PM</span>
-                            </div>
-                            <div class="text">
-                                How artistic!
-                            </div>
-                            <div class="actions">
-                                <a class="reply">回复</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment">
-                        <a class="avatar">
-                            <img src="../static/images/wechat1.jpg" th:src="@{/images/wechat1.jpg}">
-                        </a>
-                        <div class="content">
-                            <a class="author">Elliot Fu</a>
-                            <div class="metadata">
-                                <span class="date">Yesterday at 12:30AM</span>
-                            </div>
-                            <div class="text">
-                                <p>This has been very useful for my research. Thanks as well!</p>
-                            </div>
-                            <div class="actions">
-                                <a class="reply">回复</a>
-                            </div>
-                        </div>
-                        <div class="comments">
-                            <div class="comment">
-                                <a class="avatar">
-                                    <img src="../static/images/wechat1.jpg" th:src="@{/images/wechat1.jpg}">
+        <div  class="ui bottom attached segment">
+            <!----博客详情页评论-详情-----id="comment-container"用于动态刷新评论页面-->
+            <!--配合自定义postData用于实现jQuery的ajax请求方法，通过 HTTP 请求加载远程数据，使用post方法动态获取评论内容，用于提交评论时局部渲染--<div id="comment-container">不用#-->
+            <div id="comment-container" class="ui teal segment">
+                <!-- :: commentList用于返回详情页下面的commentList片段，用于局部渲染，除评论界面外，其他区域不刷新，可以在提交评论时保留其他区域状态，此处与Controller对应-->
+                <div th:fragment="commentList">
+                    <div class="ui comments" style="max-width: 100%">
+                        <h3 class="ui dividing header">Comments</h3>
+
+                        <!----博客详情页评论循环---->
+
+                        <div class="comment"  th:each="comment :${comments}">
+                            <!----头像--->
+                            <a class="avatar">
+                                <img src="../static/images/wechat1.jpg" th:src="@{${comment.avatar}}">
+                            </a>
+                            <!----父级---->
+                            <div class="content">
+                                <a class="author">
+                                    <span th:text="${comment.nickname}">小黑</span>
+                                    <div class="ui mini teal left pointing label" th:if="${comment.adminComment}">博主</div>
                                 </a>
-                                <div class="content">
-                                    <a class="author">Jenny Hess</a>
-                                    <div class="metadata">
-                                        <span class="date">Just now</span>
+                                <div class="metadata">
+                                    <span class="date" th:text="${#dates.format(comment.createTime, 'yyyy-MM-dd HH:mm')}">Today at 5:42PM</span>
+                                </div>
+                                <div class="text" th:text="${comment.content}">
+                                    How artistic!
+                                </div>
+                                <div class="actions">
+                                    <!----onclick="reply(this)"点击回复后响应-- data-commentId="1"表示要回复评论的ID data-commentnickname=""要回复评论的用户名 -->
+                                    <a class="reply active" data-commentid="1" data-commentnickname="Matt"  th:attr="data-commentid=${comment.id},data-commentnickname=${comment.nickname}" onclick="reply(this)">回复</a>
+                                </div>
+                                <!---回复重写中
+                                <form class="ui reply form">
+                                    <div class="field">
+                                        <textarea placeholder="请输入回复..."></textarea>
                                     </div>
-                                    <div class="text">
-                                        Elliot you are always so right :)
+                                    <div class="ui primary submit labeled icon m-mobile-wide button">
+                                        <i class="icon edit"></i>回复
                                     </div>
-                                    <div class="actions">
-                                        <a class="reply">回复</a>
+                                </form>
+                                ---->
+                            </div>
+                            <!----子级---->
+                            <!----#arrays.length()用于求该list集合大小！！！---->
+                            <div class="comments" th:if="${#arrays.length(comment.replyComments)} > 0">
+                                <div class="comment" th:each="reply : ${comment.replyComments}">
+                                    <a class="avatar">
+                                        <img src="../static/images/wechat1.jpg"  th:src="@{${reply.avatar}}">
+                                    </a>
+                                    <div class="content">
+                                        <a class="author">
+                                            <span th:text="${reply.nickname}">小白</span>
+                                            <div class="ui mini teal left pointing label" th:if="${reply.adminComment}">博主</div>
+                                            <span th:text="|@${reply.parentComment.nickname}|" class="m-teal">@小红</span>
+                                            <div class="ui mini teal left pointing basic label" th:if="${reply.parentComment.adminComment}">博主</div>
+                                        </a>
+                                        <div class="metadata">
+                                            <span class="date" th:text="${#dates.format(reply.createTime, 'yyyy-MM-dd HH:mm')}">Just now</span>
+                                        </div>
+                                        <div class="text" th:text="${reply.content}">
+                                            Elliot you are always so right :)
+                                        </div>
+                                        <div class="actions">
+                                            <!----onclick="reply(this)"点击回复后响应-- data-commentId="1"表示要回复评论的ID data-commentnickname=""要回复评论的用户名 -->
+                                            <a class="reply active" data-commentid="1" data-commentnickname="Matt"  th:attr="data-commentid=${reply.id},data-commentnickname=${reply.nickname}" onclick="reply(this)">回复</a>
+                                        </div>
+                                        <!---回复重写中
+                                        <form class="ui reply form">
+                                            <div class="field">
+                                                <textarea placeholder="请输入回复..."></textarea>
+                                            </div>
+                                            <div class="ui primary submit labeled icon m-mobile-wide button">
+                                                <i class="icon edit"></i>回复
+                                            </div>
+                                        </form>
+                                        --->
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="comment">
-                        <a class="avatar">
-                            <img src="../static/images/wechat1.jpg" th:src="@{/images/wechat1.jpg}">
-                        </a>
-                        <div class="content">
-                            <a class="author">Joe Henderson</a>
-                            <div class="metadata">
-                                <span class="date">5 days ago</span>
+
+
+                        <!---静态页面显示 动态页面不显示--->
+                        <!--/*-->
+                        <div class="comment">
+                            <a class="avatar">
+                                <img src="../static/images/wechat1.jpg" th:src="@{/images/wechat1.jpg}">
+                            </a>
+                            <div class="content">
+                                <a class="author">Elliot Fu</a>
+                                <div class="metadata">
+                                    <span class="date">Yesterday at 12:30AM</span>
+                                </div>
+                                <div class="text">
+                                    <p>This has been very useful for my research. Thanks as well!</p>
+                                </div>
+                                <div class="actions">
+                                    <a class="reply">回复</a>
+                                </div>
                             </div>
-                            <div class="text">
-                                Dude, this is awesome. Thanks so much
-                            </div>
-                            <div class="actions">
-                                <a class="reply">回复</a>
+                            <div class="comments">
+                                <div class="comment">
+                                    <a class="avatar">
+                                        <img src="../static/images/wechat1.jpg" th:src="@{/images/wechat1.jpg}">
+                                    </a>
+                                    <div class="content">
+                                        <a class="author">Jenny Hess</a>
+                                        <div class="metadata">
+                                            <span class="date">Just now</span>
+                                        </div>
+                                        <div class="text">
+                                            Elliot you are always so right :)
+                                        </div>
+                                        <div class="actions">
+                                            <a class="reply">回复</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <div class="comment">
+                            <a class="avatar">
+                                <img src="../static/images/wechat1.jpg" th:src="@{/images/wechat1.jpg}">
+                            </a>
+                            <div class="content">
+                                <a class="author">Joe Henderson</a>
+                                <div class="metadata">
+                                    <span class="date">5 days ago</span>
+                                </div>
+                                <div class="text">
+                                    Dude, this is awesome. Thanks so much
+                                </div>
+                                <div class="actions">
+                                    <a class="reply">回复</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--*/-->
                     </div>
                 </div>
             </div>
+
             <!----博客详情页评论-提交评论--->
-            <div class="ui form">
+            <div id="comment-form" class="ui form">
+                <!---定义隐含域----th:value="${blog.id}"后台传递当前评论的博客的id值、当前评论的父级评论id（若有则显示，若无则无法获取，所以给初始值-1）--->
+                <input type="hidden" name="blog.id" th:value="${blog.id}">
+                <input type="hidden" name="parentComment.id" value="-1">
                 <!----博客详情页评论-评论信息输入--->
                 <div class="field">
                     <textarea name="content" placeholder="请输入评论..."></textarea>
@@ -583,19 +657,20 @@
                     <div class="field m-mobile-wide m-margin-b-tiny">
                         <div class="ui left icon input">
                             <i class="user icon"></i>
-                            <input type="text" name="nickname" placeholder="姓名">
+                            <!---定义隐含域----th:value="${}"后台判断当前是否有session的用户，若有则采用用户昵称--->
+                            <input type="text" name="nickname" placeholder="姓名" th:value="${session.user} != null ? ${session.user.nickname}">
                         </div>
                     </div>
                     <div class="field m-mobile-wide m-margin-b-tiny">
                         <div class="ui left icon input">
                             <i class="mail icon"></i>
-                            <input type="text" name="email" placeholder="邮箱">
+                            <!---定义隐含域----th:value="${}"后台判断当前是否有session的用户，若有则采用用户邮箱--->
+                            <input type="text" name="email" placeholder="邮箱" th:value="${session.user} != null ? ${session.user.email}">
                         </div>
                     </div>
                     <div class="field m-mobile-wide m-margin-b-tiny">
-                        <button class="ui teal m-mobile-wide button">
-                            <i class="edit icon"></i>发布
-                        </button>
+                        <!--使用JS脚本submit自动提交新增评论 和 Post中action对应-->
+                        <button id="commentSubmit-button" type="button" class="ui teal m-mobile-wide button"><i class="edit icon"></i>发布</button>
                     </div>
                 </div>
             </div>
@@ -608,7 +683,7 @@
     <!--四个按钮-->
     <div class="ui vertical buttons ">
         <button id="catalogueButton" type="button" class="ui teal button">目录</button>
-        <a href="#comment-content" class="ui teal button">留言</a>
+        <a href="#comment-container" class="ui teal button">留言</a>
         <button class="ui wechatButton icon teal button"><i class="wechat icon"></i></button>
         <div id="toTopButton" class="ui icon teal button"><i class="chevron up icon"></i></div>
     </div>
@@ -677,28 +752,102 @@
     <script src="../static/lib/qrcode/qrcode.min.js"></script>
     <script src="../static/lib/waypoints/jquery.waypoints.min.js"></script>
 <!--/*/</th:block>/*/-->
-    <script>
+<!-----th:inline="javascript"用于blog.id的url中获取blog对象------->
+    <script th:inline="javascript">
+
         //手机端导航菜单按钮
         $('.menu.toggle').click(function (){
             $('.m-item').toggleClass('m-mobile-hide');
         });
+
         //赞赏二维码点击展示
         $('#payButton').popup({
             popup:$('.payQR.popup'),
             on:'click',
             position:'bottom center'
         });
+
         //博客目录点击展示
         $('#catalogueButton').popup({
             popup:$('.MyCatalogue.popup'),
             on:'click',
             position:'left center'
         });
+
+        //（JS不需要调用）直接在首次加载页面时便显示评论信息，若不写则是在评论发布时才显示
+        $(function () {
+            $("#comment-container").load( /*[[@{/comments/{id}(id=${blog.id})}]]*/"");
+        });
+
+        //评论提交按钮响应
+        $('#commentSubmit-button').click(function () {
+            //显式校验form表单
+            var boo = $('.ui.form').form('validate form');
+            if(boo){
+                console.log('校验成功');
+                postData();
+            }else{
+                console.log('校验失败');
+            }
+        });
+
+        //评论提交成功后发送请求 (不能再使用form表单的submit请求，自定义postData用于实现jQuery的ajax请求方法，通过 HTTP 请求加载远程数据，使用load方法动态评论内容，且只刷新评论部分)
+        function postData(){
+            //"#comment-container"代表外层div，使用load方法请求地址，传递form表单内输入的content/nickname/email等内容
+            ///*[[@{/comments}]]*/为thymeleaf写法
+            $("#comment-container").load(
+                //对应post的url  ↓  //*[[@{/comments}]]*/"/comments",
+
+                /*[[@{/comments}]]*/"",
+
+                //提交之后发送这些数据到后台服务  ↓
+                {
+                "content": $("[name='content']").val(),
+                "nickname": $("[name='nickname']").val(),
+                "email": $("[name='email']").val(),
+                "blog.id": $("[name='blog.id']").val(),
+                "parentComment.id": $("[name='parentComment.id']").val(),
+                },
+                //callback回调方法 如果成功返回一个状态值 ↓
+                function (responseTxt,statusTxt,xhr) {
+                    //调用平滑滚动到评论区：！！！按时间正序时不再需要！！！
+                    //$(window).scrollTo($('#comment-container'),300);
+                    //评论提交后清除输入信息
+                    clearCommentMessage();
+                }
+            );
+        }
+
+        //评论提交后清除脚本
+        function clearCommentMessage(){
+            $("[name='content']").val('');
+            $("[name='parentComment.id']").val(-1);
+            //.attr("placeholder","@"+commentNickname)用尼玛双引号！！！坑！！！！
+            $("[name='content']").attr("placeholder","请输入评论...");
+            //nickname、email不必清空 还是同一个人
+            //$("[name='nickname']").val('');
+            //$("[name='email']").val('');
+        }
+
+        //用于点击回复时动态处理自定义的data-commentid、data-commentnickname属性值
+        function reply(obj){
+            //obj为点击时生成对象，.data()为自定义的data-commentid、data-commentnickname值，但是只使用后缀即可(！！！！这种方法HTML中的data-后面必须全部小写不然拿不到！！！！)
+            var commentId=$(obj).data("commentid");
+            var commentNickname=$(obj).data("commentnickname");
+            //attr、val用于对其赋对应值 focus()为光标定位
+            //.attr("placeholder","@"+commentNickname)用尼玛双引号！！！坑！！！！
+            $("[name='content']").attr("placeholder","@"+commentNickname).focus();
+            $("[name='parentComment.id']").val(commentId);
+            //调用平滑滚动到评论编辑区
+            $(window).scrollTo($('#comment-form'),300);
+        }
+
         //初始化微信扫码浮动按钮
         $('.wechatButton').popup({
             popup:$('.wechatQR'),
             position:'left center'
         });
+
         //初始化目录生成插件
         tocbot.init({
             // 目录初始化到哪个指定区域
@@ -706,13 +855,18 @@
             // 以哪些区域的内容生成目录
             contentSelector: '.js-toc-content',
             // 按照内容中指定标题级别生成目录
-            headingSelector: 'h2,h3',
+            headingSelector: 'h1,h2,h3',
             // 对于相对或绝对定位的容器内标题内容
             hasInnerContainers: true,
         });
+
         //初始化二维码生成插件
+        var serurl="127.0.0.1:8080"
+        //获取blog.id的url页面
+        var url=/*[[@{/blogs/{id}(id=${blog.id})}]]*/"";
         var qrcode = new QRCode(document.getElementById("qrcode"/*需要指定的id*/), {
-            text: "http://jindo.dev.naver.com/collie",
+            //text: "http://jindo.dev.naver.com/collie",
+            text: serurl+url,
             /*二维码相关属性*/
             width: 110,
             height: 110,
@@ -720,6 +874,7 @@
             colorLight : "#ffffff",
             correctLevel : QRCode.CorrectLevel.H
         });
+
         //初始化平滑滚动插件
         //$(element).scrollTo(target(位置坐标)[,duration(时间ms)][,settings]);
         $('#toTopButton').click(function (){
@@ -739,7 +894,39 @@
                 console.log('Scrolled to waypoint!'+direction);
             }
         });
+
+        //表格输入限制脚本 非空验证
+        $('.ui.form').form({
+            fields:{
+                //评论非空
+                content:{
+                    identifier:'content',
+                    rules:[{
+                        type:'empty',
+                        prompt:'请输入评论内容!!!'
+                    }]
+                },
+                //昵称非空
+                nickname:{
+                    identifier:'nickname',
+                    rules:[{
+                        type:'empty',
+                        prompt:'请输入您的名称!!!'
+                    }]
+                },
+                //邮箱非空
+                email:{
+                    identifier:'email',
+                    rules:[{
+                        //必须是email形式
+                        type:'email',
+                        prompt:'请输入您的邮箱!!!'
+                    }]
+                }
+            }
+        });
     </script>
+
 
 </body>
 

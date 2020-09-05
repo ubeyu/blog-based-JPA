@@ -32,7 +32,7 @@ public class TagServiceImpl implements TagService {
 
 
     /*---------第三步TagRepository接口构建完成后注入-------*/
-    /*---- 可以对类成员变量、方法及构造函数进行标注 让Spring完成bean自动装配工作 ---*/
+    /*---- 可以对类成员变量、方法及构造函数进行标注 让Spring完成bean自动装配工作 (只有定义了TagRepository，Spring才能自动生成下面的方法)---*/
     @Autowired
     private TagRepository tagRepository;
 

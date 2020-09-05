@@ -28,7 +28,6 @@ public interface TagRepository extends JpaRepository<Tag,Long> {
     Tag findByName(String name);
 
 
-
     /*------ 简单定义接口 在Service中实现-----*/
     /*------ @Query("")自定义查询-----*/
     @Query("select t from Tag t")
