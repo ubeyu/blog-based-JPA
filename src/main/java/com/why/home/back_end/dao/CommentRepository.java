@@ -27,10 +27,10 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
     List<Comment> findByBlogId(Long blogId, Sort sort);
 
 
+
     /*--- 方式一 ----- 自定义根据BlogID查询父级Comment列表的接口方法 Sort用于根据时间顺序排序----*/
     @Query("select c from Comment c where c.parentComment = null ")
     List<Comment> findByBlogIdNullParent(Long blogId, Sort sort);
-
     /*--- 方式二 ---- 自定义根据BlogID查询父级Comment列表的接口方法 Sort用于根据时间顺序排序----*/
     List<Comment> findByBlogIdAndParentCommentNull(Long blogId, Sort sort);
 

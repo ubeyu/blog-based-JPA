@@ -56,7 +56,7 @@
                 </div>
             </div>
             <!----文章列表---->
-            <div class="ui teal top attached segment ">
+            <div class="ui teal top attached segment">
                 <!----不需要获取id则不用加"blog,iterStat:${page.content}"中的iterStat--->
                 <div class="ui padded vertical segment" th:each="blog:${page.content}">
                     <div class="ui middle aligned mobile reversed stackable grid">
@@ -78,10 +78,10 @@
                                         <!----blog.updateTime格式化方法---->
                                         <div class="item">
                                             <!----！！！！span用于行内组合！！！！---->
-                                            <i class="calendar alternate icon"></i><span th:text="${#dates.format(blog.updateTime, 'yyyy-MM-dd HH:mm')}"></span>
+                                            <i class="calendar alternate icon"></i><span th:text="${#dates.format(blog.updateTime, 'yyyy-MM-dd HH:mm')}">时间</span>
                                         </div>
                                         <div class="item">
-                                            <i class="eye icon"></i><span th:text="${blog.views}"></span>
+                                            <i class="eye icon"></i><span th:text="${blog.views}">12</span>
                                         </div>
                                     </div>
                                 </div>
@@ -97,6 +97,7 @@
                         </div>
                     </div>
                 </div>
+
                 <!---静态页面显示 动态页面不显示--->
                 <!--/*-->
                 <div class="ui padded vertical segment">
@@ -166,6 +167,7 @@
                     </div>
                 </div>
                 <!--*/-->
+
             </div>
             <!----上下分页---->
             <div class="ui attached segment" th:if="${page.totalPages>1}">
@@ -191,14 +193,14 @@
                             <h3 class="ui m-text-title-thin header">分类</h3>
                         </div>
                         <div class="right aligned column">
-                            <a href="#" target="_blank">more</a>
+                            <a href="#" th:href="@{/types/-1}" target="_blank">more</a>
                         </div>
                     </div>
                 </div>
                 <!----分类框内容---->
                 <div class="ui teal segment">
                     <div class="ui fluid vertical menu ">
-                        <a href="#" class="item" th:each="type:${types}">
+                        <a href="#" th:href="@{/types/{id}(id=${type.id})}" class="item" th:each="type:${types}">
                             <!----span用于行内！！！---->
                             <span th:text="${type.name}">学习日志</span>
                             <!----#arrays.length()用于求该list集合大小！！！---->
@@ -239,12 +241,12 @@
                             <h3 class="ui m-text-title-thin header">标签</h3>
                         </div>
                         <div class="right aligned column">
-                            <a href="#" target="_blank">more</a>
+                            <a href="#" th:href="@{/tags/-1}" target="_blank">more</a>
                         </div>
                     </div>
                 </div>
                 <div class="ui teal segment ">
-                    <a href="#" target="_blank" class="ui teal basic label m-margin-tb-mini" th:each="tag:${tags}">
+                    <a href="#" th:href="@{/tags/{id}(id=${tag.id})}" target="_blank" class="ui teal basic label m-margin-tb-mini" th:each="tag:${tags}">
                         <!----span用于行内！！！---->
                         <span th:text="${tag.name}">自然辩证法</span>
                         <!----#arrays.length()用于求该集合大小！！！---->
@@ -367,6 +369,5 @@
     </script>
 
 </body>
-
 
 </html>

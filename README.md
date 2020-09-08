@@ -18,3 +18,5 @@ My blog source code(Optimizing)
 2020/09/03 Home display and global query are completed.
 
 2020/09/05 Comment function is completed.
+
+2020/09/08 Blog is basically completed.

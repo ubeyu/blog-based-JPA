@@ -50,46 +50,55 @@
                 <h3 class="ui teal header">归档</h3>
             </div>
             <div class="right aligned column">
-                共 <h3 class="ui orange header m-inline-block m-text-thin">24</h3> 篇博客
+                共 <h3 class="ui orange header m-inline-block m-text-thin" th:text="${blogsNumber}">24</h3> 篇博客
             </div>
         </div>
     </div>
-    <!--归挡年份2017标题-->
-    <h2 class="ui center aligned header">2017</h2>
-    <!--归挡年份2017内容-->
-    <div class="ui segments">
-        <!--归档页面菜单-->
-        <div class="ui fluid vertical menu ">
-            <a href="#" target="_blank" class="item">
+
+    <th:block th:each="item : ${archivesMap}">
+        <!--归挡年份2017标题-->
+        <h2 class="ui center aligned header" th:text="${item.key}">2017</h2>
+        <!--归挡年份2017内容-->
+        <div class="ui segments">
+            <!--归档页面菜单-->
+            <div class="ui fluid vertical menu ">
+                <a href="#" th:href="@{/blogs/{id}(id=${blog.id})}" target="_blank" class="item" th:each="blog : ${item.value}">
+                    <span>
+                        <i class="teal circle icon"></i><span th:text="${blog.title}">学习日志</span>
+                        <div class="ui teal left pointing basic label m-padded-tb-tiny" th:text="${#dates.format(blog.updateTime, 'MMMdd')}">10月2日</div>
+                    </span>
+                    <div class="ui orange label m-padded-tb-tiny"  th:text="${blog.flag}">原创</div>
+                </a>
+                <!---静态页面显示 动态页面不显示--->
+                <!--/*-->
+                <a href="#" target="_blank" class="item">
                     <span>
                         <i class="teal circle icon"></i>学习日志
                         <div class="ui teal left pointing basic label m-padded-tb-tiny">10月2日</div>
                     </span>
-                <div class="ui orange label m-padded-tb-tiny">原创</div>
-            </a>
-            <a href="#" target="_blank" class="item">
+                    <div class="ui orange label m-padded-tb-tiny">原创</div>
+                </a>
+                <a href="#" target="_blank" class="item">
                     <span>
                         <i class="teal circle icon"></i>学习日志
                         <div class="ui teal left pointing basic label m-padded-tb-tiny">10月2日</div>
                     </span>
-                <div class="ui orange label m-padded-tb-tiny">原创</div>
-            </a>
-            <a href="#" target="_blank" class="item">
+                    <div class="ui orange label m-padded-tb-tiny">原创</div>
+                </a>
+                <a href="#" target="_blank" class="item">
                     <span>
                         <i class="teal circle icon"></i>学习日志
                         <div class="ui teal left pointing basic label m-padded-tb-tiny">10月2日</div>
                     </span>
-                <div class="ui orange label m-padded-tb-tiny">原创</div>
-            </a>
-            <a href="#" target="_blank" class="item">
-                    <span>
-                        <i class="teal circle icon"></i>学习日志
-                        <div class="ui teal left pointing basic label m-padded-tb-tiny">10月2日</div>
-                    </span>
-                <div class="ui orange label m-padded-tb-tiny">原创</div>
-            </a>
+                    <div class="ui orange label m-padded-tb-tiny">原创</div>
+                </a>
+                <!--*/-->
+            </div>
         </div>
-    </div>
+    </th:block>
+
+    <!---静态页面显示 动态页面不显示--->
+    <!--/*-->
 
     <!--归挡年份2018标题-->
     <h2 class="ui center aligned header">2019</h2>
@@ -106,7 +115,6 @@
             </a>
         </div>
     </div>
-
     <!--归挡年份2019标题-->
     <h2 class="ui center aligned header">2019</h2>
     <!--归挡年份2019内容-->
@@ -122,7 +130,6 @@
             </a>
         </div>
     </div>
-
     <!--归挡年份2020标题-->
     <h2 class="ui center aligned header">2020</h2>
     <!--归挡年份2020内容-->
@@ -152,6 +159,8 @@
             </a>
         </div>
     </div>
+
+    <!--*/-->
 </div>
 
 <!--底部-->

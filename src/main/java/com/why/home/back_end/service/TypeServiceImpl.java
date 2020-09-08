@@ -75,12 +75,20 @@ public class TypeServiceImpl implements TypeService {
         return typeRepository.findAll();
     }
 
+    /*-----(报错，未使用！！！)实现以文章数量由大到小的顺序获取全部分类的接口----返回一个List<Type>--用于用户分类页---*/
+    @Transactional
+    @Override
+    public List<Type> listTypeByOrder() {
+        Sort sort= Sort.by(Sort.Direction.DESC,"blogs.size");
+        return typeRepository.findAll(sort);
+    }
+
     /*------获取文章最多的分类排行----返回一个List<Type>--用于用户页面展示 size表示显示排行前几个---*/
     /*------typeRepository内没有的方法，需要去DAO层自定义---*/
     @Transactional
     @Override
     public List<Type> listTypeTop(Integer size) {
-        /*------指定排序规则------------本版本Spring需要将new Sort(Sort.Direction.DESC,"blog.size")改为这样的！！！利用的是Type实体类中的blogs集合取size------------------------*/
+        /*------指定排序规则------------本版本Spring需要将new Sort(Sort.Direction.DESC,"blogs.size")改为这样的！！！利用的是Type实体类中的blogs集合取size------------------------*/
         Sort sort= Sort.by(Sort.Direction.DESC,"blogs.size");
         /*------取分页对象中第一页，指定size--------本版本Spring需要将new PageRequest(0,size,sort)改为这样的---------------------------*/
         Pageable pageable= PageRequest.of(0,size,sort);

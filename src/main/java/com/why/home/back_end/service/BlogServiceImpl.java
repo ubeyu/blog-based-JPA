@@ -5,6 +5,7 @@ package com.why.home.back_end.service;
 import com.why.home.back_end.NotFoundException;
 import com.why.home.back_end.dao.BlogRepository;
 import com.why.home.back_end.po.Blog;
+import com.why.home.back_end.po.Tag;
 import com.why.home.back_end.po.Type;
 import com.why.home.back_end.util.MarkDownUtils;
 import com.why.home.back_end.util.MyBeanUtils;
@@ -18,14 +19,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /*---------------------------------------------------------------
               BlogServiceImpl Release 1.0
@@ -131,7 +127,7 @@ public class BlogServiceImpl implements BlogService {
         },pageable);
     }
 
-    /*--------分页查询---@Transactional将操作放入事务中-----*/
+    /*--------分页查询（！也可用于分类页逻辑！）---@Transactional将操作放入事务中-----*/
     /*--------根据Pageable类型和Blog条件（分类/标签/是否推荐）查询--返回一个Page<Blog>-----*/
     /* Blog换为BlogQuery 构造的查询对象 */
     /*-------若直接用Blog会报错java.lang.NullPointerException: null，因为若查询时Type未输入，则.getId()本身会报错。改用直接将三个查询参数封装为一个对象的方式，将type.id封装为这个对象的Long类型id----*/
@@ -163,12 +159,47 @@ public class BlogServiceImpl implements BlogService {
         return blogRepository.findSearchBlog(query,pageable);
     }
 
-    /*------实现获取文章最多的标签排行List的接口----返回一个List<Blog>--用于用户页面展示 size表示显示排行前几个---*/
+    /*------实现获取被推荐文章中按照更新时间的排行List的接口----返回一个List<Blog>--用于用户页面推荐文章展示 size表示显示排行前几个---*/
     @Override
     public List<Blog> listBlogTop(Integer size) {
         Sort sort= Sort.by(Sort.Direction.DESC,"updateTime");
         Pageable pageable= PageRequest.of(0,size,sort);
         return blogRepository.findTopBlog(pageable);
+    }
+
+    @Override
+    public Map<String, List<Blog>> archivesBlog() {
+        List<String> years=blogRepository.findYearsGroup();
+        Map<String,List<Blog>> archivesBlog=new LinkedHashMap<>();
+        for(String year:years){
+             archivesBlog.put(year,blogRepository.findBlogsGroup(year));
+        }
+        return archivesBlog;
+    }
+
+    /*------criteriaQuery实现根据分类ID获取文章List的接口----返回一个List<Blog>--用于分类页面展示---*/
+    @Override
+    public Page<Blog> listBlogByType(Pageable pageable, Long typeId) {
+        return blogRepository.findAll(new Specification<Blog>() {
+            @Override
+            public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                Join join = root.join("type");
+                return criteriaBuilder.equal(join.get("id"),typeId);
+            }
+        },pageable);
+    }
+
+    /*------criteriaQuery实现根据标签ID获取文章List的接口----返回一个List<Blog>--用于标签页面展示---*/
+    @Override
+    public Page<Blog> listBlogByTag(Pageable pageable, Long tagId) {
+        return blogRepository.findAll(new Specification<Blog>() {
+            @Override
+            public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                //关联查询使用Join，root代表根Blog，将tags与blog关联
+                Join join = root.join("tags");
+                return criteriaBuilder.equal(join.get("id"),tagId);
+            }
+        },pageable);
     }
 
     /*--------更新---@Transactional将操作放入事务中-----*/
@@ -216,5 +247,11 @@ public class BlogServiceImpl implements BlogService {
     public void deleteBlog(Long id) {
         /*-------此版本SpringBoot需将delete改为deleteById-----**/
         blogRepository.deleteById(id);
+    }
+
+    /*-------计算blog表中所有数据条数---@Transactional将操作放入事务中----*/
+    @Override
+    public Long countBlogs() {
+        return blogRepository.count();
     }
 }

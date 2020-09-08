@@ -463,28 +463,31 @@
                 </a>
             </div>
 
-            <!----博客详情页内容-内容-赞赏-->
-            <div class="ui center aligned basic m-padded-lr-responsive segment">
-                <div id="payButton" class="ui orange basic circular button">赞赏</div>
-            </div>
-            <!----博客详情页内容-内容-赞赏--二维码-->
-            <div class="ui payQR flowing popup top left transition hidden">
-                <div class="ui orange basic label">
-                    <div class="ui images" style="font-size: inherit">
-                        <div class="image">
-                            <img src="../static/images/wechat1.jpg" th:src="@{/images/wechat1.jpg}" alt="" class="ui rounded bordered image" style="width:120px">
-                            <div>支付宝</div>
-                        </div>
-                        <div class="image">
-                            <img src="../static/images/wechat2.jpg" th:src="@{/images/wechat2.jpg}" alt="" class="ui rounded bordered image" style="width:120px">
-                            <div>微信</div>
+            <div th:if="${blog.appreciationOpening}">
+                <!----博客详情页内容-内容-赞赏-->
+                <div class="ui center aligned basic m-padded-lr-responsive segment">
+                    <div id="payButton" class="ui orange basic circular button">赞赏</div>
+                </div>
+                <!----博客详情页内容-内容-赞赏--二维码-->
+                <div class="ui payQR flowing popup top left transition hidden">
+                    <div class="ui orange basic label">
+                        <div class="ui images" style="font-size: inherit">
+                            <div class="image">
+                                <img src="../static/images/wechat1.jpg" th:src="@{/images/wechat1.jpg}" alt="" class="ui rounded bordered image" style="width:120px">
+                                <div>支付宝</div>
+                            </div>
+                            <div class="image">
+                                <img src="../static/images/wechat2.jpg" th:src="@{/images/wechat2.jpg}" alt="" class="ui rounded bordered image" style="width:120px">
+                                <div>微信</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
         <!----博客详情页信息说明---->
-        <div class="ui attached positive message">
+        <div class="ui attached positive message" th:if="${blog.shareOpening}">
             <div class="ui middle aligned grid">
                 <div class="thirteen wide column">
                     <ui class="list">
@@ -500,7 +503,7 @@
             </div>
         </div>
         <!----博客详情页评论---->
-        <div  class="ui bottom attached segment">
+        <div  class="ui bottom attached segment" th:if="${blog.commentOpening}">
             <!----博客详情页评论-详情-----id="comment-container"用于动态刷新评论页面-->
             <!--配合自定义postData用于实现jQuery的ajax请求方法，通过 HTTP 请求加载远程数据，使用post方法动态获取评论内容，用于提交评论时局部渲染--<div id="comment-container">不用#-->
             <div id="comment-container" class="ui teal segment">
@@ -861,7 +864,7 @@
         });
 
         //初始化二维码生成插件
-        var serurl="127.0.0.1:8080"
+        var serurl=/*[[#{blogs.serurl}]]*/"";
         //获取blog.id的url页面
         var url=/*[[@{/blogs/{id}(id=${blog.id})}]]*/"";
         var qrcode = new QRCode(document.getElementById("qrcode"/*需要指定的id*/), {

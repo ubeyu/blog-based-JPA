@@ -34,5 +34,4 @@ public interface TypeRepository extends JpaRepository<Type,Long> {
         /*------Pageable根据分页对象传递参数，分页对象内有排序及大小-----*/
     List<Type> findTopType(Pageable pageable);
 
-
 }

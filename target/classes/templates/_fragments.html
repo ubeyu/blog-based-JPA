@@ -35,8 +35,8 @@
             <h2 class="ui teal header item">WhyHomePage</h2>
             <!---将导航做统一模板，引入th:classappend=" ${n==1} ? 'active' "判断是否需要添加active--->
             <a href="#" th:href="@{/}" class="m-item item m-mobile-hide" th:classappend=" ${n==1} ? 'active' "><i class="home icon"></i>首页</a>
-            <a href="#" th:href="@{/types}" class="m-item item m-mobile-hide" th:classappend=" ${n==2} ? 'active' "><i class="tasks icon"></i>分类</a>
-            <a href="#" th:href="@{/tags}" class="m-item item m-mobile-hide" th:classappend=" ${n==3} ? 'active' "><i class="tags icon"></i>标签</a>
+            <a href="#" th:href="@{/types/-1}" class="m-item item m-mobile-hide" th:classappend=" ${n==2} ? 'active' "><i class="tasks icon"></i>分类</a>
+            <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend=" ${n==3} ? 'active' "><i class="tags icon"></i>标签</a>
             <a href="#" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend=" ${n==4} ? 'active' "><i class="clone icon"></i>归档</a>
             <a href="#" th:href="@{/aboutme}" class="m-item item m-mobile-hide" th:classappend=" ${n==5} ? 'active' "><i class="user circle icon"></i> 关于我</a>
             <div class="m-item right item m-mobile-hide">
@@ -75,24 +75,31 @@
             <!-----中间最新博客----->
             <div class="three wide column">
                 <h4 class="ui inverted header">最新博客</h4>
-                <div class="ui inverted link list">
-                    <a href="#" class="item">用户故事</a>
-                    <a href="#" class="item">用户故事</a>
-                    <a href="#" class="item">用户故事</a>
+                <div id="newBlogs-container">
+                    <div class="ui inverted link list" th:fragment="newBlogList">
+                        <a href="#" th:href="@{/blogs/{id}(id=${blog.id})}" target="_blank" class="item" th:each="blog : ${newBlogs}" th:text="${blog.title}">用户故事</a>
+                        <!---静态页面显示 动态页面不显示--->
+                        <!--/*-->
+                        <a href="#" class="item">用户故事</a>
+                        <a href="#" class="item">用户故事</a>
+                        <!--*/-->
+                    </div>
                 </div>
             </div>
             <!-----中间联系我----->
             <div class="four wide column">
                 <h4 class="ui inverted header">联系我</h4>
                 <div class="ui inverted link list">
-                    <a href="#" class="item">E-mail：wanghaoyang949@gmail.com</a>
+                    <a href="#" class="item" th:text="#{footer.email}">E-mail：wanghaoyang949@gmail.com</a>
                     <a href="#" class="item">QQ：363057994</a>
                 </div>
             </div>
             <!-----右边资料----->
             <div class="six wide column">
-                <h4 class="ui inverted header ">WHY</h4>
-                <p class="m-text-thin m-text-spaced m-opacity-small">1111111111111</p>
+                <h4 class="ui inverted header ">Wang Haoyang</h4>
+                <p class="m-text-thin m-text-spaced m-opacity-small">A player majoring in automation who wants to enter a big factory.</p>
+                <p class="m-text-thin m-text-spaced m-opacity-small">Huazhong University of Science and Technology</p>
+                <p class="m-text-thin m-text-spaced m-opacity-small">Wuhan, Hubei, China</p>
             </div>
         </div>
         <!-----下方所有权----->
@@ -111,6 +118,9 @@
     <script src="../static/lib/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>
     <script src="../static/lib/qrcode/qrcode.min.js" th:src="@{/lib/qrcode/qrcode.min.js}"></script>
     <script src="../static/lib/waypoints/jquery.waypoints.min.js" th:src="@{/lib/waypoints/jquery.waypoints.min.js}"></script>
+    <script>
+        $('#newBlogs-container').load(/*[[@{/footer/newBlogs}]]*/"/footer/newBlogs");
+    </script>
 </th:block>
 
 </body>
