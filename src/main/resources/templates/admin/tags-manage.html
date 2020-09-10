@@ -13,68 +13,84 @@
 </head>
 
 <body>
+<!-- Sidebar Menu -->
+<div th:replace="admin/_fragments :: sidebar(3)" class="ui vertical sidebar menu">
 
-<!--导航-->
-<!---将导航做统一模板，引入th:replace通过参数n区分不同active，此处传入0--->
-<nav th:replace="admin/_fragments :: menu(3)"class="ui inverted attached segment m-padded-tb-mini m-shadow-bottom-small">
-    <div class="ui container">
-        <!--导航主菜单-->
-        <div class="ui inverted secondary stackable menu ">
-            <h2 class="ui teal header item">后台管理</h2>
-            <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>博客管理</a>
-            <a href="#" class="m-item item m-mobile-hide"><i class="tasks icon"></i>分类管理</a>
-            <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>标签管理</a>
-            <div class="m-item right item m-mobile-hide">
-                <div class="ui dropdown item">
-                    <div class="text">
-                        <img src="images/myavatar.jpg">
-                        why
-                    </div>
-                    <i class="dropdown icon"></i>
-                    <div class="menu">
-                        <!--------通过Thymeleaf中th:href注销---Controller---/admin/loginOut----->
-                        <a href="#" class="item">注销</a>
+</div>
+
+<div class="pusher">
+    <!--导航-->
+    <!---将导航做统一模板，引入th:replace通过参数n区分不同active，此处传入0--->
+    <nav th:replace="admin/_fragments :: menu(3)"class="ui inverted attached segment m-padded-tb-mini m-shadow-bottom-small">
+        <div class="ui container">
+            <!--导航主菜单-->
+            <div class="ui inverted secondary stackable menu ">
+                <h2 class="ui teal header item">后台管理</h2>
+                <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>博客管理</a>
+                <a href="#" class="m-item item m-mobile-hide"><i class="tasks icon"></i>分类管理</a>
+                <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>标签管理</a>
+                <div class="m-item right item m-mobile-hide">
+                    <div class="ui dropdown item">
+                        <div class="text">
+                            <img src="images/myavatar.jpg">
+                            why
+                        </div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <!--------通过Thymeleaf中th:href注销---Controller---/admin/loginOut----->
+                            <a href="#" class="item">注销</a>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!--导航手机端菜单按钮-->
         </div>
-        <!--导航手机端菜单按钮-->
+        <a href="#" class="ui menu toggle black m-top-right m-pc-hide button">
+            <i class="sidebar icon"></i>
+        </a>
+    </nav>
+    <!--二级导航-->
+    <div class="ui attached pointing menu">
+        <div class="ui container">
+            <div class="right menu">
+                <a href="#" th:href="@{/admin/tagManage}" class="teal active item">列表</a>
+                <a href="#" th:href="@{/admin/tagManage/add}" class="item">发布</a>
+            </div>
+        </div>
     </div>
-    <a href="#" class="ui menu toggle black m-top-right m-pc-hide button">
-        <i class="sidebar icon"></i>
-    </a>
-</nav>
-<!--二级导航-->
-<div class="ui attached pointing menu">
-    <div class="ui container">
-        <div class="right menu">
-            <a href="#" th:href="@{/admin/tagManage}" class="teal active item">列表</a>
-            <a href="#" th:href="@{/admin/tagManage/add}" class="item">发布</a>
-        </div>
-    </div>
-</div>
 
-<!--中间-->
-<div class="m-container m-padded-tb-large">
-    <div class="ui container">
-        <!-------由RedirectAttributes输入 增加上方自定义提示消息 使用Thymeleaf进行判断 标签名称输入不为空时提示消息------->
-        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
-            <i class="close icon"></i><div class="header">提示：</div>
-            <p th:text="${message}">操作成功！</p>
-        </div>
+    <!--中间-->
+    <div class="m-container m-padded-tb-large">
 
-        <!--管理表-->
-        <table class="ui teal celled table">
-            <!--表头-->
-            <thead>
+        <div class="ui container">
+
+            <!-------由RedirectAttributes输入 增加上方自定义提示消息 使用Thymeleaf进行判断 标签名称输入不为空时提示消息------->
+            <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+                <i class="close icon"></i><div class="header">提示：</div>
+                <p th:text="${message}">操作成功！</p>
+            </div>
+
+            <!--页面头部-->
+            <div class="ui teal segment m-padded-tb-medium">
+                <div class="ui middle aligned two column grid">
+                    <div class="column">
+                        <h3 class="ui teal header">标签管理</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!--管理表-->
+            <table class="ui teal celled table">
+                <!--表头-->
+                <thead>
                 <tr>
                     <th></th>
                     <th>标签名称</th>
                     <th>操作</th>
                 </tr>
-            </thead>
-            <!--内容-->
-            <tbody>
+                </thead>
+                <!--内容-->
+                <tbody>
                 <!--与后端结合 使用th:each以循环的方式从page对象中的content可以获取所有tag对象 iterStat表示进行循环 -->
                 <tr th:each="tag,iterStat:${page.content}">
                     <!--使用th:text从iterStat中获取循环索引值-->
@@ -92,9 +108,9 @@
                         <a href="#" th:href="@{/admin/tagManage/delete/{id}(id=${tag.id})}" class="ui mini red button">删除</a>
                     </td>
                 </tr>
-            </tbody>
-            <!--底部-->
-            <tfoot>
+                </tbody>
+                <!--底部-->
+                <tfoot>
                 <tr>
                     <th colspan="6">
                         <!--------通过Thymeleaf中th:href---Controller---/admin/tagManage----->
@@ -111,16 +127,16 @@
                             <!--th:unless="${page.first}"代表如果不是最后一页 就显示第下一页按钮-->
                             <a th:href="@{/admin/tagManage(page=${page.number}+1)}" class="icon item" th:unless="${page.last}">下一页</a>
                         </div>
-                            <!--新增-->
-                            <!--------通过Thymeleaf中th:href---Controller---/admin/tagManage/add----->
-                            <!--使用/admin/tagManage/add进入新增页-->
+                        <!--新增-->
+                        <!--------通过Thymeleaf中th:href---Controller---/admin/tagManage/add----->
+                        <!--使用/admin/tagManage/add进入新增页-->
                         <a href="#" th:href="@{/admin/tagManage/add}" class="ui right floated blue button">新增</a>
                     </th>
                 </tr>
-            </tfoot>
-        </table>
+                </tfoot>
+            </table>
+        </div>
     </div>
-</div>
 </div>
 
 <!--底部-->
@@ -169,29 +185,31 @@
 
 <!-----Thymeleaf中特殊注释方式，在Thymeleaf模板下会自动取消注释------->
 <!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 <!--/*/</th:block>/*/-->
-    <script>
-        //手机端导航菜单按钮
-        $('.menu.toggle').click(function (){
-            $('.m-item').toggleClass('m-mobile-hide');
+<script>
+    //手机端导航菜单按钮
+    $('.menu.toggle').click(function (){
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+    //下拉选择框脚本
+    $('.ui.dropdown')
+        .dropdown({
+            // you can use any ui transition
+            on:'hover',
+            transition: 'drop'
         });
-        //下拉选择框脚本
-        $('.ui.dropdown')
-            .dropdown({
-                // you can use any ui transition
-                on:'hover',
-                transition: 'drop'
-            });
-        //消息提示关闭脚本
-        $('.message .close')
-            .on('click',function () {
-                $(this)
-                    .closest('.message')
-                    .transition('fade');
-            });
-    </script>
+    //消息提示关闭脚本
+    $('.message .close')
+        .on('click',function () {
+            $(this)
+                .closest('.message')
+                .transition('fade');
+        });
+</script>
+</div>
+
 </body>
 
 

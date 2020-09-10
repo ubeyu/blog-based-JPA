@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!---传入参数title引入--->
+    <title>Winter949</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/typo.css" th:href="@{/css/typo.css}">
+    <link rel="stylesheet" href="../static/css/animate.css" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" href="../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
+    <link rel="stylesheet" href="../static/lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">
+    <!--link rel="stylesheet" href="../static/lib/semantic-ui/semantic.css" th:href="@{/lib/semantic-ui/semantic.css}"-->
+    <link rel="stylesheet" href="../static/css/home.css">
+</head>
+
+<body id="home">
+
+<!--part 1-->
+<div class="ui inverted masthead centered segment">
+    <div class="ui page grid">
+        <div class="column">
+            <!-- Nav bar-->
+            <nav>
+                <div class="ui secondary pointing menu">
+                    <a href="/" class="ui logo item">Shell845</a>
+                    <a href="/" class="m-item item m-mobile-hide active"><i class="fas fa-home"></i>Home</a>
+                    <a href="/categories/-1" class="m-item item m-mobile-hide"><i class="fas fa-bookmark"></i> Categories</a>
+                    <a href="/tags/-1" class="m-item item m-mobile-hide"><i class="fas fa-tag"></i> Tags</a>
+                    <a href="/archives" class="m-item item m-mobile-hide"><i class="fas fa-history"></i> Archives</a>
+                    <div class="m-item right item">
+                        <form name="search" action="/search" method="post">
+                            <div class="ui icon inverted transparent input">
+                                <input type="text" name="query" placeholder="Search..." value="">
+                                <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                            </div>
+                        </form>
+                    </div>
+                    <!--div class="right m-item item menu-item-search">
+                        <form name="search" action="#" th:action="@{/search}" method="post" >
+                            <div class="ui icon inverted transparent input m-margin-tb-tiny">
+                                <input type="text" name="query" placeholder="Search. abc..." th:value="${query}">
+                                <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                            </div>
+                        </form>
+                    </div-->
+                </div>
+                <!--a href="#" class="ui menu toggle icon inverted m-top-right button m-mobile-display m-opacity-small">
+                  <i class="fas fa-bars m-poolside"></i>
+                </a-->
+            </nav>
+
+            <!--homepage banner-->
+            <!--desktop-->
+            <div class="ui hidden transition information">
+                <h1 class="ui inverted centered aligned header m-mobile-hide"><span>Keep Going</span></h1>
+                <p class="ui centered lead m-mobile-hide">There&#39;s only one corner of the universe you can be sure of improving - YOUR OWN SELF.</p>
+                <a href="/archives" class="large basic inverted animated fade ui button m-mobile-hide">
+                    <div class="visible content">Welcome to my blog</div>
+                    <div class="hidden content">Read more</div>
+                </a>
+                <div class="ui centered image m-mobile-hide">
+                    <img class="rounded" src="/images/homepageheader.jpg"/>
+                </div>
+            </div>
+            <!--mobile-->
+            <h1 class="ui inverted center aligned m-mobile-display header">
+                <sapn>Welcome to my blog</sapn>
+            </h1>
+            <p class="ui centered lead m-mobile-display">There&#39;s only one corner of the universe you can be sure of improving - YOUR OWN SELF.</p>
+        </div>
+    </div>
+</div>
+
+<!--part 2-->
+<div class="ui vertical feature segment">
+    <div class="ui centered page grid">
+        <!--latest post header-->
+        <div class="row">
+            <div class="eight wide centered column">
+                <h1 class="ui grey center aligned header m-margin-tb-mid"><span style="color:grey">Latest Posts</span></h1>
+                <div class="ui horizontal divider"><i class="far fa-paper-plane"></i></div>
+                <p class="ui centered lead" style="color:grey">Checkout the latest posts...</p>
+            </div>
+        </div>
+        <!--latest post list-->
+        <div class="fourteen wide column">
+            <div class="ui three column center aligned stackable divided grid">
+                <!--column 1-->
+                <div class="column column-feature">
+                    <h2 class="ui center aligned teal header">Replace ELB + ACM with Nginx + Certbot</h2>
+                    <p class="m-text">How to setup Nginx as reverse proxy and manage CA cert with Certbot for my personal blog....</p>
+                    <p><a href="/blog/2" class="ui primary inverted button">Read</a></p>
+                </div>
+                <div class="column column-feature">
+                    <h2 class="ui center aligned teal header">Deploy Java Web App to AWS</h2>
+                    <p class="m-text">A deployment guide to deploy java web app to AWS involving EC2, RDS, ELB and S3....</p>
+                    <p><a href="/blog/1" class="ui primary inverted button">Read</a></p>
+                </div>
+                <!--column 2-->
+                <!--column 3-->
+            </div>
+        </div>
+    </div>
+    <div class="ui centered page grid">
+        <a class="ui teal button m-margin-tb-mid" href="/categories/-1">Read More Posts</a>
+    </div>
+</div>
+
+<!--part 3 purple background-->
+<div class="ui vertical purplebackground segment">
+    <div class="ui very relaxed stackable centered page grid">
+        <!--explore header-->
+        <div class="row">
+            <div class="eight wide centered column">
+                <h1 class="center aligned ui inverted header"> Explore More </h1>
+                <div class="ui horizontal divider"><i class="far fa-paper-plane"></i></div>
+            </div>
+        </div>
+        <div class="fourteen wide centered column">
+            <div class="ui two column aligned stackable divided grid m-padded-side">
+                <!--explore categories-->
+                <div class="column">
+                    <div class="ui segment">
+                        <div class="ui two column grid">
+                            <div class="column">
+                                <i class="fas fa-bookmark"></i> <span style="color:teal">By categories</span>
+                            </div>
+                            <div class="right aligned column">
+                                <a href="/categories/-1">More <i class="fas fa-angle-double-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="ui fluid vertical menu">
+                            <a href="/categories/1" class="item">
+                                <span style="color:teal">Techtalk</span>
+                                <div class="ui teal left pointing label m-text-mid">4</div>
+                            </a><a href="/categories/2" class="item">
+                            <span style="color:teal">Data strus &amp; algo</span>
+                            <div class="ui teal left pointing label m-text-mid">0</div>
+                        </a><a href="/categories/3" class="item">
+                            <span style="color:teal">Story</span>
+                            <div class="ui teal left pointing label m-text-mid">0</div>
+                        </a>
+                        </div>
+                    </div>
+                </div>
+                <!--explore tags-->
+                <div class="column">
+                    <div class="ui segment">
+                        <div class="ui two column grid">
+                            <div class="column">
+                                <i class="fas fa-tags"></i> <span style="color:teal">By tags</span>
+                            </div>
+                            <div class="right aligned column">
+                                <a href="/tags/-1">More <i class="fas fa-angle-double-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="ui fluid vertical menu">
+                            <a href="/tags/1" class="ui teal left pointing label m-text-thin m-margin-tb-mid">
+                                <span>AWS</span>
+                                <div class="detail">2</div>
+                            </a><a href="/tags/2" class="ui teal left pointing label m-text-thin m-margin-tb-mid">
+                            <span>Java</span>
+                            <div class="detail">1</div>
+                        </a><a href="/tags/11" class="ui teal left pointing label m-text-thin m-margin-tb-mid">
+                            <span>Nginx</span>
+                            <div class="detail">1</div>
+                        </a><a href="/tags/3" class="ui teal left pointing label m-text-thin m-margin-tb-mid">
+                            <span>Array</span>
+                            <div class="detail">0</div>
+                        </a><a href="/tags/4" class="ui teal left pointing label m-text-thin m-margin-tb-mid">
+                            <span>Linkedlist</span>
+                            <div class="detail">0</div>
+                        </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="ui inverted footer vertical segment center">
+    <div class="ui stackable center aligned page grid m-opacity-small">
+        <div class="row">
+            <div class="column">
+                <h5 class="ui inverted header m-opacity-small">Contact: <span>please leave a comment and I will back to you</span></h5>
+                <div class="ui inverted link list">
+                    <small class="mini item m-opacity-small">Copyright©shell845</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+    <script src="../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
+    <script src="../static/lib/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>
+    <script src="../static/lib/qrcode/qrcode.min.js" th:src="@{/lib/qrcode/qrcode.min.js}"></script>
+    <script src="../static/lib/waypoints/jquery.waypoints.min.js" th:src="@{/lib/waypoints/jquery.waypoints.min.js}"></script>
+    <script>
+    $('.menu.toggle').click(function () {
+            $('.m-item').toggleClass('m-mobile-hide');
+        });
+
+        $('.ui.dropdown').dropdown({
+            on : 'hover'
+        });
+
+        $('#sponsorButton').popup({
+            popup: $('.sponsorPopup.popup'),
+            on: 'click',
+            position: 'bottom center'
+        });
+    $(document)
+        .ready(function() {
+
+            var
+                changeSides = function() {
+                    $('.ui.shape')
+                        .eq(0)
+                        .shape('flip over')
+                        .end()
+                        .eq(1)
+                        .shape('flip over')
+                        .end()
+                        .eq(2)
+                        .shape('flip back')
+                        .end()
+                        .eq(3)
+                        .shape('flip back')
+                        .end()
+                    ;
+                },
+                validationRules = {
+                    firstName: {
+                        identifier  : 'email',
+                        rules: [
+                            {
+                                type   : 'empty',
+                                prompt : 'Please enter an e-mail'
+                            },
+                            {
+                                type   : 'email',
+                                prompt : 'Please enter a valid e-mail'
+                            }
+                        ]
+                    }
+                }
+            ;
+
+            $('.ui.dropdown')
+                .dropdown({
+                    on: 'hover'
+                })
+            ;
+
+            $('.ui.form')
+                .form(validationRules, {
+                    on: 'blur'
+                })
+            ;
+
+            $('.masthead .information')
+                .transition('scale in', 1000)
+            ;
+
+            setInterval(changeSides, 3000);
+
+        })
+    </script>
+
+</body>
+
+</html>

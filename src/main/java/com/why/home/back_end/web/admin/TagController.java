@@ -47,7 +47,7 @@ public class TagController {
                             sort代表排序依据 此处按照"id"排序
                             direction代表排序方式 此处DESC表示倒序----------------- */
     /* Model存储SpringBoot是查询后的信息 */
-    public String managePage(@PageableDefault(size = 3 , sort = {"id"} , direction = Sort.Direction.DESC) Pageable pageable, Model model) {
+    public String managePage(@PageableDefault(size = 8 , sort = {"id"} , direction = Sort.Direction.DESC) Pageable pageable, Model model) {
         /* Model存储查询后的分页信息 从而输出给前端页面 进行数据渲染 */
         /* tagService.listTag(pageable)返回类似JSON的信息 */
         model.addAttribute("page",tagService.listTag(pageable));

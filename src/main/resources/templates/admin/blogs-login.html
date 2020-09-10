@@ -13,120 +13,132 @@
 </head>
 
 <body>
+<!-- Sidebar Menu -->
+<div th:replace="admin/_fragments :: sidebar(0)" class="ui vertical sidebar menu">
 
-<!--导航-->
-<!---将导航做统一模板，引入th:replace通过参数n区分不同active，此处传入0--->
-<nav class="ui inverted attached segment m-padded-tb-mini m-shadow-bottom-small">
-    <div class="ui container">
-        <!--导航主菜单-->
-        <div class="ui inverted secondary stackable menu ">
-            <h2 class="ui teal header item">后台管理</h2>
-            <a href="#" th:href="@{/admin/blogManage}" class="m-item item m-mobile-hide"><i class="home icon"></i>博客管理</a>
-            <a href="#" th:href="@{/admin/typeManage}" class="m-item item m-mobile-hide"><i class="tasks icon"></i>分类管理</a>
-            <a href="#" th:href="@{/admin/tagManage}" class="m-item item m-mobile-hide"><i class="tags icon"></i>标签管理</a>
-            <div class="m-item right item m-mobile-hide">
-                <div class="ui dropdown item">
-                    <div class="text">
-                        <img src="images/myavatar.jpg">
-                        未登录
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--导航手机端菜单按钮-->
-    </div>
-    <a href="#" class="ui menu toggle black m-top-right m-pc-hide button">
-        <i class="sidebar icon"></i>
-    </a>
-</nav>
-
-
-<!--中间-->
-<div class="m-container-login m-padded-tb-message-massive">
-    <div class="ui container">
-        <div class="column">
-            <h2 class="ui teal image header">
-                <img src="../../static/images/myavatar.jpg" th:src="@{/images/myavatar.jpg}" class="image">
-                <div class="content">
-                    后台管理
-                </div>
-            </h2>
-            <!--------method="post"表单以post方式提交----------->
-            <!--------通过Thymeleaf中th:action与后台管理连接------将表单输入的用户名和密码提交给Controller---/admin/login----->
-            <form class="ui large form" method="post" action="#" th:action="@{/admin/login}">
-                <div class="ui segment">
-                    <div class="field">
-                        <div class="ui left icon input">
-                            <i class="user icon"></i>
-                            <input type="text" name="username" placeholder="用户名">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="ui left icon input">
-                            <i class="lock icon"></i>
-                            <input type="password" name="password" placeholder="密码">
-                        </div>
-                    </div>
-                    <button class="ui fluid large teal submit button">登录</button>
-                </div>
-                <!-------若为空 后台按照script会做出相应提示--------->
-                <div class="ui mini error message"></div>
-                <!-------增加自定义提示消息 使用Thymeleaf进行判断 非空 用户名或密码输入错误时 提示消息------->
-                <div class="ui mini negative message" th:unless="${#strings.isEmpty(message)}" th:text="${message}">用户名或密码错误</div>
-            </form>
-        </div>
-    </div>
 </div>
 
-<!--底部-->
-<!---将底部做统一模板，引入th:replace，每个页面底部完全一致--->
-<footer th:replace="admin/_fragments :: footer" class="ui inverted vertical segment m-padded-tb-large m-shadow-top-small">
-    <div class="ui center aligned container">
-        <!-----上方介绍----->
-        <div class="ui inverted divided stackable grid">
-            <!-----左边二维码----->
-            <div class="three wide column">
-                <div class="ui inverted link list">
-                    <div class="item">
-                        <!---引入th:replace后不需加th:src="@{/images/wechat1.jpg}"-->
-                        <img src="../static/images/wechat1.jpg" class="ui rounded image" style="width: 130px">
+<div class="pusher">
+    <!--导航-->
+    <!---将导航做统一模板，引入th:replace通过参数n区分不同active，此处传入0--->
+    <nav>
+        <div class="ui m-purplebackground masthead_others inverted attached masthead-fragment segment m-shadow-bottom-small">
+            <div class="ui container">
+                <!--导航主菜单-->
+                <div class="ui large secondary inverted menu">
+                    <!--h2 class="ui teal header item">WhyHomePage</h2-->
+                    <!---将导航做统一模板，引入th:classappend=" ${n==1} ? 'active' "判断是否需要添加active--->
+                    <a class="toc item">
+                        <i class="sidebar icon"></i>
+                    </a>
+                    <div class="m-text-font item">
+                        <a href="/" th:href="@{/}" class="">Winter949</a>
+                    </div>
+                    <!---将导航做统一模板，引入th:classappend=" ${n==1} ? 'active' "判断是否需要添加active--->
+                    <a href="#" th:href="@{/admin/blogManage}" class="item m-mobile-hide"><i class="home icon"></i>Blogs Manage</a>
+                    <a href="#" th:href="@{/admin/typeManage}" class="item m-mobile-hide"><i class="tasks icon"></i>Types Manage</a>
+                    <a href="#" th:href="@{/admin/tagManage}" class="item m-mobile-hide"><i class="tags icon"></i>Tags Manage</a>
+                    <div class="right item">
+                        <div class="ui dropdown item">
+                            <div class="text">
+                                <img src="images/myavatar.jpg">
+                                未登录
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-----中间最新博客----->
-            <div class="three wide column">
-                <h4 class="ui inverted header">最新博客</h4>
-                <div class="ui inverted link list">
-                    <a href="#" class="item">用户故事</a>
-                    <a href="#" class="item">用户故事</a>
-                    <a href="#" class="item">用户故事</a>
-                </div>
-            </div>
-            <!-----中间联系我----->
-            <div class="four wide column">
-                <h4 class="ui inverted header">联系我</h4>
-                <div class="ui inverted link list">
-                    <a href="#" class="item">E-mail：wanghaoyang949@gmail.com</a>
-                    <a href="#" class="item">QQ：363057994</a>
-                </div>
-            </div>
-            <!-----右边资料----->
-            <div class="six wide column">
-                <h4 class="ui inverted header ">WHY</h4>
-                <p class="m-text-thin m-text-spaced m-opacity-small">1111111111111</p>
+                <!--导航手机端菜单按钮-->
             </div>
         </div>
-        <!-----下方所有权----->
-        <div class="ui inverted section divider"></div>
-        <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2020 - 2021 Why. All Rights Reserved. </p>
-    </div>
-</footer>
+    </nav>
 
-<!-----Thymeleaf中特殊注释方式，在Thymeleaf模板下会自动取消注释------->
-<!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
+
+    <!--中间-->
+    <div class="m-container-login m-padded-tb-message-massive">
+        <div class="ui container">
+            <div class="column">
+                <h2 class="ui teal image header">
+                    <img src="../../static/images/myavatar.jpg" th:src="@{/images/myavatar.jpg}" class="image">
+                    <div class="content">
+                        后台管理
+                    </div>
+                </h2>
+                <!--------method="post"表单以post方式提交----------->
+                <!--------通过Thymeleaf中th:action与后台管理连接------将表单输入的用户名和密码提交给Controller---/admin/login----->
+                <form class="ui large form" method="post" action="#" th:action="@{/admin/login}">
+                    <div class="ui segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i>
+                                <input type="text" name="username" placeholder="用户名">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" name="password" placeholder="密码">
+                            </div>
+                        </div>
+                        <button class="ui fluid large teal submit button">登录</button>
+                    </div>
+                    <!-------若为空 后台按照script会做出相应提示--------->
+                    <div class="ui mini error message"></div>
+                    <!-------增加自定义提示消息 使用Thymeleaf进行判断 非空 用户名或密码输入错误时 提示消息------->
+                    <div class="ui mini negative message" th:unless="${#strings.isEmpty(message)}" th:text="${message}">用户名或密码错误</div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--底部-->
+    <!---将底部做统一模板，引入th:replace，每个页面底部完全一致--->
+    <footer th:replace="admin/_fragments :: footer" class="ui inverted vertical segment m-padded-tb-large m-shadow-top-small">
+        <div class="ui center aligned container">
+            <!-----上方介绍----->
+            <div class="ui inverted divided stackable grid">
+                <!-----左边二维码----->
+                <div class="three wide column">
+                    <div class="ui inverted link list">
+                        <div class="item">
+                            <!---引入th:replace后不需加th:src="@{/images/wechat1.jpg}"-->
+                            <img src="../static/images/wechat1.jpg" class="ui rounded image" style="width: 130px">
+                        </div>
+                    </div>
+                </div>
+                <!-----中间最新博客----->
+                <div class="three wide column">
+                    <h4 class="ui inverted header">最新博客</h4>
+                    <div class="ui inverted link list">
+                        <a href="#" class="item">用户故事</a>
+                        <a href="#" class="item">用户故事</a>
+                        <a href="#" class="item">用户故事</a>
+                    </div>
+                </div>
+                <!-----中间联系我----->
+                <div class="four wide column">
+                    <h4 class="ui inverted header">联系我</h4>
+                    <div class="ui inverted link list">
+                        <a href="#" class="item">E-mail：wanghaoyang949@gmail.com</a>
+                        <a href="#" class="item">QQ：363057994</a>
+                    </div>
+                </div>
+                <!-----右边资料----->
+                <div class="six wide column">
+                    <h4 class="ui inverted header ">WHY</h4>
+                    <p class="m-text-thin m-text-spaced m-opacity-small">1111111111111</p>
+                </div>
+            </div>
+            <!-----下方所有权----->
+            <div class="ui inverted section divider"></div>
+            <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2020 - 2021 Why. All Rights Reserved. </p>
+        </div>
+    </footer>
+
+    <!-----Thymeleaf中特殊注释方式，在Thymeleaf模板下会自动取消注释------->
+    <!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-<!--/*/</th:block>/*/-->
+    <!--/*/</th:block>/*/-->
     <script>
         //手机端导航菜单按钮
         $('.menu.toggle').click(function (){
@@ -161,8 +173,7 @@
             }
         });
     </script>
-
-
+</div>
 
 </body>
 

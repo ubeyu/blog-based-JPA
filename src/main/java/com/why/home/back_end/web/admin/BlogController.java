@@ -58,7 +58,7 @@ public class BlogController {
                             sort代表排序依据 此处按照"updateTime"排序
                             direction代表排序方式 此处DESC表示倒序----------------- */
     /* Blog换为BlogQuery 构造的查询对象 */
-    public String manage(@PageableDefault(size = 5 , sort = {"updateTime"} , direction = Sort.Direction.DESC) Pageable pageable, BlogQuery blogQuery, Model model){
+    public String manage(@PageableDefault(size = 8 , sort = {"updateTime"} , direction = Sort.Direction.DESC) Pageable pageable, BlogQuery blogQuery, Model model){
         /* Model存储所有分类信息List 从而输出给前端页面 进行！！！分类搜索框！！！数据渲染 */
         /* typeService.listType()返回类似JSON的信息 */
         model.addAttribute("types",typeService.listType());
@@ -75,7 +75,7 @@ public class BlogController {
     /* Blog换为BlogQuery 构造的查询对象 */
     /*-------若直接用Blog会报错java.lang.NullPointerException: null，因为若查询时Type未输入，则.getId()本身会报错。改用直接将三个查询参数封装为一个对象的方式，将type.id封装为这个对象的Long类型id----*/
     @PostMapping("/blogManage/search")
-    public String search(@PageableDefault(size = 5 , sort = {"updateTime"} , direction = Sort.Direction.DESC) Pageable pageable, BlogQuery blogQuery, Model model){
+    public String search(@PageableDefault(size = 8 , sort = {"updateTime"} , direction = Sort.Direction.DESC) Pageable pageable, BlogQuery blogQuery, Model model){
         model.addAttribute("page",blogService.listBlogQuery(pageable,blogQuery));
         /* :: blogList用于返回管理页下面的blogList片段，用于局部渲染，除列表显示外，其他区域不刷新，可以在点击上下页时保留查询条件，此处与HTML中th:fragment="blogList"对应 */
         return "admin/blogs-manage :: blogList";

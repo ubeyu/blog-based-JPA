@@ -20,3 +20,5 @@ My blog source code(Optimizing)
 2020/09/05 Comment function is completed.
 
 2020/09/08 Blog is basically completed.
+
+2020/09/10 Optimizing is basically completed.

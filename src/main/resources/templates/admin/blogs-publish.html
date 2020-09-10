@@ -15,182 +15,195 @@
 </head>
 
 <body>
+<!-- Sidebar Menu -->
+<div th:replace="admin/_fragments :: sidebar(1)" class="ui vertical sidebar menu">
 
-
-<!--导航-->
-<!---将导航做统一模板，引入th:replace通过参数n区分不同active，此处传入0--->
-<nav th:replace="admin/_fragments :: menu(1)"class="ui inverted attached segment m-padded-tb-mini m-shadow-bottom-small">
-    <div class="ui container">
-        <!--导航主菜单-->
-        <div class="ui inverted secondary stackable menu ">
-            <h2 class="ui teal header item">后台管理</h2>
-            <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>博客管理</a>
-            <a href="#" class="m-item item m-mobile-hide"><i class="tasks icon"></i>分类管理</a>
-            <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>标签管理</a>
-            <div class="m-item right item m-mobile-hide">
-                <div class="ui dropdown item">
-                    <div class="text">
-                        <img src="images/myavatar.jpg">
-                        why
-                    </div>
-                    <i class="dropdown icon"></i>
-                    <div class="menu">
-                        <!--------通过Thymeleaf中th:href注销---Controller---/admin/loginOut----->
-                        <a href="#" class="item">注销</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--导航手机端菜单按钮-->
-    </div>
-    <a href="#" class="ui menu toggle black m-top-right m-pc-hide button">
-        <i class="sidebar icon"></i>
-    </a>
-</nav>
-<!--二级导航-->
-<div class="ui attached pointing menu">
-    <div class="ui container">
-        <div class="right menu">
-            <a href="#" th:href="@{/admin/blogManage}" class="item">列表</a>
-            <a href="#" th:href="@{/admin/blogManage/add}" class="teal active item">发布</a>
-        </div>
-    </div>
 </div>
 
-<!--中间-->
-<div class="m-container m-padded-tb-large">
-    <div class="ui container">
-        <!--------method="post"表单以post方式提交 对应Controller中Post----------->
-        <!--------通过Thymeleaf中th:action与后台管理连接------将表单输入文章信息提交给Controller---/admin/blogManage/add----->
-        <!---后端校验提示内容：th:object="${blog}"用来从后端控制器获取blog对象---对新的页面按之前值进行初始化--修改用-->
-        <!---（需要放在th:object后才能获取id）th:action="*{id} == null? @{/admin/blogManage}:@{/admin/blogManage/{id}}"用来判断是[新增]还是[修改]--->
-        <form id="newBlog" action="#" th:object="${blog}" th:action="*{id} == null? @{/admin/blogManage/add} : @{/admin/blogManage/update/{id}(id=*{id})}" method="post" class="ui form">
-            <!---定义隐含域----后台传递id值--->
-            <input type="hidden" name="id" th:value="*{id}">
-            <!--这里定义隐含域 name="publishOpening" 对应为Blog的publishOpening 判断是否发布 -->
-            <input type="hidden" name="publishOpening">
-
-            <!--（行不通行不通行不通行不通）这里定义隐含域 name="views" 对应为Blog的views 传递已有的浏览次数 --
-            <input type="hidden" name="views" th:value="*{id}"> -->
-            <!--（行不通行不通行不通行不通）这里定义隐含域 name="createTime" 对应为Blog的createTime 传递已有的创建时间
-            <input type="hidden" name="createTime" th:text="*{createTime}"> -->
-
-            <!--博客标题-->
-            <div class="field">
-                <div class="ui labeled input">
-                    <div class="ui selection compact dropdown label">
-                        <input type="hidden" name="flag" th:value="*{flag}">
+<div class="pusher">
+    <!--导航-->
+    <!---将导航做统一模板，引入th:replace通过参数n区分不同active，此处传入0--->
+    <nav th:replace="admin/_fragments :: menu(1)"class="ui inverted attached segment m-padded-tb-mini m-shadow-bottom-small">
+        <div class="ui container">
+            <!--导航主菜单-->
+            <div class="ui inverted secondary stackable menu ">
+                <h2 class="ui teal header item">后台管理</h2>
+                <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>博客管理</a>
+                <a href="#" class="m-item item m-mobile-hide"><i class="tasks icon"></i>分类管理</a>
+                <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>标签管理</a>
+                <div class="m-item right item m-mobile-hide">
+                    <div class="ui dropdown item">
+                        <div class="text">
+                            <img src="images/myavatar.jpg">
+                            why
+                        </div>
                         <i class="dropdown icon"></i>
-                        <div class="text">权限选择</div>
                         <div class="menu">
-                            <div class="item" data-value="原创">原创</div>
-                            <div class="item" data-value="转载">转载</div>
-                            <div class="item" data-value="翻译">翻译</div>
-                        </div>
-                    </div>
-                    <!--这里 name="title" 对应为Blog的Title -->
-                    <input type="text" name="title" placeholder="标题" th:value="*{title}">
-                </div>
-            </div>
-            <!--博客内容-->
-            <div class="field">
-                <!--全屏时叠放层次为1-->
-                <div id="md-content" style="z-index: 1 !important;">
-                    <textarea placeholder="博客内容" style="display:none;" name="content" th:text="*{content}"></textarea>
-                </div>
-            </div>
-            <!--博客分类-->
-            <div class="two fields">
-                <div class="field">
-                    <div class="ui left labeled action input">
-                        <label class="ui basic compact label">分类</label>
-                        <div class="ui fluid selection dropdown">
-                            <!--这里是typeId 对应Blog的type的id *{type}!=null用于判断若不为空则赋值 若不加则报错！！！！！   -->
-                            <input type="hidden" name="type.id" th:value="*{type}!=null ? *{type.id}">
-                            <i class="dropdown icon"></i>
-                            <div class="default text">分类</div>
-                            <!--typeId 对应 data-value-->
-                            <div class="menu">
-                                <!--与后端结合 使用th:each="type:${types}"以循环的方式从types对象可以获取所有type对象 -->
-                                <div th:each="type:${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.name}">错误日志</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="ui left labeled action input">
-                        <label class="ui basic compact label">标签</label>
-                        <!--ui tag对应JS脚本--->
-                        <div class="ui fluid multiple search selection dropdown">
-                            <!--这里是 tagIds 对应一遍Blog的多个tags的id 不一样后面再转换-----可添加参数value=1,2,3对标签框初始化----->
-                            <!--tagIds没有保存在数据库，所以能直接用 要进行处理----->
-                            <input type="hidden" name="tagIds" th:value="*{tagIds}">
-                            <i class="dropdown icon"></i>
-                            <div class="default text">标签</div>
-                            <!--tagIds 对应 data-value-->
-                            <div class="menu">
-                                <!--与后端结合 使用th:each="tag:${tags}"以循环的方式从tags对象可以获取所有tag对象 -->
-                                <div th:each="tag:${tags}" class="item" data-value="1" th:data-value="${tag.id}" th:text="${tag.name}">人工智能</div>
-                            </div>
+                            <!--------通过Thymeleaf中th:href注销---Controller---/admin/loginOut----->
+                            <a href="#" class="item">注销</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--博客首图-->
-            <div class="field">
-                <div class="ui labeled input">
-                    <label class="ui basic label">首图</label>
-                    <!--这里 name="topPicture" 对应为Blog的topPicture -->
-                    <input type="text" name="topPicture" th:value="*{topPicture}" placeholder="首图引用地址">
-                </div>
+            <!--导航手机端菜单按钮-->
+        </div>
+        <a href="#" class="ui menu toggle black m-top-right m-pc-hide button">
+            <i class="sidebar icon"></i>
+        </a>
+    </nav>
+    <!--二级导航-->
+    <div class="ui attached pointing menu">
+        <div class="ui container">
+            <div class="right menu">
+                <a href="#" th:href="@{/admin/blogManage}" class="item">列表</a>
+                <a href="#" th:href="@{/admin/blogManage/add}" class="teal active item">发布</a>
             </div>
-            <!--博客描述-->
-            <div class="field">
-                <textarea placeholder="博客描述" name="description" th:text="*{description}">博客描述</textarea>
-            </div>
-            <!--博客checkbox-->
-            <div class="inline fields">
-                <div class="field">
-                   <div class="ui checkbox">
-                       <!--这里 name="recommendOpening" 对应为Blog的recommendOpening -->
-                       <input type="checkbox" name="recommendOpening" checked th:checked="*{recommendOpening}" id="recommendOpening" class="hidden">
-                       <label for="recommendOpening">推荐</label>
-                   </div>
-                </div>
-                <div class="field">
-                    <div class="ui checkbox">
-                        <!--这里 name="shareOpening" 对应为Blog的shareOpening -->
-                        <input type="checkbox" name="shareOpening" checked th:checked="*{shareOpening}" id="shareOpening" class="hidden">
-                        <label for="shareOpening">转载</label>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="ui checkbox">
-                        <!--这里 name="appreciationOpening" 对应为Blog的appreciationOpening -->
-                        <input type="checkbox" name="appreciationOpening" checked th:checked="*{appreciationOpening}" id="appreciationOpening" class="hidden">
-                        <label for="appreciationOpening">赞赏</label>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="ui checkbox">
-                        <!--这里 name="commentOpening" 对应为Blog的commentOpening -->
-                        <input type="checkbox" name="commentOpening" checked th:checked="*{commentOpening}" id="commentOpening" class="hidden">
-                        <label for="commentOpening">评论</label>
-                    </div>
-                </div>
-            </div>
-            <!---若为空 后台按照script会做出相应提示--->
-            <div class="ui error message"></div>
-            <!--博客返回/保存/发布-->
-            <div class="ui right aligned container">
-                <!--<button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>-->
-                <a href="#" th:href="@{/admin/blogManage}" class="ui right floated button">返回</a>
-                <button type="button" id="save-button" class="ui black button">保存</button>
-                <button type="button" id="publish-button" class="ui teal button">发布</button>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+
+    <!--中间-->
+    <div class="m-container m-padded-tb-large">
+        <div class="ui container">
+            <!--页面头部-->
+            <div class="ui teal segment m-padded-tb-medium">
+                <div class="ui middle aligned two column grid">
+                    <div class="column">
+                        <h3 class="ui teal header">博客发布</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!--------method="post"表单以post方式提交 对应Controller中Post----------->
+            <!--------通过Thymeleaf中th:action与后台管理连接------将表单输入文章信息提交给Controller---/admin/blogManage/add----->
+            <!---后端校验提示内容：th:object="${blog}"用来从后端控制器获取blog对象---对新的页面按之前值进行初始化--修改用-->
+            <!---（需要放在th:object后才能获取id）th:action="*{id} == null? @{/admin/blogManage}:@{/admin/blogManage/{id}}"用来判断是[新增]还是[修改]--->
+            <form id="newBlog" action="#" th:object="${blog}" th:action="*{id} == null? @{/admin/blogManage/add} : @{/admin/blogManage/update/{id}(id=*{id})}" method="post" class="ui form">
+                <!---定义隐含域----后台传递id值--->
+                <input type="hidden" name="id" th:value="*{id}">
+                <!--这里定义隐含域 name="publishOpening" 对应为Blog的publishOpening 判断是否发布 -->
+                <input type="hidden" name="publishOpening">
+
+                <!--（行不通行不通行不通行不通）这里定义隐含域 name="views" 对应为Blog的views 传递已有的浏览次数 --
+                <input type="hidden" name="views" th:value="*{id}"> -->
+                <!--（行不通行不通行不通行不通）这里定义隐含域 name="createTime" 对应为Blog的createTime 传递已有的创建时间
+                <input type="hidden" name="createTime" th:text="*{createTime}"> -->
+
+                <!--博客标题-->
+                <div class="field">
+                    <div class="ui labeled input">
+                        <div class="ui selection compact dropdown label">
+                            <input type="hidden" name="flag" th:value="*{flag}">
+                            <i class="dropdown icon"></i>
+                            <div class="text">权限选择</div>
+                            <div class="menu">
+                                <div class="item" data-value="原创">原创</div>
+                                <div class="item" data-value="转载">转载</div>
+                                <div class="item" data-value="翻译">翻译</div>
+                            </div>
+                        </div>
+                        <!--这里 name="title" 对应为Blog的Title -->
+                        <input type="text" name="title" placeholder="标题" th:value="*{title}">
+                    </div>
+                </div>
+                <!--博客内容-->
+                <div class="field">
+                    <!--全屏时叠放层次为1-->
+                    <div id="md-content" style="z-index: 1 !important;">
+                        <textarea placeholder="博客内容" style="display:none;" name="content" th:text="*{content}"></textarea>
+                    </div>
+                </div>
+                <!--博客分类-->
+                <div class="two fields">
+                    <div class="field">
+                        <div class="ui left labeled action input">
+                            <label class="ui basic compact label">分类</label>
+                            <div class="ui fluid selection dropdown">
+                                <!--这里是typeId 对应Blog的type的id *{type}!=null用于判断若不为空则赋值 若不加则报错！！！！！   -->
+                                <input type="hidden" name="type.id" th:value="*{type}!=null ? *{type.id}">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">分类</div>
+                                <!--typeId 对应 data-value-->
+                                <div class="menu">
+                                    <!--与后端结合 使用th:each="type:${types}"以循环的方式从types对象可以获取所有type对象 -->
+                                    <div th:each="type:${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.name}">错误日志</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left labeled action input">
+                            <label class="ui basic compact label">标签</label>
+                            <!--ui tag对应JS脚本--->
+                            <div class="ui fluid multiple search selection dropdown">
+                                <!--这里是 tagIds 对应一遍Blog的多个tags的id 不一样后面再转换-----可添加参数value=1,2,3对标签框初始化----->
+                                <!--tagIds没有保存在数据库，所以能直接用 要进行处理----->
+                                <input type="hidden" name="tagIds" th:value="*{tagIds}">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">标签</div>
+                                <!--tagIds 对应 data-value-->
+                                <div class="menu">
+                                    <!--与后端结合 使用th:each="tag:${tags}"以循环的方式从tags对象可以获取所有tag对象 -->
+                                    <div th:each="tag:${tags}" class="item" data-value="1" th:data-value="${tag.id}" th:text="${tag.name}">人工智能</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--博客首图-->
+                <div class="field">
+                    <div class="ui labeled input">
+                        <label class="ui basic label">首图</label>
+                        <!--这里 name="topPicture" 对应为Blog的topPicture -->
+                        <input type="text" name="topPicture" th:value="*{topPicture}" placeholder="首图引用地址">
+                    </div>
+                </div>
+                <!--博客描述-->
+                <div class="field">
+                    <textarea placeholder="博客描述" name="description" th:text="*{description}">博客描述</textarea>
+                </div>
+                <!--博客checkbox-->
+                <div class="inline fields">
+                    <div class="field">
+                        <div class="ui checkbox">
+                            <!--这里 name="recommendOpening" 对应为Blog的recommendOpening -->
+                            <input type="checkbox" name="recommendOpening" checked th:checked="*{recommendOpening}" id="recommendOpening" class="hidden">
+                            <label for="recommendOpening">推荐</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui checkbox">
+                            <!--这里 name="shareOpening" 对应为Blog的shareOpening -->
+                            <input type="checkbox" name="shareOpening" checked th:checked="*{shareOpening}" id="shareOpening" class="hidden">
+                            <label for="shareOpening">转载</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui checkbox">
+                            <!--这里 name="appreciationOpening" 对应为Blog的appreciationOpening -->
+                            <input type="checkbox" name="appreciationOpening" checked th:checked="*{appreciationOpening}" id="appreciationOpening" class="hidden">
+                            <label for="appreciationOpening">赞赏</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui checkbox">
+                            <!--这里 name="commentOpening" 对应为Blog的commentOpening -->
+                            <input type="checkbox" name="commentOpening" checked th:checked="*{commentOpening}" id="commentOpening" class="hidden">
+                            <label for="commentOpening">评论</label>
+                        </div>
+                    </div>
+                </div>
+                <!---若为空 后台按照script会做出相应提示--->
+                <div class="ui error message"></div>
+                <!--博客返回/保存/发布-->
+                <div class="ui right aligned container">
+                    <!--<button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>-->
+                    <a href="#" th:href="@{/admin/blogManage}" class="ui right floated button">返回</a>
+                    <button type="button" id="save-button" class="ui black button">保存</button>
+                    <button type="button" id="publish-button" class="ui teal button">发布</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <!--底部-->
@@ -239,118 +252,120 @@
 
 <!-----Thymeleaf中特殊注释方式，在Thymeleaf模板下会自动取消注释------->
 <!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-    <script src="../../static/lib/editormd/editormd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script src="../../static/lib/editormd/editormd.min.js"></script>
 <!--/*/</th:block>/*/-->
 
-    <script>
-        //手机端导航菜单按钮
-        $('.menu.toggle').click(function (){
-            $('.m-item').toggleClass('m-mobile-hide');
+<script>
+    //手机端导航菜单按钮
+    $('.menu.toggle').click(function (){
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+    //下拉选择框脚本
+    $('.ui.dropdown').dropdown({
+        // you can use any ui transition
+        on:'hover',
+        transition: 'drop'
+    });
+    //下拉选择框可以直接新增的脚本 中间指定tag
+    $('.ui.tag.dropdown')
+        .dropdown({
+            allowAdditions: true
+        })
+    ;
+    //点击保存按钮脚本时，将publishOpening设为false
+    $('#save-button').click(function () {
+        //将publishOpening赋值false
+        $('[name="publishOpening"]').val(false);
+        //提交id为newBlog的Form表单
+        $('#newBlog').submit();
+    });
+    //点击发布按钮脚本时，将publishOpening设为true
+    $('#publish-button').click(function () {
+        //将publishOpening赋值false
+        $('[name="publishOpening"]').val(true);
+        //提交id为newBlog的Form表单
+        $('#newBlog').submit();
+    });
+    //表格输入限制脚本 非空验证
+    $('.ui.form').form({
+        fields:{
+            //权限非空
+            flag:{
+                identifier:'flag',
+                rules:[{
+                    type:'empty',
+                    prompt:'请添加博客权限!!!'
+                }]
+            },
+            //标题非空
+            title:{
+                identifier:'title',
+                rules:[{
+                    type:'empty',
+                    prompt:'请输入博客标题!!!'
+                }]
+            },
+            //内容非空
+            content:{
+                identifier:'content',
+                rules:[{
+                    type:'empty',
+                    prompt:'请输入博客内容!!!'
+                }]
+            },
+            //类别非空
+            typeId:{
+                identifier:'typeId',
+                rules:[{
+                    type:'empty',
+                    prompt:'请选择博客分类!!!'
+                }]
+            },
+            //首图非空
+            topPicture:{
+                identifier:'topPicture',
+                rules:[{
+                    type:'empty',
+                    prompt:'请添加博客首图!!!'
+                }]
+            },
+            //描述非空
+            description:{
+                identifier:'description',
+                rules:[{
+                    type:'empty',
+                    prompt:'请添加博客描述!!!'
+                }]
+            },
+        }
+    });
+    //Markdown初始化
+    var contentEditor;
+    $(function() {
+        contentEditor = editormd("md-content", {
+            width   : "100%",
+            height  : 640,
+            syncScrolling : "single",
+            //  !!! 需要根据库位置该路径 !!! //
+            // 有误写法--> path    : "../static/lib/editormd/lib/" //
+            // 有误写法--> path    : "../../static/lib/editormd/lib/" //
+            path    : "/lib/editormd/lib/"
         });
-        //下拉选择框脚本
-        $('.ui.dropdown').dropdown({
-                // you can use any ui transition
-                on:'hover',
-                transition: 'drop'
+        /*
+        // or
+        testEditor = editormd({
+            id      : "test-editormd",
+            width   : "90%",
+            height  : 640,
+            path    : "../lib/"
         });
-        //下拉选择框可以直接新增的脚本 中间指定tag
-        $('.ui.tag.dropdown')
-            .dropdown({
-                allowAdditions: true
-            })
-        ;
-        //点击保存按钮脚本时，将publishOpening设为false
-        $('#save-button').click(function () {
-            //将publishOpening赋值false
-            $('[name="publishOpening"]').val(false);
-            //提交id为newBlog的Form表单
-            $('#newBlog').submit();
-        });
-        //点击发布按钮脚本时，将publishOpening设为true
-        $('#publish-button').click(function () {
-            //将publishOpening赋值false
-            $('[name="publishOpening"]').val(true);
-            //提交id为newBlog的Form表单
-            $('#newBlog').submit();
-        });
-        //表格输入限制脚本 非空验证
-        $('.ui.form').form({
-            fields:{
-                //权限非空
-                flag:{
-                    identifier:'flag',
-                    rules:[{
-                        type:'empty',
-                        prompt:'请添加博客权限!!!'
-                    }]
-                },
-                //标题非空
-                title:{
-                    identifier:'title',
-                    rules:[{
-                        type:'empty',
-                        prompt:'请输入博客标题!!!'
-                    }]
-                },
-                //内容非空
-                content:{
-                    identifier:'content',
-                    rules:[{
-                        type:'empty',
-                        prompt:'请输入博客内容!!!'
-                    }]
-                },
-                //类别非空
-                typeId:{
-                    identifier:'typeId',
-                    rules:[{
-                        type:'empty',
-                        prompt:'请选择博客分类!!!'
-                    }]
-                },
-                //首图非空
-                topPicture:{
-                    identifier:'topPicture',
-                    rules:[{
-                        type:'empty',
-                        prompt:'请添加博客首图!!!'
-                    }]
-                },
-                //描述非空
-                description:{
-                    identifier:'description',
-                    rules:[{
-                        type:'empty',
-                        prompt:'请添加博客描述!!!'
-                    }]
-                },
-            }
-        });
-        //Markdown初始化
-        var contentEditor;
-        $(function() {
-            contentEditor = editormd("md-content", {
-                width   : "100%",
-                height  : 640,
-                syncScrolling : "single",
-                //  !!! 需要根据库位置该路径 !!! //
-                // 有误写法--> path    : "../static/lib/editormd/lib/" //
-                // 有误写法--> path    : "../../static/lib/editormd/lib/" //
-                path    : "/lib/editormd/lib/"
-            });
-            /*
-            // or
-            testEditor = editormd({
-                id      : "test-editormd",
-                width   : "90%",
-                height  : 640,
-                path    : "../lib/"
-            });
-            */
-        });
-    </script>
+        */
+    });
+</script>
+</div>
+
 </body>
 
 
