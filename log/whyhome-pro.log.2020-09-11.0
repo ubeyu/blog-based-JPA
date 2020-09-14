@@ -1,0 +1,14 @@
+2020-09-11 21:46:47.545  INFO 13708 --- [main] c.w.h.back_end.BackEndApplicationTests   : Starting BackEndApplicationTests on DESKTOP-HA3441M with PID 13708 (started by zero in D:\IdeaProjects\why_home-master)
+2020-09-11 21:46:47.552  INFO 13708 --- [main] c.w.h.back_end.BackEndApplicationTests   : The following profiles are active: pro
+2020-09-11 21:46:52.357  WARN 13708 --- [main] com.zaxxer.hikari.util.DriverDataSource  : Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+2020-09-11 21:46:57.467  WARN 13708 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-09-11 21:47:00.618  INFO 13708 --- [main] c.w.h.back_end.BackEndApplicationTests   : Started BackEndApplicationTests in 13.833 seconds (JVM running for 16.82)
+2020-09-11 21:56:19.309  INFO 9624 --- [restartedMain] c.why.home.back_end.BackEndApplication   : Starting BackEndApplication on DESKTOP-HA3441M with PID 9624 (D:\IdeaProjects\why_home-master\target\classes started by zero in D:\IdeaProjects\why_home-master)
+2020-09-11 21:56:19.312  INFO 9624 --- [restartedMain] c.why.home.back_end.BackEndApplication   : The following profiles are active: pro
+2020-09-11 21:56:21.898  WARN 9624 --- [restartedMain] com.zaxxer.hikari.util.DriverDataSource  : Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+2020-09-11 21:56:24.006  WARN 9624 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-09-11 21:56:24.894  INFO 9624 --- [restartedMain] c.why.home.back_end.BackEndApplication   : Started BackEndApplication in 6.454 seconds (JVM running for 9.366)
+2020-09-11 21:57:02.594  INFO 9624 --- [http-nio-18080-exec-1] com.why.home.back_end.aspect.LogAspect   : ---doBefore---Request:RequestMessageLog{url='http://localhost:18080/', ip='0:0:0:0:0:0:0:1', classMethod='com.why.home.back_end.web.HomepageControllerhomepage', args=[{}]}
+2020-09-11 21:57:03.166  INFO 9624 --- [http-nio-18080-exec-1] com.why.home.back_end.aspect.LogAspect   : ---doAfterReturn---Result : {home}
+2020-09-11 21:57:04.646  INFO 9624 --- [http-nio-18080-exec-5] com.why.home.back_end.aspect.LogAspect   : ---doBefore---Request:RequestMessageLog{url='http://localhost:18080/footer/newBlogs', ip='0:0:0:0:0:0:0:1', classMethod='com.why.home.back_end.web.HomepageControllernewblogs', args=[{}]}
+2020-09-11 21:57:04.666  INFO 9624 --- [http-nio-18080-exec-5] com.why.home.back_end.aspect.LogAspect   : ---doAfterReturn---Result : {_fragments :: newBlogList}

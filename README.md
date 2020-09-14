@@ -22,3 +22,5 @@ My blog source code(Optimizing)
 2020/09/08 Blog is basically completed.
 
 2020/09/10 Optimizing is basically completed.
+
+2020/09/14 针对部署进行优化.

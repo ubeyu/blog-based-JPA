@@ -9,8 +9,8 @@
         <module name="home-back_end" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="home-back_end" target="11" />
+    <bytecodeTargetLevel target="8">
+      <module name="home-back_end" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

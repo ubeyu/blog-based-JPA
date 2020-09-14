@@ -42,7 +42,7 @@ public class TagClientController {
         //可修改！！！
         List<Tag> tags=tagService.listTagTop(100);
         /* 判断id为-1 则访问以第一个标签为主题访问标签页 */
-        if(id == -1){
+        if(tags.size()>0 && id == -1){
             id = tags.get(0).getId();
         }
         model.addAttribute("tags",tags);

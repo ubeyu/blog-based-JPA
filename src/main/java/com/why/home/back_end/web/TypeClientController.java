@@ -40,7 +40,7 @@ public class TypeClientController {
         //可修改！！！
         List<Type> types=typeService.listTypeTop(100);
         /* 判断id为-1 则访问以第一个分类为主题访问分类页 */
-        if(id == -1){
+        if(types.size()>0 && id == -1){
             id = types.get(0).getId();
         }
         model.addAttribute("types",types);

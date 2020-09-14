@@ -60,10 +60,10 @@
                     <a href="#" th:href="@{/aboutme}" class="m-mobile-hide item" th:classappend=" ${n==6} ? 'active' "><i class="user circle icon"></i>About</a>
                     <div class="right item">
                         <!--form表单用于全局搜索 给其加name用于搜索图标点击--target="_blank"为返回一个新页面显示结果-->
-                        <form name="search" method="post" action="#" th:action="@{/search}" target="_blank">
-                            <div class="ui icon input">
+                        <form name="search" method="post" action="#" th:action="@{/search}" target="_blank" class="ui form">
+                            <div class="ui icon input" style="width: 80%">
                                 <!--input加name用于查找数据--input时不用th:text而是用th:value-->
-                                <input type="text" name="query" placeholder="Search..." th:value="${query}">
+                                <input type="text" name="query" placeholder="Search..."  th:value="${query}">
                                 <!--form表单的name用于搜索图标点击 onclick为脚本-->
                                 <i onclick="document.forms['search'].submit()" class="search link icon"></i>
                             </div>

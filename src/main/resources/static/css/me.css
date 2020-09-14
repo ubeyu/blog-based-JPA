@@ -1,6 +1,11 @@
 .m-background{
     background: url("../images/background_1.jpg")!important;
 }
+/*------width---------*/
+.m-width-mini{
+    width: 70% !important;
+}
+
 /*------padded对内间隔---------*/
 .m-padded-mini{
     padding: 0.3em !important;
@@ -40,6 +45,10 @@
     padding-top: 13em !important;
     padding-bottom: 14em !important;
 }
+.m-padded-lr-ori{
+    padding-left: 1em !important;
+    padding-right: 1em !important;
+}
 .m-padded-lr-small{
     padding-left: 4em !important;
     padding-right: 4em !important;
@@ -60,6 +69,10 @@
 }
 .m-margin-b-tiny{
     margin-bottom: 0.5em !important;
+}
+.m-margin-lr-tiny{
+    margin-left: 0.5em !important;
+    margin-right: 0.5em !important;
 }
 .m-margin-tb-large{
     margin-top: 3em !important;

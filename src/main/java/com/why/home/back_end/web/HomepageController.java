@@ -44,9 +44,11 @@ public class HomepageController {
         /* Model存储查询后的分页信息 从而输出给前端页面 进行数据渲染 */
         /* blogService.listBlog(pageable,blog)返回类似JSON的信息 */
         List<Blog> blogs=blogService.listBlogTop(3);
-        model.addAttribute("blog_1",blogs.get(0));
-        model.addAttribute("blog_2",blogs.get(1));
-        model.addAttribute("blog_3",blogs.get(2));
+        if(blogs.size() == 3){
+            model.addAttribute("blog_1",blogs.get(0));
+            model.addAttribute("blog_2",blogs.get(1));
+            model.addAttribute("blog_3",blogs.get(2));
+        }
         return "home";
     }
 

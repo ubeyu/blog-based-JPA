@@ -1,0 +1,5 @@
+2020-09-10 20:15:52.215  INFO 2960 --- [main] c.w.h.back_end.BackEndApplicationTests   : Starting BackEndApplicationTests on DESKTOP-HA3441M with PID 2960 (started by zero in D:\IdeaProjects\why_home-master)
+2020-09-10 20:15:52.224  INFO 2960 --- [main] c.w.h.back_end.BackEndApplicationTests   : The following profiles are active: pro
+2020-09-10 20:15:56.179  WARN 2960 --- [main] com.zaxxer.hikari.util.DriverDataSource  : Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+2020-09-10 20:16:01.054  WARN 2960 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-09-10 20:16:03.115  INFO 2960 --- [main] c.w.h.back_end.BackEndApplicationTests   : Started BackEndApplicationTests in 11.675 seconds (JVM running for 13.174)
